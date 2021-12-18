@@ -1,0 +1,49 @@
+{
+  "name": "ifc-lbd",
+  "version": "0.0.1",
+  "description": "",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "scripts": {
+    "build": "rollup -c rollup.config.js && npm run copy-wasm-files",
+    "copy-wasm-files": "cp ./node_modules/web-ifc/web-ifc.wasm ./dist/web-ifc.wasm && cp ./node_modules/web-ifc/web-ifc-mt.wasm ./dist/web-ifc-mt.wasm",
+    "test": "jest ./tests"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@babel/preset-env": "^7.16.5",
+    "@babel/preset-typescript": "^7.16.5",
+    "@open-wc/building-rollup": "^2.0.1",
+    "@rollup/plugin-babel": "^5.3.0",
+    "@rollup/plugin-json": "^4.1.0",
+    "@rollup/plugin-node-resolve": "^13.1.1",
+    "@types/jest": "^27.0.3",
+    "@types/jsonld": "^1.5.6",
+    "@types/meow": "^6.0.0",
+    "@types/yargs": "^17.0.7",
+    "babel-jest": "^27.4.5",
+    "babel-polyfill": "^6.26.0",
+    "deepmerge": "^4.2.2",
+    "jest": "^27.4.5",
+    "rimraf": "^3.0.2",
+    "rollup": "^2.61.1",
+    "rollup-plugin-typescript2": "^0.31.1",
+    "ts-jest": "^27.1.2",
+    "ts-node": "^10.4.0",
+    "tslib": "^2.3.1",
+    "typescript": "^4.5.4"
+  },
+  "dependencies": {
+    "jsonld": "^5.2.0",
+    "meow": "^10.1.2",
+    "web-ifc": "^0.0.30",
+    "yargs": "^17.3.0"
+  },
+  "browser": {
+    "crypto": false,
+    "path": false,
+    "fs": false
+  }
+}

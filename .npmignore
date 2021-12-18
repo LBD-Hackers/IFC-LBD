@@ -1,0 +1,10 @@
+# folders
+src
+out-tsc
+
+# toolchain
+webpack.config.js
+tsconfig.json
+
+.vscode
+.git
