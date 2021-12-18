@@ -5,16 +5,6 @@ import json from '@rollup/plugin-json';
 import { babel } from '@rollup/plugin-babel';
 import typescript from 'rollup-plugin-typescript2';
 
-// const baseConfig = createBasicConfig();
-
-// export default merge(baseConfig, {
-//   input: './out-tsc/src/index.js',
-//   output: {
-//       dir: 'dist'
-//   },
-//   plugins: [nodeResolve(),json()]
-// });
-
 export default {
   input: './src/index.ts',
   output: {
@@ -24,8 +14,9 @@ export default {
   plugins: [
     nodeResolve(),
     typescript(/*{ plugin options }*/),
-    json(),
+    // json(),
     babel({
       exclude: "node_modules/(?!web-ifc)"
-  })]
+    })
+  ]
 };
