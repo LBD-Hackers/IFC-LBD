@@ -10,7 +10,7 @@
     "test": "jest ./tests"
   },
   "keywords": [],
-  "author": "Mads Holten Rasmussen",
+  "author": "Mads Holten Rasmussen<mhra@niras.dk>",
   "license": "ISC",
   "devDependencies": {
     "@babel/preset-env": "^7.16.5",
