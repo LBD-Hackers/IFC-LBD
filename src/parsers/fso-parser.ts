@@ -187,12 +187,16 @@ export class FSOParser extends Parser{
             const props = await this.ifcAPI.properties.getItemProperties(this.modelID, expressID, true);
 
             const coordinates = await getGlobalPosition(props.ObjectPlacement);
-            const point = `POINT Z(${coordinates[0]} ${coordinates[1]} ${coordinates[2]})`
+            const point = `POINT Z(${coordinates[0]} ${coordinates[1]} ${coordinates[2]})`;
+
+            const portURI = defaultURIBuilder(props.GlobalId.value);
+            const cpURI = portURI + "_cp";
 
             graph.push({
-                "@id": defaultURIBuilder(props.GlobalId.value),
+                "@id": portURI,
                 "omg:hasGeometry": {
-                    "@type": "omg:Geometry",
+                    "@id": cpURI,
+                    "@type": ["omg:Geometry", "ex:CenterPoint"],
                     "fog::asSfa_v2-wkt": point
                 }
             });

@@ -38,7 +38,7 @@ describe('FSO', () => {
         expect(Array.isArray(fso["@graph"])).toBe(true);
         expect(fso["@graph"].length).toBe(1127);
         expect(Array.isArray(rdf)).toBe(true);
-        expect(tripleCount).toBe(1560);
+        expect(tripleCount).toBe(1734);
 
     });
 

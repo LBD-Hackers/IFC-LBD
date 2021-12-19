@@ -39,30 +39,24 @@ describe('PRODUCTS', () => {
 
     });
 
-    // test('can parse MEP model', async () => {
+    test('can parse MEP model', async () => {
 
-    //     // Init API and load model
-    //     const ifcApi = new WebIFC.IfcAPI();
-    //     await ifcApi.Init();
-    //     const modelID = ifcApi.OpenModel(duplexModelData);
+        // Init API and load model
+        const ifcApi = new WebIFC.IfcAPI();
+        await ifcApi.Init();
+        const modelID = ifcApi.OpenModel(mepModelData);
 
-    //     // Init LBD Parser and parse BOT
-    //     const lbdParser = new LBDParser();
-    //     const bot = await lbdParser.parseBOTTriples(ifcApi, modelID);
+        // Init LBD Parser and parse BOT
+        const lbdParser = new LBDParser();
+        const products: any = await lbdParser.parseBOTTriples(ifcApi, modelID);
 
-    //     // Close the model, all memory is freed
-    //     ifcApi.CloseModel(modelID);
-        
-    //     // Get all RDF triples from returned JSON-LD object
-    //     const rdf: any = await jsonld.toRDF(bot);
-    //     const tripleCount = rdf.length;
+        // Close the model, all memory is freed
+        ifcApi.CloseModel(modelID);
 
-    //     // Evaluate
-    //     expect(Array.isArray(bot["@graph"])).toBe(true);
-    //     expect(bot["@graph"].length).toBe(838);
-    //     expect(Array.isArray(rdf)).toBe(true);
-    //     expect(tripleCount).toBe(1717);
+        // Evaluate
+        expect(Array.isArray(products["@graph"])).toBe(true);
+        expect(products["@graph"].length).toBe(91);
 
-    // });
+    });
 
 });

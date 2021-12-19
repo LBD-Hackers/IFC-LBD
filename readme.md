@@ -75,11 +75,11 @@ const products = await lbdParser.parseProductTriples(ifcApi, modelID);
 This library is intended to be expanded, so please go and add your parser or extend one of the existing ones!
 
 ## Stats
-|Model|Duplex|MEP|Schependomlaan|
-|---|---|---|---|
-|BOT[ms]|34|13|128|
-|BOT[triples]|1,718|175|12,251|
-|FSO[ms]|-|48|-|
-|FSO[triples]|-|1,560|-|
-|Products[ms]|9|8|46|
-|Products[triples]|218|85|3,635|
+|Model|Duplex (2,4MB)|MEP(962KB)|Schependomlaan(49,3MB)|Office MEP(209,1MB)|
+|---|---|---|---|---|
+|BOT[ms]|34|13|128|349|
+|BOT[triples]|1,718|175|12,251|33,087|
+|FSO[ms]|-|48|-|165|
+|FSO[triples]|-|1,560|-|32,024|
+|Products[ms]|9|8|46|174|
+|Products[triples]|218|85|3,635|16,012|
