@@ -9,6 +9,21 @@ export interface TreeNode{
     "children"?: TreeNode[];
 }
 
+export enum SerializationFormat{
+    NQuads="nquads",
+    JSONLD="jsonld"
+}
+
+export enum Mimetype{
+    NTriples="application/n-triples",
+    Turtle="text/turtle",
+    NQuads="application/n-quads",
+    Trig="application/trig",
+    SPARQLJSON="application/sparql-results+json",
+    JSONLD="application/ld+json",
+    DLOG="application/x.datalog"
+}
+
 export interface Triple{
     subject: TripleItem,
     predicate: TripleItem,

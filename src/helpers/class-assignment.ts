@@ -3,7 +3,7 @@ import { TreeNode } from "./BaseDefinitions";
 import { IfcTypesTree } from "./IfcTypesTree";
 import { defaultURIBuilder } from "./uri-builder";
 
-export async function buildClassInstances(ifcAPI: WebIFC.IfcAPI, modelID: number, ifcType: number, rdfClass: string, includeSubTypes: boolean = false): Promise<any[]>{
+export async function buildClassInstances(ifcAPI: WebIFC.IfcAPI, modelID: number, ifcType: number, rdfClasses: string[], includeSubTypes: boolean = false): Promise<any[]>{
 
     let items: any[] = [];
 
@@ -12,19 +12,19 @@ export async function buildClassInstances(ifcAPI: WebIFC.IfcAPI, modelID: number
 
         const subTypes: number[] = getElementSubtypes(ifcType);
 
-        for(let typeId of subTypes){
-            items.push(...await ifcAPI.properties.getAllItemsOfType(modelID, typeId, false));
+        for (let i = 0; i < subTypes.length; i++) {
+            items.push(...await ifcAPI.properties.getAllItemsOfType(modelID, subTypes[i], false));
         }
 
     }else{
         items = await ifcAPI.properties.getAllItemsOfType(modelID, ifcType, false);
     }
 
-    return buildClassInstancesFromExpressIDs(ifcAPI, modelID, items, rdfClass);
+    return buildClassInstancesFromExpressIDs(ifcAPI, modelID, items, rdfClasses);
     
 }
 
-export async function buildClassInstancesFromExpressIDs(ifcAPI: WebIFC.IfcAPI, modelID: number, expressIDs: number[], rdfClass: string){
+export async function buildClassInstancesFromExpressIDs(ifcAPI: WebIFC.IfcAPI, modelID: number, expressIDs: number[], rdfClasses: string[]){
 
     const graph = [];
 
@@ -36,7 +36,7 @@ export async function buildClassInstancesFromExpressIDs(ifcAPI: WebIFC.IfcAPI, m
         // Push spaces
         graph.push({
             "@id": URI,
-            "@type": rdfClass
+            "@type": rdfClasses
         });
     }
 

@@ -1,22 +1,36 @@
-import merge from 'deepmerge';
-import { createBasicConfig } from '@open-wc/building-rollup';
 import { nodeResolve } from '@rollup/plugin-node-resolve';
 import json from '@rollup/plugin-json';
 import { babel } from '@rollup/plugin-babel';
 import typescript from 'rollup-plugin-typescript2';
+import copy from 'rollup-plugin-copy';
+import commonjs from '@rollup/plugin-commonjs';
+import multiInput from 'rollup-plugin-multi-input';
+import shebang from 'rollup-plugin-preserve-shebang'; // Allows the '#!/usr/bin/env node' in the entry file
+import * as path from "path";
 
 export default {
-  input: './src/index.ts',
+  // input: './src/index.ts',
+  input: ['src/index.ts', 'src/cli-index.ts'],
   output: {
-    file: 'dist/bundle.js',
+    dir: 'dist',
     format: 'cjs'
   },
   plugins: [
     nodeResolve(),
+    commonjs(),
     typescript(/*{ plugin options }*/),
-    // json(),
+    json(),
     babel({
       exclude: "node_modules/(?!web-ifc)"
-    })
+    }),
+    copy({
+      targets: [
+        // { src: 'src/bin', dest: 'dist/' },
+        { src: 'node_modules/web-ifc/web-ifc.wasm', dest: 'dist/' },
+        { src: 'node_modules/web-ifc/web-ifc-mt.wasm', dest: 'dist/' }
+      ]
+    }),
+    shebang(),
+    multiInput()
   ]
 };

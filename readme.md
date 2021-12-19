@@ -28,8 +28,20 @@ const framed = await jsonld.frame(botTriples, frame);
 ```
 
 ## Use
+The IFC-LBD parser can be used in a JavaScript project or can be used as a CLI tool.
+
+### CLI Tool
+Install globally on your machine
+`npm i -g ifc-lbd`
+
+Run a subset (BOT, products)
+`ifc-lbd [subset] -i ./myFile-ifc`
+
+See settings
+`ifc-lbd -h`
 
 ### Building Topology Ontology (BOT)
+Exports triples in compliance with the [Building Topology Ontology](https://w3id.org/bot).
 ```typescript
 // Init API and load model
 const ifcApi = new WebIFC.IfcAPI();
@@ -44,21 +56,30 @@ const botTriples = await lbdParser.parseBOTTriples(ifcApi, modelID);
 ifcApi.CloseModel(modelID);
 ```
 
+### Flow Systems Ontology (FSO)
+Exports triples in compliance with the [Flow Systems Ontology](https://w3id.org/fso). In addition, ports are also exported and the center points of these are exported as [OMG](https://w3id.org/omg) geometries.
+```typescript
+// Init LBD Parser and parse FSO
+const lbdParser = new LBDParser();
+const fsoTriples = await lbdParser.parseFSOTriples(ifcApi, modelID);
+```
+
 ### IFC Products
 ```typescript
-// Init API and load model
-const ifcApi = new WebIFC.IfcAPI();
-await ifcApi.Init();
-const modelID = ifcApi.OpenModel(ifcModelData);
-
 // Init LBD Parser and parse BOT
 const lbdParser = new LBDParser();
 const products = await lbdParser.parseProductTriples(ifcApi, modelID);
-
-// Close the model, all memory is freed
-ifcApi.CloseModel(modelID);
 ```
 
-### CLI tool
-`npm i -g ifc-lbd`
-`ifc-lbd parse ./myFile-ifc`
+## Contribute
+This library is intended to be expanded, so please go and add your parser or extend one of the existing ones!
+
+## Stats
+|Model|Duplex|MEP|Schependomlaan|
+|---|---|---|---|
+|BOT[ms]|34|13|128|
+|BOT[triples]|1,718|175|12,251|
+|FSO[ms]|-|48|-|
+|FSO[triples]|-|1,560|-|
+|Products[ms]|9|8|46|
+|Products[triples]|218|85|3,635|

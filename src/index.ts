@@ -1,73 +1,35 @@
 import * as WebIFC from "web-ifc/web-ifc-api";
 import { BOTParser } from "./parsers/bot-parser";
 import { ProductParser } from "./parsers/product-parser";
-import { readFile, writeFile } from "fs";
-import * as util from "util";
-const readFileP = util.promisify(readFile);
-const writeFileP = util.promisify(writeFile);
-import yargs from 'yargs'
-import { hideBin } from 'yargs/helpers'
+import { CLITool } from "./cli-tool";
+import { JSONLD, SerializationFormat } from "./helpers/BaseDefinitions";
+import { FSOParser } from "./parsers/fso-parser";
 
 export class LBDParser{
 
     // initialize the API
     public ifcApi = new WebIFC.IfcAPI();
+    
+    public format: SerializationFormat;
 
-    public async parseBOTTriples(ifcApi: WebIFC.IfcAPI, modelID: number){
-        const botParser = new BOTParser(ifcApi, modelID);
+    constructor(format: SerializationFormat = SerializationFormat.JSONLD){
+        this.format = format;
+        // this.ifcApi.SetWasmPath("./");
+    }
+
+    public async parseBOTTriples(ifcApi: WebIFC.IfcAPI, modelID: number, verbose: boolean = false): Promise<JSONLD|string>{
+        const botParser = new BOTParser(ifcApi, modelID, this.format, verbose);
         return await botParser.doParse();
     }
 
-    public async parseProductTriples(ifcApi: WebIFC.IfcAPI, modelID: number){
-        const productParser = new ProductParser(ifcApi, modelID);
+    public async parseProductTriples(ifcApi: WebIFC.IfcAPI, modelID: number, verbose: boolean = false): Promise<JSONLD|string>{
+        const productParser = new ProductParser(ifcApi, modelID, this.format, verbose);
         return await productParser.doParse();
     }
 
-}
-
-async function main(){
-
-    console.log("Hello world");
-
-    const argv = await yargs(hideBin(process.argv))
-        .command('parse [file-path]', 'parse ifc', (yargs) => {
-            return yargs
-            .positional('file-path', {
-                describe: 'path to IFC',
-                type: 'string'
-            })
-        }, (argv) => {
-            if (argv.verbose) console.info(`Parsing IFC :${argv["file-path"]}`)
-            // serve(argv.port)
-        })
-        .option('verbose', {
-            alias: 'v',
-            type: 'boolean',
-            description: 'Run with verbose logging'
-        })
-        .parse();
-    
-    if(argv["file-path"] == undefined) return console.error("Please provide a file path");
-    
-    const filePath: string = argv["file-path"];
-
-    // Init API and load model
-    const ifcApi = new WebIFC.IfcAPI();
-    await ifcApi.Init();
-    const fileData = await readFileP(filePath);
-    const modelID = ifcApi.OpenModel(fileData);
-
-    // Init LBD Parser and parse BOT
-    const lbdParser = new LBDParser();
-    const bot = await lbdParser.parseBOTTriples(ifcApi, modelID);
-
-    // Close the model, all memory is freed
-    ifcApi.CloseModel(modelID);
-
-    // Serialize result
-    const exportPath = "./bot.json";
-    await writeFileP(exportPath, JSON.stringify(bot, null, "\t"), 'utf8');
+    public async parseFSOTriples(ifcApi: WebIFC.IfcAPI, modelID: number, verbose: boolean = false): Promise<JSONLD|string>{
+        const fsoParser = new FSOParser(ifcApi, modelID, this.format, verbose);
+        return await fsoParser.doParse();
+    }
 
 }
-
-main();

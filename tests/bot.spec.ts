@@ -27,7 +27,7 @@ describe('BOT', () => {
 
         // Init LBD Parser and parse BOT
         const lbdParser = new LBDParser();
-        const bot = await lbdParser.parseBOTTriples(ifcApi, modelID);
+        const bot: any = await lbdParser.parseBOTTriples(ifcApi, modelID);
 
         // Close the model, all memory is freed
         ifcApi.CloseModel(modelID);
@@ -38,9 +38,9 @@ describe('BOT', () => {
 
         // Evaluate
         expect(Array.isArray(bot["@graph"])).toBe(true);
-        expect(bot["@graph"].length).toBe(838);
+        expect(bot["@graph"].length).toBe(839);
         expect(Array.isArray(rdf)).toBe(true);
-        expect(tripleCount).toBe(1717);
+        expect(tripleCount).toBe(1718);
 
     });
 
@@ -53,7 +53,7 @@ describe('BOT', () => {
 
         // Init LBD Parser and parse BOT
         const lbdParser = new LBDParser();
-        const bot = await lbdParser.parseBOTTriples(ifcApi, modelID);
+        const bot: any = await lbdParser.parseBOTTriples(ifcApi, modelID);
 
         // Close the model, all memory is freed
         ifcApi.CloseModel(modelID);
@@ -64,9 +64,9 @@ describe('BOT', () => {
 
         // Evaluate
         expect(Array.isArray(bot["@graph"])).toBe(true);
-        expect(bot["@graph"].length).toBe(838);
+        expect(bot["@graph"].length).toBe(839);
         expect(Array.isArray(rdf)).toBe(true);
-        expect(tripleCount).toBe(1717);
+        expect(tripleCount).toBe(1718);
 
     });
 

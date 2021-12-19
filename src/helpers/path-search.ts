@@ -80,7 +80,9 @@ export async function buildRelOneToMany(ifcAPI: WebIFC.IfcAPI, modelID: number =
         if(subjectClassConstraint && subject.type != subjectClassConstraint) { continue; }
 
         const targetPromises: any = [];
-        relProps[targetRef].forEach((t: any) => targetPromises.push(ifcAPI.properties.getItemProperties(modelID, t.value)))
+        for (let i = 0; i < relProps[targetRef].length; i++) {
+            targetPromises.push(ifcAPI.properties.getItemProperties(modelID, relProps[targetRef][i].value));
+        }
         const targets = await Promise.all(targetPromises);
 
         const targetObjects = targets

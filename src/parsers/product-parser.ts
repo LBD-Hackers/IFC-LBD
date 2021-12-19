@@ -11,15 +11,26 @@ import { IfcElements } from "../helpers/IfcElementsMap";
 
 export class ProductParser extends Parser{
 
-    public async doParse(): Promise<JSONLD>{
+    public async doParse(): Promise<JSONLD|string>{
 
+        this.verbose && console.log("Started PRODUCTS parsing");
+        this.verbose && console.log("");
         console.time("Finished products parsing");
 
+        this.verbose && console.log("## STEP 1: CLASS ASSIGNMENT ##");
+        this.verbose && console.time("1/1: Finding products");
         this.jsonLDObject["@graph"] = await this.buildProducts();
+        this.verbose && console.timeEnd("1/1: Finding products");
+        this.verbose && console.log("");
 
         console.timeEnd("Finished products parsing");
 
-        return this.getJSONLD();
+        if(this.verbose){
+            const tripleCount = await this.getTripleCount();
+            console.log("Total triples: " + tripleCount);
+        }
+
+        return await this.getTriples();
 
     }
 
