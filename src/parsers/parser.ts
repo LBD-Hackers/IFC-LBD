@@ -1,6 +1,6 @@
 import { JSONLD, SerializationFormat } from "../helpers/BaseDefinitions";
 import * as WebIFC from "web-ifc/web-ifc-api.js";
-import * as jsonld from "jsonld";
+import { toRDF } from "jsonld";
 
 export class Parser{
 
@@ -33,7 +33,7 @@ export class Parser{
     }
 
     public async getTripleCount(): Promise<number>{
-        const rdf: any = await jsonld.toRDF(this.jsonLDObject);
+        const rdf: any = await toRDF(this.jsonLDObject);
         const tripleCount = rdf.length;
         return tripleCount;
     }
@@ -43,7 +43,7 @@ export class Parser{
     }
 
     private async getNQuads(): Promise<any>{
-        return await jsonld.toRDF(this.jsonLDObject, {format: 'application/n-quads'});
+        return await toRDF(this.jsonLDObject, {format: 'application/n-quads'});
     }
 
 }

@@ -1,0 +1,1 @@
+{"version":3,"file":"product-parser.d.ts","sourceRoot":"","sources":["../../../../src/parsers/product-parser.ts"],"names":[],"mappings":"AAMA,OAAO,EAAE,MAAM,EAAE,MAAM,UAAU,CAAC;AAClC,OAAO,EAAE,MAAM,EAAE,MAAM,4BAA4B,CAAC;AAIpD,qBAAa,aAAc,SAAQ,MAAM;IAExB,OAAO,IAAI,OAAO,CAAC,MAAM,GAAC,MAAM,CAAC;YAuBhC,aAAa;CAmC9B"}

@@ -5,12 +5,11 @@ const readFileP = util.promisify(readFile);
 import * as path from 'path';
 import * as WebIFC from "web-ifc/web-ifc-api.js";
 import { LBDParser } from "../src";
-import * as jsonld from 'jsonld';
 
 const duplexModelPath = path.join(__dirname, './artifacts/Duplex.ifc');
 const mepModelPath = path.join(__dirname, './artifacts/MEP.ifc');
-let duplexModelData: Buffer;
-let mepModelData: Buffer;
+let duplexModelData;
+let mepModelData;
 
 beforeAll(async () => {
     duplexModelData = await readFileP(duplexModelPath);
@@ -48,7 +47,7 @@ describe('PRODUCTS', () => {
 
         // Init LBD Parser and parse BOT
         const lbdParser = new LBDParser();
-        const products: any = await lbdParser.parseBOTTriples(ifcApi, modelID);
+        const products = await lbdParser.parseBOTTriples(ifcApi, modelID);
 
         // Close the model, all memory is freed
         ifcApi.CloseModel(modelID);

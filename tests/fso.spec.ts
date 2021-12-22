@@ -5,10 +5,10 @@ const readFileP = util.promisify(readFile);
 import * as path from 'path';
 import * as WebIFC from "web-ifc/web-ifc-api.js";
 import { LBDParser } from "../src";
-import * as jsonld from 'jsonld';
+import { toRDF } from 'jsonld';
 
 const mepModelPath = path.join(__dirname, './artifacts/MEP.ifc');
-let mepModelData: Buffer;
+let mepModelData;
 
 beforeAll(async () => {
     mepModelData = await readFileP(mepModelPath);
@@ -31,7 +31,7 @@ describe('FSO', () => {
         ifcApi.CloseModel(modelID);
         
         // Get all RDF triples from returned JSON-LD object
-        const rdf: any = await jsonld.toRDF(fso);
+        const rdf: any = await toRDF(fso);
         const tripleCount = rdf.length;
 
         // Evaluate

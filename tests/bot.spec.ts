@@ -4,12 +4,12 @@ const readFileP = util.promisify(readFile);
 import * as path from 'path';
 import * as WebIFC from "web-ifc/web-ifc-api.js";
 import { LBDParser } from "../src";
-import * as jsonld from 'jsonld';
+import { toRDF } from 'jsonld';
 
 const duplexModelPath = path.join(__dirname, './artifacts/Duplex.ifc');
 const mepModelPath = path.join(__dirname, './artifacts/MEP.ifc');
-let duplexModelData: Buffer;
-let mepModelData: Buffer;
+let duplexModelData;
+let mepModelData;
 
 beforeAll(async () => {
     duplexModelData = await readFileP(duplexModelPath);
@@ -33,7 +33,7 @@ describe('BOT', () => {
         ifcApi.CloseModel(modelID);
         
         // Get all RDF triples from returned JSON-LD object
-        const rdf: any = await jsonld.toRDF(bot);
+        const rdf: any = await toRDF(bot);
         const tripleCount = rdf.length;
 
         // Evaluate
@@ -59,7 +59,7 @@ describe('BOT', () => {
         ifcApi.CloseModel(modelID);
         
         // Get all RDF triples from returned JSON-LD object
-        const rdf: any = await jsonld.toRDF(bot);
+        const rdf: any = await toRDF(bot);
         const tripleCount = rdf.length;
 
         // Evaluate

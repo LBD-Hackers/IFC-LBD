@@ -35,10 +35,13 @@ Install globally on your machine
 `npm i -g ifc-lbd`
 
 Run a subset (BOT, products)
-`ifc-lbd [subset] -i ./myFile-ifc`
+`ifc-lbd [subset] -i ./myFile.ifc`
 
 See settings
 `ifc-lbd -h`
+
+Run in dev
+`node ./lib/cli-tool/index.js bot -i ./tests/artifacts/Duplex.ifc`
 
 ### Building Topology Ontology (BOT)
 Exports triples in compliance with the [Building Topology Ontology](https://w3id.org/bot).

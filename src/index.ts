@@ -8,13 +8,16 @@ import { FSOParser } from "./parsers/fso-parser";
 export class LBDParser{
 
     // initialize the API
-    public ifcApi = new WebIFC.IfcAPI();
+    public ifcApi: WebIFC.IfcAPI = new WebIFC.IfcAPI();
     
     public format: SerializationFormat;
 
     constructor(format: SerializationFormat = SerializationFormat.JSONLD){
         this.format = format;
-        // this.ifcApi.SetWasmPath("./");
+    }
+
+    public setWasmPath(path: string){
+        this.ifcApi.SetWasmPath(path);
     }
 
     public async parseBOTTriples(ifcApi: WebIFC.IfcAPI, modelID: number, verbose: boolean = false): Promise<JSONLD|string>{
