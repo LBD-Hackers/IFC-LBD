@@ -4,9 +4,9 @@ import { babel } from '@rollup/plugin-babel';
 import typescript from 'rollup-plugin-typescript2';
 import copy from 'rollup-plugin-copy';
 import commonjs from '@rollup/plugin-commonjs';
-import multiInput from 'rollup-plugin-multi-input';
+import multiInput from 'rollup-plugin-multi-input'; // Necessary when having a separate entry point for CLI tool
 import shebang from 'rollup-plugin-preserve-shebang'; // Allows the '#!/usr/bin/env node' in the entry file
-import * as path from "path";
+import dts from "rollup-plugin-dts"; // Datatypes
 
 export default {
   // input: './src/index.ts',
@@ -31,6 +31,7 @@ export default {
       ]
     }),
     shebang(),
-    multiInput()
+    multiInput(),
+    dts()
   ]
 };
