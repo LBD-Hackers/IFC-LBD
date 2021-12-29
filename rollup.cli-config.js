@@ -55,10 +55,10 @@ export default  {
     }
   ],
   plugins: [
+    json(),
     resolve({ extensions }),
     commonjs(),
     shebang(),
-    json(),
     babel({
       babelHelpers: "runtime",
       include: ['src/**/*.ts'], 
@@ -76,5 +76,14 @@ export default  {
         { src: 'node_modules/web-ifc/web-ifc-mt.wasm', dest: 'lib/cli-tool' }
       ]
     }),
-  ]
+  ],
+  onwarn: function(warning) {
+    // Skip certain warnings
+
+    // should intercept ... but doesn't in some rollup versions
+    if ( warning.code === 'THIS_IS_UNDEFINED' ) { return; }
+
+    // console.warn everything else
+    console.warn( warning.message );
+}
 }

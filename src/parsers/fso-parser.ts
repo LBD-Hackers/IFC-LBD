@@ -10,6 +10,7 @@ import { defaultURIBuilder } from "../helpers/uri-builder";
 import { IfcElements } from "../helpers/IfcElementsMap";
 import { buildRelOneToOne } from '../helpers/path-search';
 import { getGlobalPosition, getGlobalRotation } from '../helpers/object-placement';
+import * as N3 from 'n3';
 
 const typeMappings: {[key: number]: string[]}  = {
     3205830791: ["fso:DistributionSystem"],
@@ -33,44 +34,37 @@ export class FSOParser extends Parser{
         console.time("Finished FSO parsing");
 
         this.verbose && console.log("## STEP 1: CLASS ASSIGNMENT ##");
-        this.verbose && console.time("1/5: Classifying FSO items");
+        this.verbose && console.time("1/7: Classifying FSO items");
         this.jsonLDObject["@graph"].push(...(await this.classify()));
-        this.verbose && console.timeEnd("1/5: Classifying FSO items");
+        this.verbose && console.timeEnd("1/7: Classifying FSO items");
         this.verbose && console.log("");
 
         this.verbose && console.log("## STEP 2: PORTS ##");
         const portIDs = await this.getPortIDs();
-        this.verbose && console.time("2/5: Finding port-port connections");
+        this.verbose && console.time("2/7: Finding port-port connections");
         this.jsonLDObject["@graph"].push(...(await this.portPort()));
-        this.verbose && console.timeEnd("2/5: Finding port-port connections");
-        this.verbose && console.time("3/5: Finding port-component connections");
+        this.verbose && console.timeEnd("2/7: Finding port-port connections");
+        this.verbose && console.time("3/7: Finding port-component connections");
         this.jsonLDObject["@graph"].push(...(await this.portComponent()));
-        this.verbose && console.timeEnd("3/5: Finding port-component connections");
-        this.verbose && console.time("4/5: Finding port flow directions");
+        this.verbose && console.timeEnd("3/7: Finding port-component connections");
+        this.verbose && console.time("4/7: Finding port flow directions");
         this.jsonLDObject["@graph"].push(...(await this.portFlowDirection(portIDs)));
-        this.verbose && console.timeEnd("4/5: Finding port flow directions");
-        this.verbose && console.time("5/5: Finding port placements");
+        this.verbose && console.timeEnd("4/7: Finding port flow directions");
+        this.verbose && console.time("5/7: Finding port placements");
         this.jsonLDObject["@graph"].push(...(await this.portPlacements(portIDs)));
-        this.verbose && console.timeEnd("5/5: Finding port placements");
+        this.verbose && console.timeEnd("5/7: Finding port placements");
         this.verbose && console.log("");
 
-        console.timeEnd("Finished FSO parsing");
+        // NB! The following steps require an in-memory triplestore to run which is slower than just operating the JSON-LD object
+        this.verbose && console.log("## STEP 3: POST PROCESSING ##");
+        this.verbose && console.time("6/7: Loading data into in-memory triplestore for querying");
+        await this.loadInStore();
+        this.verbose && console.timeEnd("6/7: Loading data into in-memory triplestore for querying");
+        this.verbose && console.time("7/7: Deducing feeds/fedBy relationships from ports");
+        await this.portConections();
+        this.verbose && console.timeEnd("7/7: Deducing feeds/fedBy relationships from ports");
 
-        // POST PROCESSING
-        
-        // CONSTRUCT{
-        //     ?e1 fso:connectedWith ?e2 .
-        //     ?e2 fso:connectedWith ?e1 .
-        //     ?e1 fso:feedsFluidTo ?e2 .
-        //     ?e2 fso:hasFluidFedBy ?e1
-        // }
-        // WHERE{
-        //     ?e1 fso:connectedPort ?p1 .
-        //     ?p1 fso:connectedPort ?p2 .
-        //     ?p2 fso:connectedComponent ?e2 .
-        //     ?p1 a fso:OutPort .
-        //     ?p2 a fso:InPort .
-        // }
+        console.timeEnd("Finished FSO parsing");
 
         if(this.verbose){
             const tripleCount = await this.getTripleCount();
@@ -207,6 +201,27 @@ export class FSOParser extends Parser{
 
     }
 
+    /**
+     * POST PROCESSING
+     */
+    private async portConections(): Promise<void>{
+        const query = `PREFIX fso: <https://w3id.org/fso#>
+                    INSERT{
+                        ?e1 fso:connectedWith ?e2 .
+                        ?e2 fso:connectedWith ?e1 .
+                        ?e1 fso:feedsFluidTo ?e2 .
+                        ?e2 fso:hasFluidFedBy ?e1
+                    }
+                    WHERE{
+                        ?e1 fso:connectedPort ?p1 .
+                        ?p1 fso:connectedPort ?p2 .
+                        ?p2 fso:connectedComponent ?e2 .
+                        ?p1 a fso:OutPort .
+                        ?p2 a fso:InPort .
+                    }`;
+        await this.doUpdateQuery(query);
+    }
+
     private async getPortIDs(): Promise<number[]>{
 
         // Get all subTypes of IfcPort
@@ -220,5 +235,7 @@ export class FSOParser extends Parser{
         }
         return expressIDArray;
     }
+
+    
 
 }

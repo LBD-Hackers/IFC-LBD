@@ -20,6 +20,12 @@ export declare enum Mimetype {
     JSONLD = "application/ld+json",
     DLOG = "application/x.datalog"
 }
+export declare enum N3Format {
+    NTriples = "N-Triples",
+    Trig = "application/trig",
+    NQuads = "N-Quads",
+    Turtle = "Turtle"
+}
 export interface Triple {
     subject: TripleItem;
     predicate: TripleItem;

@@ -1,23 +1,20 @@
-import { JSONLD, SerializationFormat } from "../helpers/BaseDefinitions";
+import { JSONLD, N3Format, SerializationFormat } from "../helpers/BaseDefinitions";
 import * as WebIFC from "web-ifc/web-ifc-api.js";
-import { toRDF } from "jsonld";
+import { prefixes } from '../helpers/prefixes';
+import { toRDF, fromRDF, compact } from "jsonld";
+import * as N3 from 'n3';
+import { newEngine } from '@comunica/actor-init-sparql-rdfjs';
 
 export class Parser{
 
-    public jsonLDObject: JSONLD = {"@context": {
-        "bot": "https://w3id.org/bot#",
-        "fso": "https://w3id.org/fso#",
-        "omg": "https://w3id.org/omg#",
-        "fog": "https://w3id.org/fog#",
-        "ex": "https://example.com/",
-        "ifc": "http://ifcowl.openbimstandards.org/IFC2X3_Final#",
-        "inst": "https://example.com/"
-    }, "@graph": []};
+    public jsonLDObject: JSONLD = {"@context": prefixes, "@graph": []};
 
     public modelID: number;
     public ifcAPI: WebIFC.IfcAPI;
     public verbose: boolean;
     public format: SerializationFormat;
+    public communicaEngine = newEngine();
+    public store: N3.Store = new N3.Store();
 
     constructor(ifcAPI: WebIFC.IfcAPI, modelID: number, format: SerializationFormat = SerializationFormat.JSONLD, verbose: boolean = false){
         this.modelID = modelID;
@@ -38,12 +35,64 @@ export class Parser{
         return tripleCount;
     }
 
-    private getJSONLD(): JSONLD{
+    public async loadInStore(): Promise<void>{
+        const quads: any = await toRDF(this.jsonLDObject);
+        await this.store.addQuads(quads);
+    }
+
+    public async doUpdateQuery(query: string): Promise<void>{
+        // Initiate the update
+        const result: any = await this.communicaEngine.query(query, {
+            sources: [this.store],
+        });
+        
+        // Wait for the update to complete
+        await result.updateResult;
+    }
+
+    public getStoreSize(): number{
+        return this.store.size;
+    }
+
+    private async getJSONLD(): Promise<JSONLD>{
+        // If store is up, serialize the content of the store
+        if(this.store.size > 0){
+            const nquads = this.store.getQuads(null, null, null, null);
+            const doc = await fromRDF(nquads);
+            const compacted = await compact(doc, this.jsonLDObject["@context"]);
+            return compacted as JSONLD;
+        }
+        // If not, simply return the JSON-LD object
         return this.jsonLDObject;
     }
 
     private async getNQuads(): Promise<any>{
+        // If store is up, serialize the content of the store
+        if(this.store.size > 0){
+
+        }
+        // If not, simply convert the JSON-LD object
         return await toRDF(this.jsonLDObject, {format: 'application/n-quads'});
+    }
+
+    private async serializeStoreContent(format: N3Format = N3Format.Turtle): Promise<string>{
+
+        return new Promise((resolve, reject) => {
+
+            const writer = new N3.Writer({ prefixes: prefixes, format });
+            const quads = this.store.getQuads(null, null, null, null);
+
+            for (let i = 0; i < quads.length; i++) {
+                writer.addQuad(quads[i]);
+            }
+
+            writer.end((error, result) => {
+                if(error) reject(error);
+                resolve(result);
+            });
+
+        })
+        
     }
 
 }

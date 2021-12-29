@@ -16,6 +16,10 @@ export declare class FSOParser extends Parser {
      */
     private portFlowDirection;
     private portPlacements;
+    /**
+     * POST PROCESSING
+     */
+    private portConections;
     private getPortIDs;
 }
 //# sourceMappingURL=fso-parser.d.ts.map

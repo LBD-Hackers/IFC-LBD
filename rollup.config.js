@@ -41,6 +41,7 @@ import babel from '@rollup/plugin-babel';
 import resolve from '@rollup/plugin-node-resolve';
 import { terser } from "rollup-plugin-terser";
 import commonjs from '@rollup/plugin-commonjs';
+import json from '@rollup/plugin-json';
 
 const extensions = ['.js', '.ts' ];
 
@@ -73,6 +74,7 @@ export default  {
     }
   ],
   plugins: [
+    json(),
     resolve({ extensions }),
     commonjs(),
     babel({ babelHelpers: 'bundled', include: ['src/**/*.ts'], extensions, exclude: './node_modules/**'})

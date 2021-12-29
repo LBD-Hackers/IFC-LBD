@@ -50,8 +50,9 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.16.5",
+    "@comunica/actor-init-sparql-rdfjs": "^1.22.3",
     "jsonld": "^5.2.0",
-    "meow": "^10.1.2",
+    "n3": "^1.12.2",
     "web-ifc": "^0.0.30",
     "yargs": "^17.3.0"
   },
