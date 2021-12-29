@@ -31,6 +31,9 @@ export class Parser{
     }
 
     public async getTripleCount(): Promise<number>{
+        if(this.store.size > 0){
+            return this.getStoreSize();
+        }
         const rdf: any = await toRDF(this.jsonLDObject);
         const tripleCount = rdf.length;
         return tripleCount;
@@ -85,7 +88,7 @@ export class Parser{
     private async getNQuads(): Promise<any>{
         // If store is up, serialize the content of the store
         if(this.store.size > 0){
-
+            return await this.serializeStoreContent(N3Format.NQuads);
         }
         // If not, simply convert the JSON-LD object
         return await toRDF(this.jsonLDObject, {format: 'application/n-quads'});
