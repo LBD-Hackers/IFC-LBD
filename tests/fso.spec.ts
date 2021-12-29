@@ -4,7 +4,8 @@ import * as util from "util";
 const readFileP = util.promisify(readFile);
 import * as path from 'path';
 import * as WebIFC from "web-ifc/web-ifc-api.js";
-import { LBDParser } from "../src";
+import { LBDParser } from "../src";     // For development
+// import { LBDParser } from "../lib/bundles/bundle.esm";   // For testing the bundle
 import { toRDF } from 'jsonld';
 
 const mepModelPath = path.join(__dirname, './artifacts/MEP.ifc');
@@ -36,9 +37,9 @@ describe('FSO', () => {
 
         // Evaluate
         expect(Array.isArray(fso["@graph"])).toBe(true);
-        expect(fso["@graph"].length).toBe(433);
+        expect(fso["@graph"].length).toBe(603);
         expect(Array.isArray(rdf)).toBe(true);
-        expect(tripleCount).toBe(2422);
+        expect(tripleCount).toBe(2934);
 
     });
 

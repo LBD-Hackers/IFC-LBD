@@ -13,7 +13,8 @@ export declare class Parser {
     getTriples(): Promise<JSONLD | string>;
     getTripleCount(): Promise<number>;
     loadInStore(): Promise<void>;
-    doUpdateQuery(query: string): Promise<void>;
+    executeUpdateQuery(query: string): Promise<void>;
+    executeSelectQuery(query: string): Promise<void>;
     getStoreSize(): number;
     private getJSONLD;
     private getNQuads;

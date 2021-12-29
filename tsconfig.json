@@ -27,6 +27,7 @@
     "outDir": "lib/types",
   },
   "include": [
-    "./src/index.ts"
+    "./src/index.ts",
+    "./packge.json"
   ],
 }

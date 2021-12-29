@@ -34,35 +34,38 @@ export class FSOParser extends Parser{
         console.time("Finished FSO parsing");
 
         this.verbose && console.log("## STEP 1: CLASS ASSIGNMENT ##");
-        this.verbose && console.time("1/7: Classifying FSO items");
+        this.verbose && console.time("1/8: Classifying FSO items");
         this.jsonLDObject["@graph"].push(...(await this.classify()));
-        this.verbose && console.timeEnd("1/7: Classifying FSO items");
+        this.verbose && console.timeEnd("1/8: Classifying FSO items");
         this.verbose && console.log("");
 
         this.verbose && console.log("## STEP 2: PORTS ##");
         const portIDs = await this.getPortIDs();
-        this.verbose && console.time("2/7: Finding port-port connections");
+        this.verbose && console.time("2/8: Finding port-port connections");
         this.jsonLDObject["@graph"].push(...(await this.portPort()));
-        this.verbose && console.timeEnd("2/7: Finding port-port connections");
-        this.verbose && console.time("3/7: Finding port-component connections");
+        this.verbose && console.timeEnd("2/8: Finding port-port connections");
+        this.verbose && console.time("3/8: Finding port-component connections");
         this.jsonLDObject["@graph"].push(...(await this.portComponent()));
-        this.verbose && console.timeEnd("3/7: Finding port-component connections");
-        this.verbose && console.time("4/7: Finding port flow directions");
+        this.verbose && console.timeEnd("3/8: Finding port-component connections");
+        this.verbose && console.time("4/8: Finding port flow directions");
         this.jsonLDObject["@graph"].push(...(await this.portFlowDirection(portIDs)));
-        this.verbose && console.timeEnd("4/7: Finding port flow directions");
-        this.verbose && console.time("5/7: Finding port placements");
+        this.verbose && console.timeEnd("4/8: Finding port flow directions");
+        this.verbose && console.time("5/8: Finding port placements");
         this.jsonLDObject["@graph"].push(...(await this.portPlacements(portIDs)));
-        this.verbose && console.timeEnd("5/7: Finding port placements");
+        this.verbose && console.timeEnd("5/8: Finding port placements");
         this.verbose && console.log("");
 
         // NB! The following steps require an in-memory triplestore to run which is slower than just operating the JSON-LD object
         this.verbose && console.log("## STEP 3: POST PROCESSING ##");
-        this.verbose && console.time("6/7: Loading data into in-memory triplestore for querying");
+        this.verbose && console.time("6/8: Loading data into in-memory triplestore for querying");
         await this.loadInStore();
-        this.verbose && console.timeEnd("6/7: Loading data into in-memory triplestore for querying");
-        this.verbose && console.time("7/7: Deducing feeds/fedBy relationships from ports");
-        await this.portConections();
-        this.verbose && console.timeEnd("7/7: Deducing feeds/fedBy relationships from ports");
+        this.verbose && console.timeEnd("6/8: Loading data into in-memory triplestore for querying");
+        this.verbose && console.time("7/8: Deducing element conections from ports");
+        await this.componentConections();
+        this.verbose && console.timeEnd("7/8: Deducing element conections from ports");
+        this.verbose && console.time("8/8: Deducing connection interfaces");
+        await this.connectionInterfaces();
+        this.verbose && console.timeEnd("8/8: Deducing connection interfaces");
 
         console.timeEnd("Finished FSO parsing");
 
@@ -204,7 +207,7 @@ export class FSOParser extends Parser{
     /**
      * POST PROCESSING
      */
-    private async portConections(): Promise<void>{
+    private async componentConections(): Promise<void>{
         const query = `PREFIX fso: <https://w3id.org/fso#>
                     INSERT{
                         ?e1 fso:connectedWith ?e2 .
@@ -219,7 +222,26 @@ export class FSOParser extends Parser{
                         ?p1 a fso:OutPort .
                         ?p2 a fso:InPort .
                     }`;
-        await this.doUpdateQuery(query);
+        await this.executeUpdateQuery(query);
+    }
+
+    private async connectionInterfaces(): Promise<void>{
+        const query = `PREFIX fso: <https://w3id.org/fso#>
+            PREFIX func: <http://example.org/functions#>
+            INSERT{
+                ?uri a fso:ConnectionPoint ;
+                    fso:connectsFrom ?e1 ;
+                    fso:connectsTo ?e2
+            }
+            WHERE{
+                ?e1 fso:connectedPort ?p1 .
+                ?p1 fso:connectedPort ?p2 .
+                ?p2 fso:connectedComponent ?e2 .
+                ?p1 a fso:OutPort .
+                ?p2 a fso:InPort .
+                BIND(func:uri-concat(?e1, ?e1) AS ?uri)
+            }`;
+        await this.executeUpdateQuery(query);
     }
 
     private async getPortIDs(): Promise<number[]>{

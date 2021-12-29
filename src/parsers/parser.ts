@@ -1,6 +1,7 @@
 import { JSONLD, N3Format, SerializationFormat } from "../helpers/BaseDefinitions";
 import * as WebIFC from "web-ifc/web-ifc-api.js";
 import { prefixes } from '../helpers/prefixes';
+import { extensionFunctions } from '../helpers/communica-extension-functions';
 import { toRDF, fromRDF, compact } from "jsonld";
 import * as N3 from 'n3';
 import { newEngine } from '@comunica/actor-init-sparql-rdfjs';
@@ -40,14 +41,29 @@ export class Parser{
         await this.store.addQuads(quads);
     }
 
-    public async doUpdateQuery(query: string): Promise<void>{
+    public async executeUpdateQuery(query: string): Promise<void>{
         // Initiate the update
-        const result: any = await this.communicaEngine.query(query, {
+        const engine = newEngine();
+        const result: any = await engine.query(query, {
             sources: [this.store],
+            extensionFunctions
         });
         
         // Wait for the update to complete
         await result.updateResult;
+    }
+
+    public async executeSelectQuery(query: string): Promise<void>{
+        // Initiate the update
+        const engine = newEngine();
+        const result: any = await engine.query(query, {
+            sources: [this.store],
+            extensionFunctions
+        });
+        
+        const { data } = await engine.resultToString(result,
+            'application/sparql-results+json');
+        data.pipe(process.stdout); // Print to standard output
     }
 
     public getStoreSize(): number{
