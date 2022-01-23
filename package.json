@@ -1,10 +1,14 @@
 {
   "name": "ifc-lbd",
-  "version": "0.0.19",
+  "version": "0.0.20",
   "description": "",
   "main": "lib/cjs/index.js",
   "module": "lib/esm/index.js",
   "types": "lib/types/index.d.ts",
+  "repository": {
+    "url": "https://github.com/LBD-Hackers/IFC-LBD",
+    "type": "git"
+  },
   "scripts": {
     "build": "npm-run-all -l clean -p build:esm build:cjs build:bundles build:cli-tool declarations",
     "clean": "rimraf lib",
