@@ -34,38 +34,41 @@ export class FSOParser extends Parser{
         console.time("Finished FSO parsing");
 
         this.verbose && console.log("## STEP 1: CLASS ASSIGNMENT ##");
-        this.verbose && console.time("1/8: Classifying FSO items");
+        this.verbose && console.time("1/9: Classifying FSO items");
         this.jsonLDObject["@graph"].push(...(await this.classify()));
-        this.verbose && console.timeEnd("1/8: Classifying FSO items");
+        this.verbose && console.timeEnd("1/9: Classifying FSO items");
         this.verbose && console.log("");
 
         this.verbose && console.log("## STEP 2: PORTS ##");
         const portIDs = await this.getPortIDs();
-        this.verbose && console.time("2/8: Finding port-port connections");
+        this.verbose && console.time("2/9: Finding port-port connections");
         this.jsonLDObject["@graph"].push(...(await this.portPort()));
-        this.verbose && console.timeEnd("2/8: Finding port-port connections");
-        this.verbose && console.time("3/8: Finding port-component connections");
+        this.verbose && console.timeEnd("2/9: Finding port-port connections");
+        this.verbose && console.time("3/9: Finding port-component connections");
         this.jsonLDObject["@graph"].push(...(await this.portComponent()));
-        this.verbose && console.timeEnd("3/8: Finding port-component connections");
-        this.verbose && console.time("4/8: Finding port flow directions");
+        this.verbose && console.timeEnd("3/9: Finding port-component connections");
+        this.verbose && console.time("4/9: Finding port flow directions");
         this.jsonLDObject["@graph"].push(...(await this.portFlowDirection(portIDs)));
-        this.verbose && console.timeEnd("4/8: Finding port flow directions");
-        this.verbose && console.time("5/8: Finding port placements");
+        this.verbose && console.timeEnd("4/9: Finding port flow directions");
+        this.verbose && console.time("5/9: Finding port placements");
         this.jsonLDObject["@graph"].push(...(await this.portPlacements(portIDs)));
-        this.verbose && console.timeEnd("5/8: Finding port placements");
+        this.verbose && console.timeEnd("5/9: Finding port placements");
         this.verbose && console.log("");
 
         // NB! The following steps require an in-memory triplestore to run which is slower than just operating the JSON-LD object
         this.verbose && console.log("## STEP 3: POST PROCESSING ##");
-        this.verbose && console.time("6/8: Loading data into in-memory triplestore for querying");
+        this.verbose && console.time("6/9: Loading data into in-memory triplestore for querying");
         await this.loadInStore();
-        this.verbose && console.timeEnd("6/8: Loading data into in-memory triplestore for querying");
-        this.verbose && console.time("7/8: Deducing element conections from ports");
+        this.verbose && console.timeEnd("6/9: Loading data into in-memory triplestore for querying");
+        this.verbose && console.time("7/9: Deducing element conections from ports");
         await this.componentConections();
-        this.verbose && console.timeEnd("7/8: Deducing element conections from ports");
-        this.verbose && console.time("8/8: Deducing connection interfaces");
+        this.verbose && console.timeEnd("7/9: Deducing element conections from ports");
+        this.verbose && console.time("8/9: Deducing connection interfaces");
         await this.connectionInterfaces();
-        this.verbose && console.timeEnd("8/8: Deducing connection interfaces");
+        this.verbose && console.timeEnd("8/9: Deducing connection interfaces");
+        this.verbose && console.time("9/9: Calculating segment lengths");
+        await this.segmentLengths();
+        this.verbose && console.timeEnd("9/9: Calculating segment lengths");
 
         console.timeEnd("Finished FSO parsing");
 
@@ -241,6 +244,27 @@ export class FSOParser extends Parser{
                 ?p2 a fso:InPort .
                 BIND(func:uri-concat(?e1, ?e1) AS ?uri)
             }`;
+        await this.executeUpdateQuery(query);
+    }
+
+    // NB! pretty slow, so probably better to just get them from the IFC directly
+    private async segmentLengths(): Promise<void>{
+        const query = `PREFIX fso: <https://w3id.org/fso#>
+        PREFIX omg: <https://w3id.org/omg#>
+        PREFIX fog: <https://w3id.org/fog#>
+        PREFIX ex:  <https://example.com/>
+        PREFIX geosf: <http://www.opengis.net/def/function/geosparql/>
+        INSERT{
+            ?seg ex:length ?d
+        }
+        WHERE{
+            ?seg a fso:Segment ;
+                fso:connectedPort ?port1 , ?port2 .
+            FILTER(?port1 != ?port2)
+            ?port1 omg:hasGeometry/fog::asSfa_v2-wkt ?p1 .
+            ?port2 omg:hasGeometry/fog::asSfa_v2-wkt ?p2 .
+            BIND(geosf:distance(?p1, ?p2, 3) AS ?d)
+        }`;
         await this.executeUpdateQuery(query);
     }
 

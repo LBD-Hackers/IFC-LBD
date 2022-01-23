@@ -5,4 +5,7 @@ export declare const extensionFunctions: {
     'http://example.org/functions#get-namespace'(args: RDF.Term[]): RDF.BaseQuad | RDF.BlankNode | RDF.Variable | RDF.DefaultGraph | import("rdf-data-factory").Literal;
     'http://example.org/functions#uri-concat'(args: RDF.Term[]): import("rdf-data-factory").Literal | import("rdf-data-factory").NamedNode<string>;
 };
+export declare const geoSPARQLFunctions: {
+    'http://www.opengis.net/def/function/geosparql/distance'(args: RDF.Term[]): import("rdf-data-factory").Literal;
+};
 //# sourceMappingURL=communica-extension-functions.d.ts.map

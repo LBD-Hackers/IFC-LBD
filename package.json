@@ -53,6 +53,7 @@
   },
   "dependencies": {
     "jsonld": "^5.2.0",
+    "point-in-polygon": "^1.1.0",
     "web-ifc": "^0.0.30",
     "yargs": "^17.3.0"
   },

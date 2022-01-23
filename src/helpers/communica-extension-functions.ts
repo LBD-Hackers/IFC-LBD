@@ -1,5 +1,6 @@
 import { DataFactory } from "rdf-data-factory";
 import type * as RDF from '@rdfjs/types';
+import { parseWKT } from "./wkt-parser";
 
 const DF = new DataFactory();
 
@@ -35,7 +36,33 @@ export const extensionFunctions = {
               return DF.namedNode(ns + id1 + id2);
         }
         return DF.literal("ERROR");
+    },
+
+    // GEOJSON
+    // geosf:distance(p1, p2, decimals)
+    'http://www.opengis.net/def/function/geosparql/distance'(args: RDF.Term[]) {
+        const decimals = args[2] != undefined ? parseFloat(args[2].value) : 8;
+        if (args[0].termType === 'Literal' && args[1].termType === 'Literal') {
+            const p1 = parseWKT(args[0].value);
+            const p2 = parseWKT(args[1].value);
+            
+            const a = p1[0] - p2[0];
+            const b = p1[1] - p2[1];
+            const c = p1[2] - p2[2];
+
+            const d: number = round(Math.sqrt(a * a + b * b + c * c), decimals);
+            // if(p1.length == 2 && p2.length == 2){
+
+            // } 
+
+            return DF.literal(d.toString(), DF.namedNode('http://www.w3.org/2001/XMLSchema#decimal'));
+        }
+        return DF.literal("ERROR");
     }
+}
+
+function round(num: number, decimals: number = 0): number{
+    return Math.round( num * (10 ** decimals) + Number.EPSILON ) / (10 ** decimals);
 }
 
 function getID(uri: RDF.Term){

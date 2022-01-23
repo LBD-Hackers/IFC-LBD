@@ -21,6 +21,7 @@ export declare class FSOParser extends Parser {
      */
     private componentConections;
     private connectionInterfaces;
+    private segmentLengths;
     private getPortIDs;
 }
 //# sourceMappingURL=fso-parser.d.ts.map
