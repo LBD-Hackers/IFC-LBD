@@ -77,6 +77,8 @@ const products = await lbdParser.parseProductTriples(ifcApi, modelID);
 ## Contribute
 This library is intended to be expanded, so please go and add your parser or extend one of the existing ones!
 
+Remember to write tests! That's also the preferred approach to developing new functionalities. Run specific test: `npm run test -i <path>` (eg `jest -i tests/fso.spec.ts`)
+
 ## Stats
 |Model|Duplex (2,4MB)|MEP(962KB)|Schependomlaan(49,3MB)|Office MEP(209,1MB)|
 |---|---|---|---|---|

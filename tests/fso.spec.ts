@@ -4,8 +4,8 @@ import * as util from "util";
 const readFileP = util.promisify(readFile);
 import * as path from 'path';
 import * as WebIFC from "web-ifc/web-ifc-api.js";
-// import { LBDParser } from "../src";     // For development
-import { LBDParser } from "../lib/bundles/bundle.esm";   // For testing the bundle
+import { LBDParser } from "../src";     // For development
+// import { LBDParser } from "../lib/bundles/bundle.esm";   // For testing the bundle
 import { toRDF } from 'jsonld';
 
 const mepModelPath = path.join(__dirname, './artifacts/MEP.ifc');
@@ -24,7 +24,7 @@ describe('FSO', () => {
         await ifcApi.Init();
         const modelID = ifcApi.OpenModel(mepModelData);
 
-        // Init LBD Parser and parse BOT
+        // Init LBD Parser and parse FSO
         const lbdParser = new LBDParser();
         const fso: any = await lbdParser.parseFSOTriples(ifcApi, modelID);
 
@@ -35,11 +35,18 @@ describe('FSO', () => {
         const rdf: any = await toRDF(fso);
         const tripleCount = rdf.length;
 
+        // // Print lengths
+        // rdf.forEach(triple => {
+        //     if(triple.predicate.value == "https://example.com/length"){
+        //         console.log(triple);
+        //     }
+        // })
+
         // Evaluate
         expect(Array.isArray(fso["@graph"])).toBe(true);
         expect(fso["@graph"].length).toBe(603);
         expect(Array.isArray(rdf)).toBe(true);
-        expect(tripleCount).toBe(2934);
+        expect(tripleCount).toBe(2978);
 
     });
 

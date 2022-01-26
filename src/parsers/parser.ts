@@ -5,6 +5,7 @@ import { extensionFunctions } from '../helpers/communica-extension-functions';
 import { toRDF, fromRDF, compact } from "jsonld";
 import * as N3 from 'n3';
 import { newEngine } from '@comunica/actor-init-sparql-rdfjs';
+import { geoSPARQLFunctions } from "comunica-geosparql/lib/bundles/bundle.umd";
 
 export class Parser{
 
@@ -16,6 +17,7 @@ export class Parser{
     public format: SerializationFormat;
     public communicaEngine = newEngine();
     public store: N3.Store = new N3.Store();
+    public extensionFunctions = {...extensionFunctions, ...geoSPARQLFunctions};
 
     constructor(ifcAPI: WebIFC.IfcAPI, modelID: number, format: SerializationFormat = SerializationFormat.JSONLD, verbose: boolean = false){
         this.modelID = modelID;
@@ -49,7 +51,7 @@ export class Parser{
         const engine = newEngine();
         const result: any = await engine.query(query, {
             sources: [this.store],
-            extensionFunctions
+            extensionFunctions: this.extensionFunctions
         });
         
         // Wait for the update to complete
@@ -61,7 +63,7 @@ export class Parser{
         const engine = newEngine();
         const result: any = await engine.query(query, {
             sources: [this.store],
-            extensionFunctions
+            extensionFunctions: this.extensionFunctions
         });
         
         const { data } = await engine.resultToString(result,

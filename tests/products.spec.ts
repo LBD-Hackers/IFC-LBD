@@ -26,7 +26,7 @@ describe('PRODUCTS', () => {
         await ifcApi.Init();
         const modelID = ifcApi.OpenModel(duplexModelData);
 
-        // Init LBD Parser and parse BOT
+        // Init LBD Parser and parse Products
         const lbdParser = new LBDParser();
         const products = await lbdParser.parseProductTriples(ifcApi, modelID);
 
