@@ -1,0 +1,28 @@
+{
+    "name": "demo",
+    "version": "1.0.0",
+    "description": "-",
+    "main": "app.js",
+    "scripts": {
+        "build": "rollup -c ./rollup.config.js && npm run copy:wasms",
+        "copy:wasms": "cp ../node_modules/web-ifc/web-ifc.wasm src && cp ../node_modules/web-ifc/web-ifc-mt.wasm src",
+        "watch": "rollup -w -c ./rollup.config.js"
+    },
+    "author": "",
+    "license": "ISC",
+    "devDependencies": {
+        "@rollup/plugin-node-resolve": "^11.2.1",
+        "rollup": "^2.45.2"
+    },
+    "dependencies": {
+        "jsonld": "^5.2.0",
+        "three": "^0.128.0",
+        "web-ifc-three": "0.0.32"
+    },
+    "browser": {
+        "crypto": false,
+        "path": false,
+        "fs": false,
+        "events": false
+    }
+}
