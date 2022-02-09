@@ -8,6 +8,7 @@ const config: Config.InitialOptions = {
   ],
   transform: {
     "^.+\\.[t|j]sx?$": "babel-jest"
-  }
+  },
+  testTimeout: 10000
 };
 export default config;

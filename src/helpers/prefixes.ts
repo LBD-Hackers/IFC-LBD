@@ -1,9 +1,10 @@
 export const prefixes = {
     "bot": "https://w3id.org/bot#",
-    "fso": "https://w3id.org/fso#",
-    "omg": "https://w3id.org/omg#",
-    "fog": "https://w3id.org/fog#",
     "ex": "https://example.com/",
+    "fog": "https://w3id.org/fog#",
+    "fso": "https://w3id.org/fso#",
     "ifc": "http://ifcowl.openbimstandards.org/IFC2X3_Final#",
-    "inst": "https://example.com/"
+    "inst": "https://example.com/",
+    "omg": "https://w3id.org/omg#",
+    "tso": "https://w3id.org/tso#",
 }

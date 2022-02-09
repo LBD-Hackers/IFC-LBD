@@ -1,0 +1,69 @@
+{
+    "name": "fetch-blob",
+    "version": "2.1.2",
+    "description": "A Blob implementation in Node.js, originally from node-fetch.",
+    "main": "index.js",
+    "files": [
+        "from.js",
+        "index.js",
+        "index.d.ts",
+        "from.d.ts"
+    ],
+    "scripts": {
+        "lint": "xo",
+        "test": "xo && ava",
+        "report": "c8 --reporter json --reporter text ava",
+        "coverage": "c8 --reporter json --reporter text ava && codecov -f coverage/coverage-final.json",
+        "prepublishOnly": "tsc --declaration --emitDeclarationOnly --allowJs index.js from.js"
+    },
+    "repository": "https://github.com/node-fetch/fetch-blob.git",
+    "keywords": [
+        "blob",
+        "node-fetch"
+    ],
+    "engines": {
+        "node": "^10.17.0 || >=12.3.0"
+    },
+    "author": "David Frank",
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/node-fetch/fetch-blob/issues"
+    },
+    "homepage": "https://github.com/node-fetch/fetch-blob#readme",
+    "xo": {
+        "rules": {
+            "unicorn/import-index": "off",
+            "import/extensions": [
+                "error",
+                "always",
+                {
+                    "ignorePackages": true
+                }
+            ]
+        },
+        "overrides": [
+            {
+                "files": "test.js",
+                "rules": {
+                    "node/no-unsupported-features/es-syntax": 0,
+                    "node/no-unsupported-features/node-builtins": 0
+                }
+            }
+        ]
+    },
+    "peerDependenciesMeta": {
+        "domexception": {
+            "optional": true
+        }
+    },
+    "devDependencies": {
+        "ava": "^3.15.0",
+        "c8": "^7.7.1",
+        "codecov": "^3.8.1",
+        "domexception": "^2.0.1",
+        "get-stream": "^6.0.1",
+        "node-fetch": "^2.6.1",
+        "typescript": "^4.2.4",
+        "xo": "^0.38.2"
+    }
+}

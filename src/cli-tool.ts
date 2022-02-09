@@ -8,7 +8,7 @@ const writeFileP = util.promisify(writeFile);
 import * as WebIFC from "web-ifc/web-ifc-api";
 import { LBDParser } from '.';
 
-const supportedSubsets = ["bot", "fso", "products"];
+const supportedSubsets = ["bot", "fso", "products", "properties", "tso"];
 
 export class CLITool{
 
@@ -81,6 +81,8 @@ export class CLITool{
         if(subset == "bot") triples = await lbdParser.parseBOTTriples(ifcApi, modelID, this.argv["verbose"]);
         if(subset == "fso") triples = await lbdParser.parseFSOTriples(ifcApi, modelID, this.argv["verbose"]);
         if(subset == "products") triples = await lbdParser.parseProductTriples(ifcApi, modelID, this.argv["verbose"]);
+        if(subset == "properties") triples = await lbdParser.parsePropertyTriples(ifcApi, modelID, this.argv["verbose"]);
+        if(subset == "tso") triples = await lbdParser.parseTSOTriples(ifcApi, modelID, this.argv["verbose"]);
 
         if(!triples || triples == undefined) return console.log("Found nothing relevant in the file");
 

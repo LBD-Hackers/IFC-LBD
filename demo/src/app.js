@@ -10,7 +10,7 @@ import {
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import { IFCLoader } from "web-ifc-three/IFCLoader";
 
-import { LBDParser } from "../../lib/bundles/bundle.esm";
+// import { LBDParser } from "../../lib/bundles/bundle.esm";
 
 //Creates the Three.js scene
 const scene = new Scene();

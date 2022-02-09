@@ -1,19 +1,14 @@
-import {
-    IFCELEMENT,
-    IFCOPENINGELEMENT
-} from 'web-ifc';
-
-import { buildClassInstances, getElementSubtypes } from "../helpers/class-assignment";
+import { buildClassInstances } from "../helpers/class-assignment";
 import { Parser } from "./parser";
 import { JSONLD } from "../helpers/BaseDefinitions";
 import { defaultURIBuilder } from "../helpers/uri-builder";
-import { IfcElements } from "../helpers/IfcElementsMap";
-import { buildRelOneToOne } from '../helpers/path-search';
-import { getGlobalPosition, getGlobalRotation } from '../helpers/object-placement';
-import * as N3 from 'n3';
+import { buildRelOneToMany, buildRelOneToOne } from '../helpers/path-search';
+import { getGlobalPosition } from '../helpers/object-placement';
+import { IFCPORT, IFCRELASSIGNSTOGROUP, IFCSYSTEM } from "web-ifc";
+import { getAllItemsOfTypeOrSubtype } from "../helpers/item-search";
 
 const typeMappings: {[key: number]: string[]}  = {
-    3205830791: ["fso:DistributionSystem"],
+    2254336722: ["fso:DistributionSystem"],
     3740093272: ["fso:Port"],
     987401354: ["fso:Segment", "fso:Component"],
     4278956645: ["fso:Fitting", "fso:Component"],
@@ -34,38 +29,45 @@ export class FSOParser extends Parser{
         console.time("Finished FSO parsing");
 
         this.verbose && console.log("## STEP 1: CLASS ASSIGNMENT ##");
-        this.verbose && console.time("1/8: Classifying FSO items");
+        this.verbose && console.time("1/9: Classifying FSO items");
         this.jsonLDObject["@graph"].push(...(await this.classify()));
-        this.verbose && console.timeEnd("1/8: Classifying FSO items");
+        this.verbose && console.timeEnd("1/9: Classifying FSO items");
         this.verbose && console.log("");
 
         this.verbose && console.log("## STEP 2: PORTS ##");
-        const portIDs = await this.getPortIDs();
-        this.verbose && console.time("2/8: Finding port-port connections");
+        const portIDs = await getAllItemsOfTypeOrSubtype(this.ifcAPI, this.modelID, IFCPORT);
+        this.verbose && console.time("2/9: Finding port-port connections");
         this.jsonLDObject["@graph"].push(...(await this.portPort()));
-        this.verbose && console.timeEnd("2/8: Finding port-port connections");
-        this.verbose && console.time("3/8: Finding port-component connections");
+        this.verbose && console.timeEnd("2/9: Finding port-port connections");
+        this.verbose && console.time("3/9: Finding port-component connections");
         this.jsonLDObject["@graph"].push(...(await this.portComponent()));
-        this.verbose && console.timeEnd("3/8: Finding port-component connections");
-        this.verbose && console.time("4/8: Finding port flow directions");
+        this.verbose && console.timeEnd("3/9: Finding port-component connections");
+        this.verbose && console.time("4/9: Finding port flow directions");
         this.jsonLDObject["@graph"].push(...(await this.portFlowDirection(portIDs)));
-        this.verbose && console.timeEnd("4/8: Finding port flow directions");
-        this.verbose && console.time("5/8: Finding port placements");
+        this.verbose && console.timeEnd("4/9: Finding port flow directions");
+        this.verbose && console.time("5/9: Finding port placements");
         this.jsonLDObject["@graph"].push(...(await this.portPlacements(portIDs)));
-        this.verbose && console.timeEnd("5/8: Finding port placements");
+        this.verbose && console.timeEnd("5/9: Finding port placements");
         this.verbose && console.log("");
 
+        this.verbose && console.log("## STEP 3: SYSTEMS ##");
+        this.verbose && console.time("6/9: Finding system-component relationships");
+        this.jsonLDObject["@graph"].push(...(await this.systemComponent()));
+        this.verbose && console.timeEnd("6/9: Finding system-component relationships");
+        this.verbose && console.log("");
+
+
         // NB! The following steps require an in-memory triplestore to run which is slower than just operating the JSON-LD object
-        this.verbose && console.log("## STEP 3: POST PROCESSING ##");
-        this.verbose && console.time("6/8: Loading data into in-memory triplestore for querying");
+        this.verbose && console.log("## STEP 4: POST PROCESSING ##");
+        this.verbose && console.time("7/9: Loading data into in-memory triplestore for querying");
         await this.loadInStore();
-        this.verbose && console.timeEnd("6/8: Loading data into in-memory triplestore for querying");
-        this.verbose && console.time("7/8: Deducing element conections from ports");
+        this.verbose && console.timeEnd("7/9: Loading data into in-memory triplestore for querying");
+        this.verbose && console.time("8/9: Deducing element conections from ports");
         await this.componentConections();
-        this.verbose && console.timeEnd("7/8: Deducing element conections from ports");
-        this.verbose && console.time("8/8: Deducing connection interfaces");
+        this.verbose && console.timeEnd("8/9: Deducing element conections from ports");
+        this.verbose && console.time("9/9: Deducing connection interfaces");
         await this.connectionInterfaces();
-        this.verbose && console.timeEnd("8/8: Deducing connection interfaces");
+        this.verbose && console.timeEnd("9/9: Deducing connection interfaces");
 
         console.timeEnd("Finished FSO parsing");
 
@@ -128,6 +130,17 @@ export class FSOParser extends Parser{
         const r2 = await buildRelOneToOne(this.ifcAPI, this.modelID, IFCRELCONNECTSPORTTOELEMENT, subjectRef, targetRef, rdfRelationship);
 
         return r1.concat(r2);
+    }
+
+    // <system> fso:hasComponent <element>
+    private async systemComponent(): Promise<any[]>{
+
+        const subjectRef = "RelatingGroup";
+        const targetRef = "RelatedObjects";
+        const rdfRelationship = "fso:hasComponent";
+        const subjectClass = IFCSYSTEM;
+        return await buildRelOneToMany(this.ifcAPI, this.modelID, IFCRELASSIGNSTOGROUP, subjectRef, targetRef, rdfRelationship, subjectClass);
+
     }
 
     /**
@@ -243,21 +256,5 @@ export class FSOParser extends Parser{
             }`;
         await this.executeUpdateQuery(query);
     }
-
-    private async getPortIDs(): Promise<number[]>{
-
-        // Get all subTypes of IfcPort
-        const IFCPORT = 3740093272;
-        const subTypes = getElementSubtypes(IFCPORT);
-
-        // Get all items in model that belong to any of these types
-        let expressIDArray: number[] = [];
-        for(let typeId of subTypes){
-            expressIDArray.push(...await this.ifcAPI.properties.getAllItemsOfType(this.modelID, typeId, false));
-        }
-        return expressIDArray;
-    }
-
-    
 
 }

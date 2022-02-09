@@ -5,7 +5,7 @@
     "main": "app.js",
     "scripts": {
         "build": "rollup -c ./rollup.config.js && npm run copy:wasms",
-        "copy:wasms": "cp ../node_modules/web-ifc/web-ifc.wasm src && cp ../node_modules/web-ifc/web-ifc-mt.wasm src",
+        "copy:wasms": "cp ./node_modules/web-ifc/web-ifc.wasm src && cp ./node_modules/web-ifc/web-ifc-mt.wasm src",
         "watch": "rollup -w -c ./rollup.config.js"
     },
     "author": "",
