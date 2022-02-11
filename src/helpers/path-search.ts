@@ -1,6 +1,18 @@
 import * as WebIFC from "web-ifc/web-ifc-api.js";
 import { defaultURIBuilder } from "./uri-builder";
 
+import {
+    IFCRELSPACEBOUNDARY,
+    IFCRELCONTAINEDINSPATIALSTRUCTURE,
+    IFCRELVOIDSELEMENT,
+    IFCRELAGGREGATES,
+    IFCBUILDING,
+    IFCSITE,
+    IFCBUILDINGSTOREY,
+    IFCSPACE,
+    IFCELEMENT
+} from 'web-ifc';
+
 export class Input{
     ifcAPI: WebIFC.IfcAPI;
     modelID: number;
@@ -18,6 +30,11 @@ export class Input{
 export async function buildRelOneToOne(d: Input): Promise<any>{
 
     if(d.includeInterface == undefined) d.includeInterface = false;
+    if(d.ifcSubjectClassIn == undefined) d.ifcSubjectClassIn = [];
+    if(d.ifcTargetClassIn == undefined) d.ifcTargetClassIn = [];
+
+    if(d.ifcSubjectClassIn.length) console.log("ifcSubjectClassIn not yet supported for buildRelOneToOne");
+    if(d.ifcTargetClassIn.length) console.log("ifcTargetClassIn not yet supported for buildRelOneToOne");
 
     const graph = [];
 
@@ -86,8 +103,11 @@ export async function buildRelOneToOne(d: Input): Promise<any>{
 // ifcAPI: WebIFC.IfcAPI, modelID: number = 0, relationshipType: number, subjectRef: string, targetRef: string, rdfRelationship: string, subjectClassConstraint?: number, targetClassConstraint?: number
 export async function buildRelOneToMany(d: Input): Promise<any>{
 
+    if(d.includeInterface == undefined) d.includeInterface = false;
     if(d.ifcSubjectClassIn == undefined) d.ifcSubjectClassIn = [];
     if(d.ifcTargetClassIn == undefined) d.ifcTargetClassIn = [];
+
+    if(d.includeInterface) console.log("Include interface not yet supported for buildRelOneToMany");
 
     const graph = [];
 
@@ -104,8 +124,7 @@ export async function buildRelOneToMany(d: Input): Promise<any>{
 
         const subject = await d.ifcAPI.properties.getItemProperties(d.modelID, relProps[d.ifcSubjectRel].value);
 
-        // It might be that we are only interested in relationship where the subject fulfills the constraint
-        if(d.ifcSubjectClassIn.length && !d.ifcSubjectClassIn.includes(subject.type)) { continue; }
+        if(d.ifcSubjectClassIn.length && d.ifcSubjectClassIn.indexOf(subject.type) == -1) { continue; }
 
         const targetPromises: any = [];
         for (let i = 0; i < relProps[d.ifcTargetRel].length; i++) {
@@ -113,10 +132,12 @@ export async function buildRelOneToMany(d: Input): Promise<any>{
         }
         const targets = await Promise.all(targetPromises);
 
+        let types = new Set();
         const targetObjects = targets
             .filter((t: any) => {
                 // It might be that we are only interested in relationship where the target fulfills the constraint
-                if(d.ifcTargetClassIn.length && !d.ifcTargetClassIn.includes(t.type)) return false;
+                types.add(t.type);
+                if(d.ifcTargetClassIn.length && d.ifcTargetClassIn.indexOf(t.type) == -1) return false;
                 return true;
             })
             .map((t: any) => {
@@ -134,6 +155,14 @@ export async function buildRelOneToMany(d: Input): Promise<any>{
             "@id": subjectURI,
             [d.rdfRelationship]: targetObjects
         });
+
+        // Optionally, push it in opposite direction
+        if(d.oppoiteRelationship != undefined){
+            targetObjects.forEach(item => {
+                const obj = JSON.parse(JSON.stringify(item));
+                graph.push(Object.assign(obj, {[d.oppoiteRelationship]: {"@id": subjectURI}}));
+            })
+        }
 
     }
 

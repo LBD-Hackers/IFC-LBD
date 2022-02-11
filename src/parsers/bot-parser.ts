@@ -185,7 +185,7 @@ export class BOTParser extends Parser{
         const input: Input = {
             ifcAPI: this.ifcAPI,
             modelID: this.modelID,
-            ifcRelationship: IFCRELCONTAINEDINSPATIALSTRUCTURE,
+            ifcRelationship: IFCRELAGGREGATES,
             ifcSubjectRel: "RelatingObject",
             ifcTargetRel: "RelatedObjects",
             rdfRelationship: "bot:hasSpace",
@@ -202,7 +202,7 @@ export class BOTParser extends Parser{
         const input: Input = {
             ifcAPI: this.ifcAPI,
             modelID: this.modelID,
-            ifcRelationship: IFCRELCONTAINEDINSPATIALSTRUCTURE,
+            ifcRelationship: IFCRELAGGREGATES,
             ifcSubjectRel: "RelatingObject",
             ifcTargetRel: "RelatedObjects",
             rdfRelationship: "bot:hasStorey",
@@ -219,7 +219,7 @@ export class BOTParser extends Parser{
         const input: Input = {
             ifcAPI: this.ifcAPI,
             modelID: this.modelID,
-            ifcRelationship: IFCRELCONTAINEDINSPATIALSTRUCTURE,
+            ifcRelationship: IFCRELAGGREGATES,
             ifcSubjectRel: "RelatingObject",
             ifcTargetRel: "RelatedObjects",
             rdfRelationship: "bot:hasBuilding",
