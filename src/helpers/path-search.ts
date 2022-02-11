@@ -1,26 +1,50 @@
 import * as WebIFC from "web-ifc/web-ifc-api.js";
 import { defaultURIBuilder } from "./uri-builder";
 
-export async function buildRelOneToOne(ifcAPI: WebIFC.IfcAPI, modelID: number = 0, relationshipType: number, subjectRef: string, targetRef: string, rdfRelationship: string, includeInterface: boolean = false, biderectional: boolean = false): Promise<any>{
+export class Input{
+    ifcAPI: WebIFC.IfcAPI;
+    modelID: number;
+    ifcRelationship: number;        // Eg. IFCRELCONNECTSPORTS
+    ifcSubjectRel: string;          // Eg. RelatedPort
+    ifcTargetRel: string;           // Eg. RelatingPort
+    rdfRelationship: string;        // Eg. fso:connectedPort
+    oppoiteRelationship?: string;   // Optional - used to establish a relationship in the other direction. For bidirectional relationships, use the same value as for rdfRelationship
+    ifcSubjectClassIn?: number[];   // Optional - used to limit bindings to cases where the subject is included in this list
+    ifcTargetClassIn?: number[];    // Optional - used to limit bindings to cases where the target is included in this list
+    includeInterface?: boolean;     // Used to also include the ifcRelationship as a bot:Interface
+}
+
+// ifcAPI: WebIFC.IfcAPI, modelID: number = 0, relationshipType: number, subjectRef: string, targetRef: string, rdfRelationship: string, includeInterface: boolean = false, biderectional: boolean = false
+export async function buildRelOneToOne(d: Input): Promise<any>{
+
+    if(d.includeInterface == undefined) d.includeInterface = false;
 
     const graph = [];
 
-    const rels = await ifcAPI.properties.getAllItemsOfType(modelID, relationshipType, false);
+    const rels = await d.ifcAPI.properties.getAllItemsOfType(d.modelID, d.ifcRelationship, false);
 
     for (let i = 0; i < rels.length; i++) {
 
         const relID = rels[i];
 
-        const relProps = await ifcAPI.properties.getItemProperties(modelID, relID);
+        const relProps = await d.ifcAPI.properties.getItemProperties(d.modelID, relID);
 
         // Only continue if the interface is between an element and a space
-        if(!relProps[subjectRef] || !relProps[targetRef]) { continue; }
+        if(!relProps[d.ifcSubjectRel] || !relProps[d.ifcTargetRel]) { continue; }
 
         // Get properties of related and relating
         const [subject, target] = await Promise.all([
-            ifcAPI.properties.getItemProperties(modelID, relProps[subjectRef].value),
-            ifcAPI.properties.getItemProperties(modelID, relProps[targetRef].value)
+            d.ifcAPI.properties.getItemProperties(d.modelID, relProps[d.ifcSubjectRel].value),
+            d.ifcAPI.properties.getItemProperties(d.modelID, relProps[d.ifcTargetRel].value)
         ]);
+
+        if(subject.GlobalId.value == "0dG4XB8Mj2QhLcDnrkJh$F"){
+            console.log("subject");
+        }
+
+        if(target.GlobalId.value == "0dG4XB8Mj2QhLcDnrkJh$F"){
+            console.log("target");
+        }
 
         const subjectURI = defaultURIBuilder(subject.GlobalId.value);
         const targetURI = defaultURIBuilder(target.GlobalId.value);
@@ -29,19 +53,19 @@ export async function buildRelOneToOne(ifcAPI: WebIFC.IfcAPI, modelID: number = 
         // Push relationships
         graph.push({
             "@id": subjectURI,
-            [rdfRelationship]: {"@id": targetURI}
+            [d.rdfRelationship]: {"@id": targetURI}
         });
 
         // Optionally, push it in opposite direction
-        if(biderectional){
+        if(d.oppoiteRelationship != undefined){
             graph.push({
                 "@id": targetURI,
-                [rdfRelationship]: {"@id": subjectURI}
+                [d.oppoiteRelationship]: {"@id": subjectURI}
             });
         }
 
         // Optionally, also include the interface
-        if(includeInterface){
+        if(d.includeInterface){
             graph.push({
                 "@id": interfaceURI,
                 "@type": "bot:Interface",
@@ -59,36 +83,40 @@ export async function buildRelOneToOne(ifcAPI: WebIFC.IfcAPI, modelID: number = 
 
 }
 
-export async function buildRelOneToMany(ifcAPI: WebIFC.IfcAPI, modelID: number = 0, relationshipType: number, subjectRef: string, targetRef: string, rdfRelationship: string, subjectClassConstraint?: number, targetClassConstraint?: number): Promise<any>{
+// ifcAPI: WebIFC.IfcAPI, modelID: number = 0, relationshipType: number, subjectRef: string, targetRef: string, rdfRelationship: string, subjectClassConstraint?: number, targetClassConstraint?: number
+export async function buildRelOneToMany(d: Input): Promise<any>{
+
+    if(d.ifcSubjectClassIn == undefined) d.ifcSubjectClassIn = [];
+    if(d.ifcTargetClassIn == undefined) d.ifcTargetClassIn = [];
 
     const graph = [];
 
-    const rels = await ifcAPI.properties.getAllItemsOfType(modelID, relationshipType, false);
+    const rels = await d.ifcAPI.properties.getAllItemsOfType(d.modelID, d.ifcRelationship, false);
 
     for (let i = 0; i < rels.length; i++) {
 
         const relID = rels[i];
 
-        const relProps = await ifcAPI.properties.getItemProperties(modelID, relID);
+        const relProps = await d.ifcAPI.properties.getItemProperties(d.modelID, relID);
 
         // Only continue if the interface is between an element and a space
-        if(!relProps[subjectRef] || !relProps[targetRef]) { continue; }
+        if(!relProps[d.ifcSubjectRel] || !relProps[d.ifcTargetRel]) { continue; }
 
-        const subject = await ifcAPI.properties.getItemProperties(modelID, relProps[subjectRef].value);
+        const subject = await d.ifcAPI.properties.getItemProperties(d.modelID, relProps[d.ifcSubjectRel].value);
 
         // It might be that we are only interested in relationship where the subject fulfills the constraint
-        if(subjectClassConstraint && subject.type != subjectClassConstraint) { continue; }
+        if(d.ifcSubjectClassIn.length && !d.ifcSubjectClassIn.includes(subject.type)) { continue; }
 
         const targetPromises: any = [];
-        for (let i = 0; i < relProps[targetRef].length; i++) {
-            targetPromises.push(ifcAPI.properties.getItemProperties(modelID, relProps[targetRef][i].value));
+        for (let i = 0; i < relProps[d.ifcTargetRel].length; i++) {
+            targetPromises.push(d.ifcAPI.properties.getItemProperties(d.modelID, relProps[d.ifcTargetRel][i].value));
         }
         const targets = await Promise.all(targetPromises);
 
         const targetObjects = targets
             .filter((t: any) => {
                 // It might be that we are only interested in relationship where the target fulfills the constraint
-                if(targetClassConstraint && t.type != targetClassConstraint) return false;
+                if(d.ifcTargetClassIn.length && !d.ifcTargetClassIn.includes(t.type)) return false;
                 return true;
             })
             .map((t: any) => {
@@ -104,7 +132,7 @@ export async function buildRelOneToMany(ifcAPI: WebIFC.IfcAPI, modelID: number =
         // Push relationships
         graph.push({
             "@id": subjectURI,
-            [rdfRelationship]: targetObjects
+            [d.rdfRelationship]: targetObjects
         });
 
     }

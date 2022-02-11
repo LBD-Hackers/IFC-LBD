@@ -60,7 +60,15 @@ ifcApi.CloseModel(modelID);
 ```
 
 ### Flow Systems Ontology (FSO)
-Exports triples in compliance with the [Flow Systems Ontology](https://w3id.org/fso). In addition, ports are also exported and the center points of these are exported as [OMG](https://w3id.org/omg) geometries.
+Exports triples in compliance with the [Flow Systems Ontology](https://w3id.org/fso). In addition, ports are also exported and the center points of these are exported as [OMG](https://w3id.org/omg) geometries. Pipe lengths are calculated from the distance between its two ports.
+```typescript
+// Init LBD Parser and parse FSO
+const lbdParser = new LBDParser();
+const fsoTriples = await lbdParser.parseFSOTriples(ifcApi, modelID);
+```
+
+### Flow Systems Ontology (FSO)
+Exports triples in compliance with the [TUBES System Ontology](https://w3id.org/tso). This is a Work in Progress and currently only supports few concepts.
 ```typescript
 // Init LBD Parser and parse FSO
 const lbdParser = new LBDParser();
@@ -69,9 +77,16 @@ const fsoTriples = await lbdParser.parseFSOTriples(ifcApi, modelID);
 
 ### IFC Products
 ```typescript
-// Init LBD Parser and parse BOT
+// Init LBD Parser and parse products
 const lbdParser = new LBDParser();
 const products = await lbdParser.parseProductTriples(ifcApi, modelID);
+```
+
+### IFC Properties
+```typescript
+// Init LBD Parser and parse properties
+const lbdParser = new LBDParser();
+const properties = await lbdParser.parsePropertyTriples(ifcApi, modelID);
 ```
 
 ## Contribute
@@ -88,3 +103,12 @@ Remember to write tests! That's also the preferred approach to developing new fu
 |FSO[triples]|-|1,560|-|32,024|
 |Products[ms]|9|8|46|174|
 |Products[triples]|218|85|3,635|16,012|
+
+## Units
+In the current setup, all units are as defined in the input model. Will be neutralized to the following in a future release:
+
+|Measure |Unit|
+|:-------|:--:|
+|Distance|mm  |
+|Area    |m2  |
+|Volume  |m3  |

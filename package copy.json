@@ -1,0 +1,73 @@
+{
+  "name": "ifc-lbd",
+  "version": "0.0.17",
+  "description": "",
+  "main": "lib/bundles/bundle.umd.js",
+  "module": "lib/bundles/bundle.esm.js",
+  "types": "lib/types/index.d.ts",
+  "scripts": {
+    "build": "npm-run-all -l clean -p build:bundles build:cli-tool declarations",
+    "clean": "rimraf lib",
+    "declarations": "tsc -p tsconfig.json",
+    "build:bundles": "cross-env BABEL_ENV=esmBundled rollup -c",
+    "build:cli-tool": "cross-env BABEL_ENV=esmBundled rollup -c rollup.cli-config.js",
+    "copy-assets": "cp node_modules/web-ifc/web-ifc.wasm lib && cp node_modules/web-ifc/web-ifc-mt.wasm lib",
+    "test": "jest ./tests"
+  },
+  "keywords": [],
+  "author": "Mads Holten Rasmussen<mhra@niras.dk>",
+  "license": "ISC",
+  "devDependencies": {
+    "@babel/cli": "^7.16.0",
+    "@babel/plugin-transform-modules-commonjs": "^7.16.5",
+    "@babel/plugin-transform-runtime": "^7.16.5",
+    "@babel/preset-env": "^7.16.5",
+    "@babel/preset-typescript": "^7.16.5",
+    "@babel/runtime": "^7.16.5",
+    "@rollup/plugin-babel": "^5.3.0",
+    "@rollup/plugin-commonjs": "^21.0.1",
+    "@rollup/plugin-json": "^4.1.0",
+    "@rollup/plugin-node-resolve": "^13.1.1",
+    "@types/jest": "^27.0.3",
+    "@types/jsonld": "^1.5.6",
+    "@types/meow": "^6.0.0",
+    "@types/yargs": "^17.0.7",
+    "babel-jest": "^27.4.5",
+    "babel-polyfill": "^6.26.0",
+    "jest": "^27.4.5",
+    "npm-run-all": "^4.1.5",
+    "rimraf": "^3.0.2",
+    "rollup": "^2.61.1",
+    "rollup-plugin-copy": "^3.4.0",
+    "rollup-plugin-dts": "^4.1.0",
+    "rollup-plugin-peer-deps-external": "^2.2.4",
+    "rollup-plugin-preserve-shebang": "^1.0.1",
+    "rollup-plugin-terser": "^7.0.2",
+    "rollup-plugin-typescript2": "^0.31.1",
+    "ts-jest": "^27.1.2",
+    "ts-node": "^10.4.0",
+    "tslib": "^2.3.1",
+    "typescript": "^4.5.4",
+    "web-ifc-three": "^0.0.103"
+  },
+  "dependencies": {
+    "yargs": "^17.3.0"
+  },
+  "peerDependencies": {
+    "@comunica/actor-init-sparql-rdfjs": "^1.22.3",
+    "n3": "^1.13.0",
+    "jsonld": "^5.2.0",
+    "web-ifc": "^0.0.30"
+  },
+  "browser": {
+    "crypto": false,
+    "path": false,
+    "fs": false
+  },
+  "files": [
+    "lib/*"
+  ],
+  "bin": {
+    "ifc-lbd": "./lib/cli-tool/index.js"
+  }
+}

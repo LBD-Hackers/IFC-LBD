@@ -1,6 +1,6 @@
 # folders
 src
-out-tsc
+demo
 
 # toolchain
 webpack.config.js

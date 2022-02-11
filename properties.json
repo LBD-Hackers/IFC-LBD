@@ -1,0 +1,1710 @@
+{
+	"@context": {
+		"bot": "https://w3id.org/bot#",
+		"ex": "https://example.com/",
+		"fog": "https://w3id.org/fog#",
+		"fso": "https://w3id.org/fso#",
+		"ifc": "http://ifcowl.openbimstandards.org/IFC2X3_Final#",
+		"inst": "https://example.com/",
+		"omg": "https://w3id.org/omg#",
+		"tso": "https://w3id.org/tso#"
+	},
+	"@graph": [
+		{
+			"@id": "inst:0MMKrFmIr4b8IaMYvCQ0YS",
+			"ex:globalId": "0MMKrFmIr4b8IaMYvCQ0YS"
+		},
+		{
+			"@id": "inst:0MMKrFmIr4b8IaMYvCQ0bh",
+			"ex:globalId": "0MMKrFmIr4b8IaMYvCQ0bh"
+		},
+		{
+			"@id": "inst:0MMKrFmIr4b8IaMYvCQ3rj",
+			"ex:globalId": "0MMKrFmIr4b8IaMYvCQ3rj",
+			"rdfs:label": "Platten-W\\X2\\00E4\\X0\\rmetauscher Flansch:Standard:7300897"
+		},
+		{
+			"@id": "inst:0MMKrFmIr4b8IaMYvCQ3t4",
+			"ex:globalId": "0MMKrFmIr4b8IaMYvCQ3t4",
+			"rdfs:label": "Platten-W\\X2\\00E4\\X0\\rmetauscher Flansch:Standard:7301000"
+		},
+		{
+			"@id": "inst:2KUxeOjIPDYPBadpDc_sCR",
+			"ex:globalId": "2KUxeOjIPDYPBadpDc_sCR"
+		},
+		{
+			"@id": "inst:2KUxeOjIPDYPBadpDc_vh3",
+			"ex:globalId": "2KUxeOjIPDYPBadpDc_vh3"
+		},
+		{
+			"@id": "inst:0MMKrFmIr4b8IaMYvCQ0qd",
+			"ex:globalId": "0MMKrFmIr4b8IaMYvCQ0qd"
+		},
+		{
+			"@id": "inst:0MMKrFmIr4b8IaMYvCQ0s9",
+			"ex:globalId": "0MMKrFmIr4b8IaMYvCQ0s9"
+		},
+		{
+			"@id": "inst:0MMKrFmIr4b8IaMYvCQ09W",
+			"ex:globalId": "0MMKrFmIr4b8IaMYvCQ09W",
+			"rdfs:label": "T-Stück rund 90 Grad:Standard:7297068"
+		},
+		{
+			"@id": "inst:0MMKrFmIr4b8IaMYvCQ09_",
+			"ex:globalId": "0MMKrFmIr4b8IaMYvCQ09_"
+		},
+		{
+			"@id": "inst:0MMKrFmIr4b8IaMYvCQ0Bh",
+			"ex:globalId": "0MMKrFmIr4b8IaMYvCQ0Bh"
+		},
+		{
+			"@id": "inst:0MMKrFmIr4b8IaMYvCQ0BW",
+			"ex:globalId": "0MMKrFmIr4b8IaMYvCQ0BW"
+		},
+		{
+			"@id": "inst:0MMKrFmIr4b8IaMYvCQ0AW",
+			"ex:globalId": "0MMKrFmIr4b8IaMYvCQ0AW"
+		},
+		{
+			"@id": "inst:0MMKrFmIr4b8IaMYvCQ0Ax",
+			"ex:globalId": "0MMKrFmIr4b8IaMYvCQ0Ax"
+		},
+		{
+			"@id": "inst:0MMKrFmIr4b8IaMYvCQ0Dg",
+			"ex:globalId": "0MMKrFmIr4b8IaMYvCQ0Dg"
+		},
+		{
+			"@id": "inst:0MMKrFmIr4b8IaMYvCQ0Dc",
+			"ex:globalId": "0MMKrFmIr4b8IaMYvCQ0Dc"
+		},
+		{
+			"@id": "inst:0MMKrFmIr4b8IaMYvCQ0Dq",
+			"ex:globalId": "0MMKrFmIr4b8IaMYvCQ0Dq",
+			"rdfs:label": "T-Stück rund 90 Grad:Standard:7297336"
+		},
+		{
+			"@id": "inst:0MMKrFmIr4b8IaMYvCQ0Do",
+			"ex:globalId": "0MMKrFmIr4b8IaMYvCQ0Do"
+		},
+		{
+			"@id": "inst:2KUxeOjIPDYPBadpDc_vc8",
+			"ex:globalId": "2KUxeOjIPDYPBadpDc_vc8"
+		},
+		{
+			"@id": "inst:2KUxeOjIPDYPBadpDc_vea",
+			"ex:globalId": "2KUxeOjIPDYPBadpDc_vea"
+		},
+		{
+			"@id": "inst:2KUxeOjIPDYPBadpDc_viZ",
+			"ex:globalId": "2KUxeOjIPDYPBadpDc_viZ"
+		},
+		{
+			"@id": "inst:2KUxeOjIPDYPBadpDc_vp4",
+			"ex:globalId": "2KUxeOjIPDYPBadpDc_vp4"
+		},
+		{
+			"@id": "inst:2KUxeOjIPDYPBadpDc_vpJ",
+			"ex:globalId": "2KUxeOjIPDYPBadpDc_vpJ"
+		},
+		{
+			"@id": "inst:2KUxeOjIPDYPBadpDc_vqV",
+			"ex:globalId": "2KUxeOjIPDYPBadpDc_vqV"
+		},
+		{
+			"@id": "inst:2KUxeOjIPDYPBadpDc_vqT",
+			"ex:globalId": "2KUxeOjIPDYPBadpDc_vqT",
+			"rdfs:label": "\\X2\\00DC\\X0\\bergang Kupfer:Standard:7308671"
+		},
+		{
+			"@id": "inst:2KUxeOjIPDYPBadpDc_vva",
+			"ex:globalId": "2KUxeOjIPDYPBadpDc_vva",
+			"rdfs:label": "\\X2\\00DC\\X0\\bergang Kupfer:Standard:7308806"
+		},
+		{
+			"@id": "inst:2KUxeOjIPDYPBadpDc_vvh",
+			"ex:globalId": "2KUxeOjIPDYPBadpDc_vvh"
+		},
+		{
+			"@id": "inst:2KUxeOjIPDYPBadpDc_vvH",
+			"ex:globalId": "2KUxeOjIPDYPBadpDc_vvH",
+			"rdfs:label": "T-Stück Kupfer:Standard:7308851"
+		},
+		{
+			"@id": "inst:2KUxeOjIPDYPBadpDc_vuw",
+			"ex:globalId": "2KUxeOjIPDYPBadpDc_vuw",
+			"rdfs:label": "T-Stück Kupfer:Standard:7308888"
+		},
+		{
+			"@id": "inst:2KUxeOjIPDYPBadpDc_vxG",
+			"ex:globalId": "2KUxeOjIPDYPBadpDc_vxG"
+		},
+		{
+			"@id": "inst:2KUxeOjIPDYPBadpDc_vxT",
+			"ex:globalId": "2KUxeOjIPDYPBadpDc_vxT"
+		},
+		{
+			"@id": "inst:2KUxeOjIPDYPBadpDc_vzl",
+			"ex:globalId": "2KUxeOjIPDYPBadpDc_vzl"
+		},
+		{
+			"@id": "inst:2KUxeOjIPDYPBadpDc_vzj",
+			"ex:globalId": "2KUxeOjIPDYPBadpDc_vzj",
+			"rdfs:label": "\\X2\\00DC\\X0\\bergang Kupfer:Standard:7309071"
+		},
+		{
+			"@id": "inst:2KUxeOjIPDYPBadpDc_vyk",
+			"ex:globalId": "2KUxeOjIPDYPBadpDc_vyk"
+		},
+		{
+			"@id": "inst:2KUxeOjIPDYPBadpDc_vyi",
+			"ex:globalId": "2KUxeOjIPDYPBadpDc_vyi",
+			"rdfs:label": "\\X2\\00DC\\X0\\bergang Kupfer:Standard:7309134"
+		},
+		{
+			"@id": "inst:2KUxeOjIPDYPBadpDc_v%24g",
+			"ex:globalId": "2KUxeOjIPDYPBadpDc_v$g",
+			"rdfs:label": "T-Stück Kupfer:Standard:7309192"
+		},
+		{
+			"@id": "inst:2KUxeOjIPDYPBadpDc_v%24D",
+			"ex:globalId": "2KUxeOjIPDYPBadpDc_v$D",
+			"rdfs:label": "T-Stück Kupfer:Standard:7309231"
+		},
+		{
+			"@id": "inst:2KUxeOjIPDYPBadpDc_v1e",
+			"ex:globalId": "2KUxeOjIPDYPBadpDc_v1e"
+		},
+		{
+			"@id": "inst:2KUxeOjIPDYPBadpDc_v1p",
+			"ex:globalId": "2KUxeOjIPDYPBadpDc_v1p"
+		},
+		{
+			"@id": "inst:2KUxeOjIPDYPBadpDc_v1t",
+			"ex:globalId": "2KUxeOjIPDYPBadpDc_v1t"
+		},
+		{
+			"@id": "inst:0MMKrFmIr4b8IaMYvCQ0qN",
+			"ex:globalId": "0MMKrFmIr4b8IaMYvCQ0qN",
+			"rdfs:label": "Round Duct:Bogen - T-Stück:7296859"
+		},
+		{
+			"@id": "inst:0MMKrFmIr4b8IaMYvCQ0qf",
+			"ex:globalId": "0MMKrFmIr4b8IaMYvCQ0qf",
+			"rdfs:label": "Round Duct:Bogen - T-Stück:7296869"
+		},
+		{
+			"@id": "inst:0MMKrFmIr4b8IaMYvCQ0tn",
+			"ex:globalId": "0MMKrFmIr4b8IaMYvCQ0tn",
+			"rdfs:label": "Round Duct:Bogen - T-Stück:7296957"
+		},
+		{
+			"@id": "inst:0MMKrFmIr4b8IaMYvCQ091",
+			"ex:globalId": "0MMKrFmIr4b8IaMYvCQ091",
+			"rdfs:label": "Round Duct:Bogen - T-Stück:7297037"
+		},
+		{
+			"@id": "inst:0MMKrFmIr4b8IaMYvCQ09e",
+			"ex:globalId": "0MMKrFmIr4b8IaMYvCQ09e",
+			"rdfs:label": "Round Duct:Bogen - T-Stück:7297060"
+		},
+		{
+			"@id": "inst:0MMKrFmIr4b8IaMYvCQ09X",
+			"ex:globalId": "0MMKrFmIr4b8IaMYvCQ09X",
+			"rdfs:label": "Round Duct:Bogen - T-Stück:7297069"
+		},
+		{
+			"@id": "inst:0MMKrFmIr4b8IaMYvCQ0BR",
+			"ex:globalId": "0MMKrFmIr4b8IaMYvCQ0BR",
+			"rdfs:label": "Round Duct:Bogen - T-Stück:7297175"
+		},
+		{
+			"@id": "inst:0MMKrFmIr4b8IaMYvCQ0Bl",
+			"ex:globalId": "0MMKrFmIr4b8IaMYvCQ0Bl",
+			"rdfs:label": "Round Duct:Bogen - T-Stück:7297187"
+		},
+		{
+			"@id": "inst:0MMKrFmIr4b8IaMYvCQ0Be",
+			"ex:globalId": "0MMKrFmIr4b8IaMYvCQ0Be",
+			"rdfs:label": "Round Duct:Bogen - T-Stück:7297188"
+		},
+		{
+			"@id": "inst:0MMKrFmIr4b8IaMYvCQ0Ak",
+			"ex:globalId": "0MMKrFmIr4b8IaMYvCQ0Ak",
+			"rdfs:label": "Round Duct:Bogen - T-Stück:7297250"
+		},
+		{
+			"@id": "inst:0MMKrFmIr4b8IaMYvCQ0AZ",
+			"ex:globalId": "0MMKrFmIr4b8IaMYvCQ0AZ",
+			"rdfs:label": "Round Duct:Bogen - T-Stück:7297263"
+		},
+		{
+			"@id": "inst:0MMKrFmIr4b8IaMYvCQ0DQ",
+			"ex:globalId": "0MMKrFmIr4b8IaMYvCQ0DQ",
+			"rdfs:label": "Round Duct:Bogen - T-Stück:7297302"
+		},
+		{
+			"@id": "inst:0MMKrFmIr4b8IaMYvCQ0Dk",
+			"ex:globalId": "0MMKrFmIr4b8IaMYvCQ0Dk",
+			"rdfs:label": "Round Duct:Bogen - T-Stück:7297314"
+		},
+		{
+			"@id": "inst:0MMKrFmIr4b8IaMYvCQ0Dl",
+			"ex:globalId": "0MMKrFmIr4b8IaMYvCQ0Dl",
+			"rdfs:label": "Round Duct:Bogen - T-Stück:7297315"
+		},
+		{
+			"@id": "inst:0MMKrFmIr4b8IaMYvCQ0Dy",
+			"ex:globalId": "0MMKrFmIr4b8IaMYvCQ0Dy",
+			"rdfs:label": "Round Duct:Bogen - T-Stück:7297328"
+		},
+		{
+			"@id": "inst:0MMKrFmIr4b8IaMYvCQ0Dr",
+			"ex:globalId": "0MMKrFmIr4b8IaMYvCQ0Dr",
+			"rdfs:label": "Round Duct:Bogen - T-Stück:7297337"
+		},
+		{
+			"@id": "inst:0MMKrFmIr4b8IaMYvCQ39N",
+			"ex:globalId": "0MMKrFmIr4b8IaMYvCQ39N",
+			"rdfs:label": "Pipe Types:Kupfer - Hartgelätet:7301147"
+		},
+		{
+			"@id": "inst:0MMKrFmIr4b8IaMYvCQ388",
+			"ex:globalId": "0MMKrFmIr4b8IaMYvCQ388",
+			"rdfs:label": "Pipe Types:Kupfer - Hartgelätet:7301188"
+		},
+		{
+			"@id": "inst:0MMKrFmIr4b8IaMYvCQ38X",
+			"ex:globalId": "0MMKrFmIr4b8IaMYvCQ38X",
+			"rdfs:label": "Pipe Types:Kupfer - Hartgelätet:7301229"
+		},
+		{
+			"@id": "inst:0MMKrFmIr4b8IaMYvCQ3BI",
+			"ex:globalId": "0MMKrFmIr4b8IaMYvCQ3BI",
+			"rdfs:label": "Pipe Types:Kupfer - Hartgelätet:7301278"
+		},
+		{
+			"@id": "inst:0MMKrFmIr4b8IaMYvCQ2d_",
+			"ex:globalId": "0MMKrFmIr4b8IaMYvCQ2d_",
+			"rdfs:label": "Pipe Types:Kupfer - Hartgelätet:7304114"
+		},
+		{
+			"@id": "inst:0MMKrFmIr4b8IaMYvCQ2cI",
+			"ex:globalId": "0MMKrFmIr4b8IaMYvCQ2cI",
+			"rdfs:label": "Pipe Types:Kupfer - Hartgelätet:7304158"
+		},
+		{
+			"@id": "inst:0MMKrFmIr4b8IaMYvCQ2co",
+			"ex:globalId": "0MMKrFmIr4b8IaMYvCQ2co",
+			"rdfs:label": "Pipe Types:Kupfer - Hartgelätet:7304190"
+		},
+		{
+			"@id": "inst:0MMKrFmIr4b8IaMYvCQ2vI",
+			"ex:globalId": "0MMKrFmIr4b8IaMYvCQ2vI",
+			"rdfs:label": "Pipe Types:Kupfer - Hartgelätet:7304222"
+		},
+		{
+			"@id": "inst:0MMKrFmIr4b8IaMYvCQ2zJ",
+			"ex:globalId": "0MMKrFmIr4b8IaMYvCQ2zJ",
+			"rdfs:label": "Pipe Types:Kupfer - Hartgelätet:7304479"
+		},
+		{
+			"@id": "inst:0MMKrFmIr4b8IaMYvCQ2zt",
+			"ex:globalId": "0MMKrFmIr4b8IaMYvCQ2zt",
+			"rdfs:label": "Pipe Types:Kupfer - Hartgelätet:7304507"
+		},
+		{
+			"@id": "inst:0MMKrFmIr4b8IaMYvCQ2yN",
+			"ex:globalId": "0MMKrFmIr4b8IaMYvCQ2yN",
+			"rdfs:label": "Pipe Types:Kupfer - Hartgelätet:7304539"
+		},
+		{
+			"@id": "inst:0MMKrFmIr4b8IaMYvCQ2%24F",
+			"ex:globalId": "0MMKrFmIr4b8IaMYvCQ2$F",
+			"rdfs:label": "Pipe Types:Kupfer - Hartgelätet:7304579"
+		},
+		{
+			"@id": "inst:2KUxeOjIPDYPBadpDc_vpw",
+			"ex:globalId": "2KUxeOjIPDYPBadpDc_vpw",
+			"rdfs:label": "Pipe Types:Kupfer - Hartgelätet:7308440"
+		},
+		{
+			"@id": "inst:2KUxeOjIPDYPBadpDc_vp9",
+			"ex:globalId": "2KUxeOjIPDYPBadpDc_vp9",
+			"rdfs:label": "Pipe Types:Kupfer - Hartgelätet:7308459"
+		},
+		{
+			"@id": "inst:2KUxeOjIPDYPBadpDc_vru",
+			"ex:globalId": "2KUxeOjIPDYPBadpDc_vru",
+			"rdfs:label": "Pipe Types:Kupfer - Hartgelätet:7308570"
+		},
+		{
+			"@id": "inst:2KUxeOjIPDYPBadpDc_vqQ",
+			"ex:globalId": "2KUxeOjIPDYPBadpDc_vqQ",
+			"rdfs:label": "Pipe Types:Kupfer - Hartgelätet:7308664"
+		},
+		{
+			"@id": "inst:2KUxeOjIPDYPBadpDc_vsQ",
+			"ex:globalId": "2KUxeOjIPDYPBadpDc_vsQ",
+			"rdfs:label": "Pipe Types:Kupfer - Hartgelätet:7308792"
+		},
+		{
+			"@id": "inst:2KUxeOjIPDYPBadpDc_vvc",
+			"ex:globalId": "2KUxeOjIPDYPBadpDc_vvc",
+			"rdfs:label": "Pipe Types:Kupfer - Hartgelätet:7308804"
+		},
+		{
+			"@id": "inst:2KUxeOjIPDYPBadpDc_vv0",
+			"ex:globalId": "2KUxeOjIPDYPBadpDc_vv0",
+			"rdfs:label": "Pipe Types:Kupfer - Hartgelätet:7308834"
+		},
+		{
+			"@id": "inst:2KUxeOjIPDYPBadpDc_vvM",
+			"ex:globalId": "2KUxeOjIPDYPBadpDc_vvM",
+			"rdfs:label": "Pipe Types:Kupfer - Hartgelätet:7308852"
+		},
+		{
+			"@id": "inst:2KUxeOjIPDYPBadpDc_vuf",
+			"ex:globalId": "2KUxeOjIPDYPBadpDc_vuf",
+			"rdfs:label": "Pipe Types:Kupfer - Hartgelätet:7308875"
+		},
+		{
+			"@id": "inst:2KUxeOjIPDYPBadpDc_vux",
+			"ex:globalId": "2KUxeOjIPDYPBadpDc_vux",
+			"rdfs:label": "Pipe Types:Kupfer - Hartgelätet:7308889"
+		},
+		{
+			"@id": "inst:2KUxeOjIPDYPBadpDc_vx8",
+			"ex:globalId": "2KUxeOjIPDYPBadpDc_vx8",
+			"rdfs:label": "Pipe Types:Kupfer - Hartgelätet:7308970"
+		},
+		{
+			"@id": "inst:2KUxeOjIPDYPBadpDc_vxK",
+			"ex:globalId": "2KUxeOjIPDYPBadpDc_vxK",
+			"rdfs:label": "Pipe Types:Kupfer - Hartgelätet:7308982"
+		},
+		{
+			"@id": "inst:2KUxeOjIPDYPBadpDc_vwS",
+			"ex:globalId": "2KUxeOjIPDYPBadpDc_vwS",
+			"rdfs:label": "Pipe Types:Kupfer - Hartgelätet:7309054"
+		},
+		{
+			"@id": "inst:2KUxeOjIPDYPBadpDc_vzT",
+			"ex:globalId": "2KUxeOjIPDYPBadpDc_vzT",
+			"rdfs:label": "Pipe Types:Kupfer - Hartgelätet:7309119"
+		},
+		{
+			"@id": "inst:2KUxeOjIPDYPBadpDc_vyP",
+			"ex:globalId": "2KUxeOjIPDYPBadpDc_vyP",
+			"rdfs:label": "Pipe Types:Kupfer - Hartgelätet:7309179"
+		},
+		{
+			"@id": "inst:2KUxeOjIPDYPBadpDc_v%24h",
+			"ex:globalId": "2KUxeOjIPDYPBadpDc_v$h",
+			"rdfs:label": "Pipe Types:Kupfer - Hartgelätet:7309193"
+		},
+		{
+			"@id": "inst:2KUxeOjIPDYPBadpDc_v%242",
+			"ex:globalId": "2KUxeOjIPDYPBadpDc_v$2",
+			"rdfs:label": "Pipe Types:Kupfer - Hartgelätet:7309216"
+		},
+		{
+			"@id": "inst:2KUxeOjIPDYPBadpDc_v%24I",
+			"ex:globalId": "2KUxeOjIPDYPBadpDc_v$I",
+			"rdfs:label": "Pipe Types:Kupfer - Hartgelätet:7309232"
+		},
+		{
+			"@id": "inst:2KUxeOjIPDYPBadpDc_v1a",
+			"ex:globalId": "2KUxeOjIPDYPBadpDc_v1a",
+			"rdfs:label": "Pipe Types:Kupfer - Hartgelätet:7309318"
+		},
+		{
+			"@id": "inst:2KUxeOjIPDYPBadpDc_v1b",
+			"ex:globalId": "2KUxeOjIPDYPBadpDc_v1b",
+			"rdfs:label": "Pipe Types:Kupfer - Hartgelätet:7309319"
+		},
+		{
+			"@id": "inst:1DcS6zAGj9ABJnI9yfSQP%24",
+			"ex:globalId": "1DcS6zAGj9ABJnI9yfSQP$",
+			"rdfs:description": "Flow",
+			"ex:flowDirection": "SINK"
+		},
+		{
+			"@id": "inst:3rmHrCGYbFJvOhEPVB092U",
+			"ex:globalId": "3rmHrCGYbFJvOhEPVB092U",
+			"rdfs:description": "Flow",
+			"ex:flowDirection": "SOURCE"
+		},
+		{
+			"@id": "inst:2v6OEaEVjAiPG3kSwqrepP",
+			"ex:globalId": "2v6OEaEVjAiPG3kSwqrepP",
+			"rdfs:description": "Flow",
+			"ex:flowDirection": "SINK"
+		},
+		{
+			"@id": "inst:2WuaoV9O16R9iwO6K1Ga3Q",
+			"ex:globalId": "2WuaoV9O16R9iwO6K1Ga3Q",
+			"rdfs:description": "Flow",
+			"ex:flowDirection": "SOURCE"
+		},
+		{
+			"@id": "inst:3BFZDcRyXDixiU_kfN4QKC",
+			"ex:globalId": "3BFZDcRyXDixiU_kfN4QKC",
+			"rdfs:description": "Flow",
+			"ex:flowDirection": "SINK"
+		},
+		{
+			"@id": "inst:3SUhOvzPL0FBo_rb6CM2CP",
+			"ex:globalId": "3SUhOvzPL0FBo_rb6CM2CP",
+			"rdfs:description": "Flow",
+			"ex:flowDirection": "SOURCE"
+		},
+		{
+			"@id": "inst:3gIJJen3L6ROHxTNKRTCkz",
+			"ex:globalId": "3gIJJen3L6ROHxTNKRTCkz",
+			"rdfs:description": "Flow",
+			"ex:flowDirection": "SOURCEANDSINK"
+		},
+		{
+			"@id": "inst:0AV1xxSQDDFh_DbXnvxmix",
+			"ex:globalId": "0AV1xxSQDDFh_DbXnvxmix",
+			"rdfs:description": "Flow",
+			"ex:flowDirection": "SOURCEANDSINK"
+		},
+		{
+			"@id": "inst:0VIEvP6ZXBcxBo25sZwk6_",
+			"ex:globalId": "0VIEvP6ZXBcxBo25sZwk6_",
+			"rdfs:description": "Flow",
+			"ex:flowDirection": "SINK"
+		},
+		{
+			"@id": "inst:2U_C7Jvmz3nhlnjgC0SV2I",
+			"ex:globalId": "2U_C7Jvmz3nhlnjgC0SV2I",
+			"rdfs:description": "Flow",
+			"ex:flowDirection": "SOURCE"
+		},
+		{
+			"@id": "inst:05m8ENwT96fPm8BlJgcsEE",
+			"ex:globalId": "05m8ENwT96fPm8BlJgcsEE",
+			"rdfs:description": "Flow",
+			"ex:flowDirection": "SINK"
+		},
+		{
+			"@id": "inst:0RZTPau0n4xg%24EG79qhkgg",
+			"ex:globalId": "0RZTPau0n4xg$EG79qhkgg",
+			"rdfs:description": "Flow",
+			"ex:flowDirection": "SOURCE"
+		},
+		{
+			"@id": "inst:1OVwJDkvr89xmIay1IkXZK",
+			"ex:globalId": "1OVwJDkvr89xmIay1IkXZK",
+			"rdfs:description": "Flow",
+			"ex:flowDirection": "SINK"
+		},
+		{
+			"@id": "inst:3BZ0DAUKn38QBX1DvE5Goj",
+			"ex:globalId": "3BZ0DAUKn38QBX1DvE5Goj",
+			"rdfs:description": "Flow",
+			"ex:flowDirection": "SOURCE"
+		},
+		{
+			"@id": "inst:1CbjdhUQr8qxaOrtpmW0jH",
+			"ex:globalId": "1CbjdhUQr8qxaOrtpmW0jH",
+			"rdfs:description": "Flow",
+			"ex:flowDirection": "SOURCEANDSINK"
+		},
+		{
+			"@id": "inst:0suXmVouH1leiMSoemjYUd",
+			"ex:globalId": "0suXmVouH1leiMSoemjYUd",
+			"rdfs:description": "Flow",
+			"ex:flowDirection": "SOURCEANDSINK"
+		},
+		{
+			"@id": "inst:2nKgIuVJPAs8w2Op79Wl%24X",
+			"ex:globalId": "2nKgIuVJPAs8w2Op79Wl$X",
+			"rdfs:description": "Flow",
+			"ex:flowDirection": "SINK"
+		},
+		{
+			"@id": "inst:1SBSAA4Jn5%249bU%24Yh1sb0e",
+			"ex:globalId": "1SBSAA4Jn5$9bU$Yh1sb0e",
+			"rdfs:description": "Flow",
+			"ex:flowDirection": "SOURCE"
+		},
+		{
+			"@id": "inst:23V_t6c052jwu5Y95Z5xbU",
+			"ex:globalId": "23V_t6c052jwu5Y95Z5xbU",
+			"rdfs:description": "Flow",
+			"ex:flowDirection": "SINK"
+		},
+		{
+			"@id": "inst:2_GEP9rUH67h4diwe_kVUo",
+			"ex:globalId": "2_GEP9rUH67h4diwe_kVUo",
+			"rdfs:description": "Flow",
+			"ex:flowDirection": "SOURCE"
+		},
+		{
+			"@id": "inst:3silJ0QTj0YRLNmKapFDFX",
+			"ex:globalId": "3silJ0QTj0YRLNmKapFDFX",
+			"rdfs:description": "Flow",
+			"ex:flowDirection": "SINK"
+		},
+		{
+			"@id": "inst:3luVQauoz5QuHnsFOP2iy3",
+			"ex:globalId": "3luVQauoz5QuHnsFOP2iy3",
+			"rdfs:description": "Flow",
+			"ex:flowDirection": "SOURCE"
+		},
+		{
+			"@id": "inst:3ci1r2gLfCQA31XNBzCAIj",
+			"ex:globalId": "3ci1r2gLfCQA31XNBzCAIj",
+			"rdfs:description": "Flow",
+			"ex:flowDirection": "SINK"
+		},
+		{
+			"@id": "inst:3kkNm%24RsD9tArQbCGfJLkR",
+			"ex:globalId": "3kkNm$RsD9tArQbCGfJLkR",
+			"rdfs:description": "Flow",
+			"ex:flowDirection": "SOURCE"
+		},
+		{
+			"@id": "inst:2eL5vEin90oekCtEyr63rD",
+			"ex:globalId": "2eL5vEin90oekCtEyr63rD",
+			"rdfs:description": "Flow",
+			"ex:flowDirection": "SOURCE"
+		},
+		{
+			"@id": "inst:16kF87k059lxJEAgmPApMt",
+			"ex:globalId": "16kF87k059lxJEAgmPApMt",
+			"rdfs:description": "Flow",
+			"ex:flowDirection": "SINK"
+		},
+		{
+			"@id": "inst:11boV6_YP1KhRxb1BNopG5",
+			"ex:globalId": "11boV6_YP1KhRxb1BNopG5",
+			"rdfs:description": "Flow",
+			"ex:flowDirection": "SOURCE"
+		},
+		{
+			"@id": "inst:0gHQhz1fvD7gcfhxAtXQoF",
+			"ex:globalId": "0gHQhz1fvD7gcfhxAtXQoF",
+			"rdfs:description": "Flow",
+			"ex:flowDirection": "SINK"
+		},
+		{
+			"@id": "inst:0bGzgmLcX2rvKegeZ6t1O5",
+			"ex:globalId": "0bGzgmLcX2rvKegeZ6t1O5",
+			"rdfs:description": "Flow",
+			"ex:flowDirection": "SOURCE"
+		},
+		{
+			"@id": "inst:1%24y6snh91EmhQXl0xWaLVh",
+			"ex:globalId": "1$y6snh91EmhQXl0xWaLVh",
+			"rdfs:description": "Flow",
+			"ex:flowDirection": "SINK"
+		},
+		{
+			"@id": "inst:3pFk16HTbEsgI%24ypJS8znj",
+			"ex:globalId": "3pFk16HTbEsgI$ypJS8znj",
+			"rdfs:description": "Flow",
+			"ex:flowDirection": "SOURCE"
+		},
+		{
+			"@id": "inst:2o%24KVHsB97GwqBgVvUCJQG",
+			"ex:globalId": "2o$KVHsB97GwqBgVvUCJQG",
+			"rdfs:description": "Flow",
+			"ex:flowDirection": "SINK"
+		},
+		{
+			"@id": "inst:3LN5fgh7f4kh8kYRU5aNUl",
+			"ex:globalId": "3LN5fgh7f4kh8kYRU5aNUl",
+			"rdfs:description": "Flow",
+			"ex:flowDirection": "SOURCE"
+		},
+		{
+			"@id": "inst:27GpbaRMf9ZRT_uIaM1dZx",
+			"ex:globalId": "27GpbaRMf9ZRT_uIaM1dZx",
+			"rdfs:description": "Flow",
+			"ex:flowDirection": "SINK"
+		},
+		{
+			"@id": "inst:2iBq9tsR191PqHkSMDum4%24",
+			"ex:globalId": "2iBq9tsR191PqHkSMDum4$",
+			"rdfs:description": "Flow",
+			"ex:flowDirection": "SOURCE"
+		},
+		{
+			"@id": "inst:1v64W7DRbBDx0IbXsFxBOk",
+			"ex:globalId": "1v64W7DRbBDx0IbXsFxBOk",
+			"rdfs:description": "Flow",
+			"ex:flowDirection": "SOURCEANDSINK"
+		},
+		{
+			"@id": "inst:3WSSvFrjv4oeM8yGgOtQa6",
+			"ex:globalId": "3WSSvFrjv4oeM8yGgOtQa6",
+			"rdfs:description": "Flow",
+			"ex:flowDirection": "SOURCEANDSINK"
+		},
+		{
+			"@id": "inst:1nJWkYBizFeOdNcBj3WwrS",
+			"ex:globalId": "1nJWkYBizFeOdNcBj3WwrS",
+			"rdfs:description": "Flow",
+			"ex:flowDirection": "SOURCEANDSINK"
+		},
+		{
+			"@id": "inst:0j9QXiJ_TEHRgoNmGZ%24Vy5",
+			"ex:globalId": "0j9QXiJ_TEHRgoNmGZ$Vy5",
+			"rdfs:description": "Flow",
+			"ex:flowDirection": "SOURCEANDSINK"
+		},
+		{
+			"@id": "inst:2Cmh03RuH0qOvq%24XFjhCO2",
+			"ex:globalId": "2Cmh03RuH0qOvq$XFjhCO2",
+			"rdfs:description": "Flow",
+			"ex:flowDirection": "SOURCEANDSINK"
+		},
+		{
+			"@id": "inst:2gFzRUFP1Ft9ZD8nQlFHdV",
+			"ex:globalId": "2gFzRUFP1Ft9ZD8nQlFHdV",
+			"rdfs:description": "Flow",
+			"ex:flowDirection": "SOURCEANDSINK"
+		},
+		{
+			"@id": "inst:354Q1y9Gj1Gwr7nSDCp7ve",
+			"ex:globalId": "354Q1y9Gj1Gwr7nSDCp7ve",
+			"rdfs:description": "Flow",
+			"ex:flowDirection": "SOURCEANDSINK"
+		},
+		{
+			"@id": "inst:0MhDncsuf51ujmRt1hXqyl",
+			"ex:globalId": "0MhDncsuf51ujmRt1hXqyl",
+			"rdfs:description": "Flow",
+			"ex:flowDirection": "SOURCEANDSINK"
+		},
+		{
+			"@id": "inst:3D7NowwrvEUgAnyrJwksqT",
+			"ex:globalId": "3D7NowwrvEUgAnyrJwksqT",
+			"rdfs:description": "Flow",
+			"ex:flowDirection": "SOURCEANDSINK"
+		},
+		{
+			"@id": "inst:3bG0ajHvX2NPqLZnYBlkMm",
+			"ex:globalId": "3bG0ajHvX2NPqLZnYBlkMm",
+			"rdfs:description": "Flow",
+			"ex:flowDirection": "SOURCEANDSINK"
+		},
+		{
+			"@id": "inst:3w077238fDgew1QocLKxTy",
+			"ex:globalId": "3w077238fDgew1QocLKxTy",
+			"rdfs:description": "Flow",
+			"ex:flowDirection": "SOURCEANDSINK"
+		},
+		{
+			"@id": "inst:1MDWd5NxD3WhZNPcj0D7eT",
+			"ex:globalId": "1MDWd5NxD3WhZNPcj0D7eT",
+			"rdfs:description": "Flow",
+			"ex:flowDirection": "SOURCEANDSINK"
+		},
+		{
+			"@id": "inst:3QbzCxhNn88wv_ZJL2ELZj",
+			"ex:globalId": "3QbzCxhNn88wv_ZJL2ELZj",
+			"rdfs:description": "Flow",
+			"ex:flowDirection": "SOURCEANDSINK"
+		},
+		{
+			"@id": "inst:16JXEW5kr1_Rojo52QeaPZ",
+			"ex:globalId": "16JXEW5kr1_Rojo52QeaPZ",
+			"rdfs:description": "Flow",
+			"ex:flowDirection": "SOURCEANDSINK"
+		},
+		{
+			"@id": "inst:2tmc8eG4P7MhV8z1u9lYe7",
+			"ex:globalId": "2tmc8eG4P7MhV8z1u9lYe7",
+			"rdfs:description": "Flow",
+			"ex:flowDirection": "SOURCEANDSINK"
+		},
+		{
+			"@id": "inst:1abwS1GifCEAVgrb_wvxDq",
+			"ex:globalId": "1abwS1GifCEAVgrb_wvxDq",
+			"rdfs:description": "Flow",
+			"ex:flowDirection": "SOURCEANDSINK"
+		},
+		{
+			"@id": "inst:3cxWR3H%249Brg1IjYEAsRYS",
+			"ex:globalId": "3cxWR3H$9Brg1IjYEAsRYS",
+			"rdfs:description": "Flow",
+			"ex:flowDirection": "SOURCEANDSINK"
+		},
+		{
+			"@id": "inst:3NxTwpqmz8nwnEO_iJ4fJt",
+			"ex:globalId": "3NxTwpqmz8nwnEO_iJ4fJt",
+			"rdfs:description": "Flow",
+			"ex:flowDirection": "SOURCEANDSINK"
+		},
+		{
+			"@id": "inst:0V4Fk3sKv9fA%24xQ5%24wpRRs",
+			"ex:globalId": "0V4Fk3sKv9fA$xQ5$wpRRs",
+			"rdfs:description": "Flow",
+			"ex:flowDirection": "SOURCEANDSINK"
+		},
+		{
+			"@id": "inst:26lUTvJdbCUx7il%24mYqkrZ",
+			"ex:globalId": "26lUTvJdbCUx7il$mYqkrZ",
+			"rdfs:description": "Flow",
+			"ex:flowDirection": "SOURCEANDSINK"
+		},
+		{
+			"@id": "inst:3KAxHi0vP8hvSNmYaBTCBs",
+			"ex:globalId": "3KAxHi0vP8hvSNmYaBTCBs",
+			"rdfs:description": "Flow",
+			"ex:flowDirection": "SOURCEANDSINK"
+		},
+		{
+			"@id": "inst:0t7i1RNcrBdwUbB3gEwilf",
+			"ex:globalId": "0t7i1RNcrBdwUbB3gEwilf",
+			"rdfs:description": "Flow",
+			"ex:flowDirection": "SOURCEANDSINK"
+		},
+		{
+			"@id": "inst:0el8_LwJLF0RvIxTE3k68s",
+			"ex:globalId": "0el8_LwJLF0RvIxTE3k68s",
+			"rdfs:description": "Flow",
+			"ex:flowDirection": "SOURCEANDSINK"
+		},
+		{
+			"@id": "inst:2R84Hxnx9CkxTX7YMAcHAG",
+			"ex:globalId": "2R84Hxnx9CkxTX7YMAcHAG",
+			"rdfs:description": "Flow",
+			"ex:flowDirection": "SOURCEANDSINK"
+		},
+		{
+			"@id": "inst:2z_Tv3z%245C%24xmv6dZ0SkNI",
+			"ex:globalId": "2z_Tv3z$5C$xmv6dZ0SkNI",
+			"rdfs:description": "Flow",
+			"ex:flowDirection": "SOURCEANDSINK"
+		},
+		{
+			"@id": "inst:1WoVi_0pHBQxaBunTCJFxg",
+			"ex:globalId": "1WoVi_0pHBQxaBunTCJFxg",
+			"rdfs:description": "Flow",
+			"ex:flowDirection": "SOURCEANDSINK"
+		},
+		{
+			"@id": "inst:0RKwpocJr2oA4dIJZ195B8",
+			"ex:globalId": "0RKwpocJr2oA4dIJZ195B8",
+			"rdfs:description": "Flow",
+			"ex:flowDirection": "SOURCEANDSINK"
+		},
+		{
+			"@id": "inst:0QdFiLkMb9Ce5pRlx4bhck",
+			"ex:globalId": "0QdFiLkMb9Ce5pRlx4bhck",
+			"rdfs:description": "Flow",
+			"ex:flowDirection": "SOURCEANDSINK"
+		},
+		{
+			"@id": "inst:0PSu0fT691KBgPgFuUASsT",
+			"ex:globalId": "0PSu0fT691KBgPgFuUASsT",
+			"rdfs:description": "Flow",
+			"ex:flowDirection": "SOURCEANDSINK"
+		},
+		{
+			"@id": "inst:2v2WnmaGrCQBFUls3Tabns",
+			"ex:globalId": "2v2WnmaGrCQBFUls3Tabns",
+			"rdfs:description": "Flow",
+			"ex:flowDirection": "SOURCEANDSINK"
+		},
+		{
+			"@id": "inst:3Q9y3zJVHFffH9a_lynGIT",
+			"ex:globalId": "3Q9y3zJVHFffH9a_lynGIT",
+			"rdfs:description": "Flow",
+			"ex:flowDirection": "SOURCEANDSINK"
+		},
+		{
+			"@id": "inst:3zk1ci_L574wBbrnNovsFz",
+			"ex:globalId": "3zk1ci_L574wBbrnNovsFz",
+			"rdfs:description": "Flow",
+			"ex:flowDirection": "SOURCEANDSINK"
+		},
+		{
+			"@id": "inst:3z8FC_L1rAsQItBjW0Cjb9",
+			"ex:globalId": "3z8FC_L1rAsQItBjW0Cjb9",
+			"rdfs:description": "Flow",
+			"ex:flowDirection": "SOURCEANDSINK"
+		},
+		{
+			"@id": "inst:1gXL96MBP0PeMJf8aFaUEs",
+			"ex:globalId": "1gXL96MBP0PeMJf8aFaUEs",
+			"rdfs:description": "Flow",
+			"ex:flowDirection": "SOURCEANDSINK"
+		},
+		{
+			"@id": "inst:1jIhP7hDPDLBqfQkdMQMvA",
+			"ex:globalId": "1jIhP7hDPDLBqfQkdMQMvA",
+			"rdfs:description": "Flow",
+			"ex:flowDirection": "SOURCEANDSINK"
+		},
+		{
+			"@id": "inst:2636KyIgz6L9A9sA33ZhGP",
+			"ex:globalId": "2636KyIgz6L9A9sA33ZhGP",
+			"rdfs:description": "Flow",
+			"ex:flowDirection": "SOURCE"
+		},
+		{
+			"@id": "inst:0O2lXb1fLENPOfRSq6gEWz",
+			"ex:globalId": "0O2lXb1fLENPOfRSq6gEWz",
+			"rdfs:description": "Flow",
+			"ex:flowDirection": "SINK"
+		},
+		{
+			"@id": "inst:2DaKeAo8X0Dwt3yPqgs2SK",
+			"ex:globalId": "2DaKeAo8X0Dwt3yPqgs2SK",
+			"rdfs:description": "Flow",
+			"ex:flowDirection": "SOURCE"
+		},
+		{
+			"@id": "inst:0QP9ECOab0Mhj1BP0hrzrH",
+			"ex:globalId": "0QP9ECOab0Mhj1BP0hrzrH",
+			"rdfs:description": "Flow",
+			"ex:flowDirection": "SINK"
+		},
+		{
+			"@id": "inst:1NGF5HRTj6Cw09xHL8ispT",
+			"ex:globalId": "1NGF5HRTj6Cw09xHL8ispT",
+			"rdfs:description": "Flow",
+			"ex:flowDirection": "SINK"
+		},
+		{
+			"@id": "inst:1JQrS0Dor5o9u5p%24yhAeL1",
+			"ex:globalId": "1JQrS0Dor5o9u5p$yhAeL1",
+			"rdfs:description": "Flow",
+			"ex:flowDirection": "SOURCE"
+		},
+		{
+			"@id": "inst:2xtnWQgvr7MwOWxMR9lmRY",
+			"ex:globalId": "2xtnWQgvr7MwOWxMR9lmRY",
+			"rdfs:description": "Flow",
+			"ex:flowDirection": "SINK"
+		},
+		{
+			"@id": "inst:2ACV7woTDA_9Bm84_lzVZo",
+			"ex:globalId": "2ACV7woTDA_9Bm84_lzVZo",
+			"rdfs:description": "Flow",
+			"ex:flowDirection": "SOURCE"
+		},
+		{
+			"@id": "inst:176ZOJA4L7xwjdF%24%24yNDtx",
+			"ex:globalId": "176ZOJA4L7xwjdF$$yNDtx",
+			"rdfs:description": "Flow",
+			"ex:flowDirection": "SOURCE"
+		},
+		{
+			"@id": "inst:0OkMV6JxH2mwsVqaStOdWI",
+			"ex:globalId": "0OkMV6JxH2mwsVqaStOdWI",
+			"rdfs:description": "Flow",
+			"ex:flowDirection": "SINK"
+		},
+		{
+			"@id": "inst:3_S_uLDkrCY9ndy6cQ2yp6",
+			"ex:globalId": "3_S_uLDkrCY9ndy6cQ2yp6",
+			"rdfs:description": "Flow",
+			"ex:flowDirection": "SOURCE"
+		},
+		{
+			"@id": "inst:3nGmofHIL2iREx2rrnSJhS",
+			"ex:globalId": "3nGmofHIL2iREx2rrnSJhS",
+			"rdfs:description": "Flow",
+			"ex:flowDirection": "SINK"
+		},
+		{
+			"@id": "inst:0QR4QYmM56Px%24ZY38Aj1Os",
+			"ex:globalId": "0QR4QYmM56Px$ZY38Aj1Os",
+			"rdfs:description": "Flow",
+			"ex:flowDirection": "SINK"
+		},
+		{
+			"@id": "inst:1Cp1eTzhTB8Q8uLJ4vG4MA",
+			"ex:globalId": "1Cp1eTzhTB8Q8uLJ4vG4MA",
+			"rdfs:description": "Flow",
+			"ex:flowDirection": "SOURCE"
+		},
+		{
+			"@id": "inst:0MFWEJWdr8sABQT2Sz2ldq",
+			"ex:globalId": "0MFWEJWdr8sABQT2Sz2ldq",
+			"rdfs:description": "Flow",
+			"ex:flowDirection": "SINK"
+		},
+		{
+			"@id": "inst:2owHKPgOv8g8sI2tfKWaUF",
+			"ex:globalId": "2owHKPgOv8g8sI2tfKWaUF",
+			"rdfs:description": "Flow",
+			"ex:flowDirection": "SOURCE"
+		},
+		{
+			"@id": "inst:3Ad3OcGjP9mvyi9Vu5PStC",
+			"ex:globalId": "3Ad3OcGjP9mvyi9Vu5PStC",
+			"rdfs:description": "Flow",
+			"ex:flowDirection": "SINK"
+		},
+		{
+			"@id": "inst:3Fq_dZtLr4YPizSf4SmmoH",
+			"ex:globalId": "3Fq_dZtLr4YPizSf4SmmoH",
+			"rdfs:description": "Flow",
+			"ex:flowDirection": "SOURCE"
+		},
+		{
+			"@id": "inst:3jKcDnjvLFo9DsCT_G0GxG",
+			"ex:globalId": "3jKcDnjvLFo9DsCT_G0GxG",
+			"rdfs:description": "Flow",
+			"ex:flowDirection": "SINK"
+		},
+		{
+			"@id": "inst:11tBFAWqLCEO4Tx_41HJTn",
+			"ex:globalId": "11tBFAWqLCEO4Tx_41HJTn",
+			"rdfs:description": "Flow",
+			"ex:flowDirection": "SOURCE"
+		},
+		{
+			"@id": "inst:0QvAxPySX59Qzffz4BwSpi",
+			"ex:globalId": "0QvAxPySX59Qzffz4BwSpi",
+			"rdfs:description": "Flow",
+			"ex:flowDirection": "SINK"
+		},
+		{
+			"@id": "inst:14PKTjiQH8YhqBKRsAoftF",
+			"ex:globalId": "14PKTjiQH8YhqBKRsAoftF",
+			"rdfs:description": "Flow",
+			"ex:flowDirection": "SOURCE"
+		},
+		{
+			"@id": "inst:14wmvelD50meyu10WJSDw5",
+			"ex:globalId": "14wmvelD50meyu10WJSDw5",
+			"rdfs:description": "Flow",
+			"ex:flowDirection": "SINK"
+		},
+		{
+			"@id": "inst:3pAv866ZD4iwIkX5xqO8WB",
+			"ex:globalId": "3pAv866ZD4iwIkX5xqO8WB",
+			"rdfs:description": "Flow",
+			"ex:flowDirection": "SOURCE"
+		},
+		{
+			"@id": "inst:0RuW1GVcDDMRixppAAxWIA",
+			"ex:globalId": "0RuW1GVcDDMRixppAAxWIA",
+			"rdfs:description": "Flow",
+			"ex:flowDirection": "SINK"
+		},
+		{
+			"@id": "inst:0zYPV2sKL2ieFaaMghsNtp",
+			"ex:globalId": "0zYPV2sKL2ieFaaMghsNtp",
+			"rdfs:description": "Flow",
+			"ex:flowDirection": "SOURCE"
+		},
+		{
+			"@id": "inst:3fDjH1TeLDrhYUceRR5R3e",
+			"ex:globalId": "3fDjH1TeLDrhYUceRR5R3e",
+			"rdfs:description": "Flow",
+			"ex:flowDirection": "SINK"
+		},
+		{
+			"@id": "inst:0AyEJUtvH5DvKFl4_F5KhE",
+			"ex:globalId": "0AyEJUtvH5DvKFl4_F5KhE",
+			"rdfs:description": "Flow",
+			"ex:flowDirection": "SOURCE"
+		},
+		{
+			"@id": "inst:35SYyforDBJvAwOMEL2xub",
+			"ex:globalId": "35SYyforDBJvAwOMEL2xub",
+			"rdfs:description": "Flow",
+			"ex:flowDirection": "SINK"
+		},
+		{
+			"@id": "inst:1sYEahgMLD3xpVubyEwXqa",
+			"ex:globalId": "1sYEahgMLD3xpVubyEwXqa",
+			"rdfs:description": "Flow",
+			"ex:flowDirection": "SOURCE"
+		},
+		{
+			"@id": "inst:0wsY_9h2L1nh%24GqJSEJWMx",
+			"ex:globalId": "0wsY_9h2L1nh$GqJSEJWMx",
+			"rdfs:description": "Flow",
+			"ex:flowDirection": "SINK"
+		},
+		{
+			"@id": "inst:2nPTRNghr30vFgP3qKLK12",
+			"ex:globalId": "2nPTRNghr30vFgP3qKLK12",
+			"rdfs:description": "Flow",
+			"ex:flowDirection": "SOURCE"
+		},
+		{
+			"@id": "inst:0Y1hyN_vb1IAzzp5w71wGO",
+			"ex:globalId": "0Y1hyN_vb1IAzzp5w71wGO",
+			"rdfs:description": "Flow",
+			"ex:flowDirection": "SINK"
+		},
+		{
+			"@id": "inst:2cVyqEp399GOSEds_JC%24FX",
+			"ex:globalId": "2cVyqEp399GOSEds_JC$FX",
+			"rdfs:description": "Flow",
+			"ex:flowDirection": "SOURCE"
+		},
+		{
+			"@id": "inst:1ezOCTfQT9Ne%24vpl7zwS99",
+			"ex:globalId": "1ezOCTfQT9Ne$vpl7zwS99",
+			"rdfs:description": "Flow",
+			"ex:flowDirection": "SINK"
+		},
+		{
+			"@id": "inst:1xca1k7Iv98w2Ef_Op7LbK",
+			"ex:globalId": "1xca1k7Iv98w2Ef_Op7LbK",
+			"rdfs:description": "Flow",
+			"ex:flowDirection": "SOURCE"
+		},
+		{
+			"@id": "inst:3XhHZwiAT7AeQzcq9AqcVv",
+			"ex:globalId": "3XhHZwiAT7AeQzcq9AqcVv",
+			"rdfs:description": "Flow",
+			"ex:flowDirection": "SINK"
+		},
+		{
+			"@id": "inst:3qm1WB0RLFQgvYuxX7Mh%24b",
+			"ex:globalId": "3qm1WB0RLFQgvYuxX7Mh$b",
+			"rdfs:description": "Flow",
+			"ex:flowDirection": "SOURCE"
+		},
+		{
+			"@id": "inst:21EVETeUf2wx1cQ0ISoqNO",
+			"ex:globalId": "21EVETeUf2wx1cQ0ISoqNO",
+			"rdfs:description": "Flow",
+			"ex:flowDirection": "SINK"
+		},
+		{
+			"@id": "inst:3LvbDiGETAYBVHtVTfcdD0",
+			"ex:globalId": "3LvbDiGETAYBVHtVTfcdD0",
+			"rdfs:description": "Flow",
+			"ex:flowDirection": "SOURCE"
+		},
+		{
+			"@id": "inst:30TwiqDyH3fxjd7glgtDcX",
+			"ex:globalId": "30TwiqDyH3fxjd7glgtDcX",
+			"rdfs:description": "Flow",
+			"ex:flowDirection": "SINK"
+		},
+		{
+			"@id": "inst:05pd0%24Uf1Aa9AORrYUSLYu",
+			"ex:globalId": "05pd0$Uf1Aa9AORrYUSLYu",
+			"rdfs:description": "Flow",
+			"ex:flowDirection": "SOURCE"
+		},
+		{
+			"@id": "inst:2aqEmn1kf0%24QzQzpA_gcMZ",
+			"ex:globalId": "2aqEmn1kf0$QzQzpA_gcMZ",
+			"rdfs:description": "Flow",
+			"ex:flowDirection": "SINK"
+		},
+		{
+			"@id": "inst:3rzLVfu7rBSQ7A5XATBRmw",
+			"ex:globalId": "3rzLVfu7rBSQ7A5XATBRmw",
+			"rdfs:description": "Flow",
+			"ex:flowDirection": "SOURCE"
+		},
+		{
+			"@id": "inst:0usLafB2PDhQr4jFR_AWzc",
+			"ex:globalId": "0usLafB2PDhQr4jFR_AWzc",
+			"rdfs:description": "Flow",
+			"ex:flowDirection": "SINK"
+		},
+		{
+			"@id": "inst:3vexaCx2T1muF1ZUhhKHvJ",
+			"ex:globalId": "3vexaCx2T1muF1ZUhhKHvJ",
+			"rdfs:description": "Flow",
+			"ex:flowDirection": "SOURCE"
+		},
+		{
+			"@id": "inst:3jr%24K7pXLFDQ4J6eAlo0TN",
+			"ex:globalId": "3jr$K7pXLFDQ4J6eAlo0TN",
+			"rdfs:description": "Flow",
+			"ex:flowDirection": "SINK"
+		},
+		{
+			"@id": "inst:1rMnxni414MvcBbV5nCIvn",
+			"ex:globalId": "1rMnxni414MvcBbV5nCIvn",
+			"rdfs:description": "Flow",
+			"ex:flowDirection": "SOURCE"
+		},
+		{
+			"@id": "inst:1REjObOVv3auzZzfAH8H%24t",
+			"ex:globalId": "1REjObOVv3auzZzfAH8H$t",
+			"rdfs:description": "Flow",
+			"ex:flowDirection": "SINK"
+		},
+		{
+			"@id": "inst:1oikoGxLT57RqwITMlJL0h",
+			"ex:globalId": "1oikoGxLT57RqwITMlJL0h",
+			"rdfs:description": "Flow",
+			"ex:flowDirection": "SOURCE"
+		},
+		{
+			"@id": "inst:2v92b0TVfBmO4hoMBH8IIz",
+			"ex:globalId": "2v92b0TVfBmO4hoMBH8IIz",
+			"rdfs:description": "Flow",
+			"ex:flowDirection": "SOURCEANDSINK"
+		},
+		{
+			"@id": "inst:1iSh4zPQzB%249ayUcii2m9W",
+			"ex:globalId": "1iSh4zPQzB$9ayUcii2m9W",
+			"rdfs:description": "Flow",
+			"ex:flowDirection": "SINK"
+		},
+		{
+			"@id": "inst:3I5zyaU_z7IvVNmgsxyKlr",
+			"ex:globalId": "3I5zyaU_z7IvVNmgsxyKlr",
+			"rdfs:description": "Flow",
+			"ex:flowDirection": "SOURCE"
+		},
+		{
+			"@id": "inst:1oUxKY6ez6f9oyseuXXvgh",
+			"ex:globalId": "1oUxKY6ez6f9oyseuXXvgh",
+			"rdfs:description": "Flow",
+			"ex:flowDirection": "SINK"
+		},
+		{
+			"@id": "inst:0p6vQUGd93uOQcYpxUS2mL",
+			"ex:globalId": "0p6vQUGd93uOQcYpxUS2mL",
+			"rdfs:description": "Flow",
+			"ex:flowDirection": "SOURCE"
+		},
+		{
+			"@id": "inst:1oCSC6kYD0mOvoFghrJUuQ",
+			"ex:globalId": "1oCSC6kYD0mOvoFghrJUuQ",
+			"rdfs:description": "Flow",
+			"ex:flowDirection": "SINK"
+		},
+		{
+			"@id": "inst:3AgVZbdOT1hwxa0WXPZUKI",
+			"ex:globalId": "3AgVZbdOT1hwxa0WXPZUKI",
+			"rdfs:description": "Flow",
+			"ex:flowDirection": "SOURCE"
+		},
+		{
+			"@id": "inst:1ndGPVIIzDzRA81pu61GAb",
+			"ex:globalId": "1ndGPVIIzDzRA81pu61GAb",
+			"rdfs:description": "Flow",
+			"ex:flowDirection": "SINK"
+		},
+		{
+			"@id": "inst:2vuakA2vf0CwaCq5ccIVYl",
+			"ex:globalId": "2vuakA2vf0CwaCq5ccIVYl",
+			"rdfs:description": "Flow",
+			"ex:flowDirection": "SOURCE"
+		},
+		{
+			"@id": "inst:1piGVaIgD1IRaqCNqxemYR",
+			"ex:globalId": "1piGVaIgD1IRaqCNqxemYR",
+			"rdfs:description": "Flow",
+			"ex:flowDirection": "SINK"
+		},
+		{
+			"@id": "inst:3vo1G1Bkr4RPTGwDvZ77cq",
+			"ex:globalId": "3vo1G1Bkr4RPTGwDvZ77cq",
+			"rdfs:description": "Flow",
+			"ex:flowDirection": "SOURCE"
+		},
+		{
+			"@id": "inst:2LcSzdjJbBBA5N6YBY7%242T",
+			"ex:globalId": "2LcSzdjJbBBA5N6YBY7$2T",
+			"rdfs:description": "Flow",
+			"ex:flowDirection": "SINK"
+		},
+		{
+			"@id": "inst:3x%24avq1O562e%24P1C4qAW%24w",
+			"ex:globalId": "3x$avq1O562e$P1C4qAW$w",
+			"rdfs:description": "Flow",
+			"ex:flowDirection": "SOURCE"
+		},
+		{
+			"@id": "inst:1I3TxTjG13tQT6mchFTxRs",
+			"ex:globalId": "1I3TxTjG13tQT6mchFTxRs",
+			"rdfs:description": "Flow",
+			"ex:flowDirection": "SINK"
+		},
+		{
+			"@id": "inst:035eKFlej9jf0OjmzsmEDt",
+			"ex:globalId": "035eKFlej9jf0OjmzsmEDt",
+			"rdfs:description": "Flow",
+			"ex:flowDirection": "SOURCE"
+		},
+		{
+			"@id": "inst:1RdhbW2fPCuRPaJHVvQO6n",
+			"ex:globalId": "1RdhbW2fPCuRPaJHVvQO6n",
+			"rdfs:description": "Flow",
+			"ex:flowDirection": "SOURCEANDSINK"
+		},
+		{
+			"@id": "inst:2xUJQPQzzEqRQKH5OZBr5g",
+			"ex:globalId": "2xUJQPQzzEqRQKH5OZBr5g",
+			"rdfs:description": "Flow",
+			"ex:flowDirection": "SINK"
+		},
+		{
+			"@id": "inst:2AmRuUklbF4Pa_2c4TP2FV",
+			"ex:globalId": "2AmRuUklbF4Pa_2c4TP2FV",
+			"rdfs:description": "Flow",
+			"ex:flowDirection": "SOURCE"
+		},
+		{
+			"@id": "inst:021H8qd0X0ERefL89EgSeo",
+			"ex:globalId": "021H8qd0X0ERefL89EgSeo",
+			"rdfs:description": "Flow",
+			"ex:flowDirection": "SINK"
+		},
+		{
+			"@id": "inst:0FSBVp1mP22vIPKPM6LD3B",
+			"ex:globalId": "0FSBVp1mP22vIPKPM6LD3B",
+			"rdfs:description": "Flow",
+			"ex:flowDirection": "SOURCE"
+		},
+		{
+			"@id": "inst:0JEK7xXCr6RReBgpMxH2bZ",
+			"ex:globalId": "0JEK7xXCr6RReBgpMxH2bZ",
+			"rdfs:description": "Flow",
+			"ex:flowDirection": "SINK"
+		},
+		{
+			"@id": "inst:0N2GeipS51bx7ld59%24qdFM",
+			"ex:globalId": "0N2GeipS51bx7ld59$qdFM",
+			"rdfs:description": "Flow",
+			"ex:flowDirection": "SOURCE"
+		},
+		{
+			"@id": "inst:37gEiXF4P01P1_jm1R5XN5",
+			"ex:globalId": "37gEiXF4P01P1_jm1R5XN5",
+			"rdfs:description": "Flow",
+			"ex:flowDirection": "SINK"
+		},
+		{
+			"@id": "inst:1EeSK6z7DFgBMrUpCFyOaP",
+			"ex:globalId": "1EeSK6z7DFgBMrUpCFyOaP",
+			"rdfs:description": "Flow",
+			"ex:flowDirection": "SOURCE"
+		},
+		{
+			"@id": "inst:0tl1Lh4kvCtR3vzyPaNLtg",
+			"ex:globalId": "0tl1Lh4kvCtR3vzyPaNLtg",
+			"rdfs:description": "Flow",
+			"ex:flowDirection": "SINK"
+		},
+		{
+			"@id": "inst:2fmcNI0BDBihmutK94aBcX",
+			"ex:globalId": "2fmcNI0BDBihmutK94aBcX",
+			"rdfs:description": "Flow",
+			"ex:flowDirection": "SOURCE"
+		},
+		{
+			"@id": "inst:2o1UKXScb4KuZhvntteRqw",
+			"ex:globalId": "2o1UKXScb4KuZhvntteRqw",
+			"rdfs:description": "Flow",
+			"ex:flowDirection": "SINK"
+		},
+		{
+			"@id": "inst:1B%24eMQmSz4wOLsZtu5mD%247",
+			"ex:globalId": "1B$eMQmSz4wOLsZtu5mD$7",
+			"rdfs:description": "Flow",
+			"ex:flowDirection": "SOURCE"
+		},
+		{
+			"@id": "inst:0e4_NzmcP7BPnAnoaaPTK8",
+			"ex:globalId": "0e4_NzmcP7BPnAnoaaPTK8",
+			"rdfs:description": "Flow",
+			"ex:flowDirection": "SINK"
+		},
+		{
+			"@id": "inst:34dNwMYvj1hB6NY0TUI0Pv",
+			"ex:globalId": "34dNwMYvj1hB6NY0TUI0Pv",
+			"rdfs:description": "Flow",
+			"ex:flowDirection": "SOURCE"
+		},
+		{
+			"@id": "inst:3za31Chaf1w8ljpdfN2ciT",
+			"ex:globalId": "3za31Chaf1w8ljpdfN2ciT",
+			"rdfs:description": "Flow",
+			"ex:flowDirection": "SINK"
+		},
+		{
+			"@id": "inst:0R6rwDHI90ZRAWnszudiCx",
+			"ex:globalId": "0R6rwDHI90ZRAWnszudiCx",
+			"rdfs:description": "Flow",
+			"ex:flowDirection": "SOURCE"
+		},
+		{
+			"@id": "inst:0_CWXLEi92DR8V9RggAaly",
+			"ex:globalId": "0_CWXLEi92DR8V9RggAaly",
+			"rdfs:description": "Flow",
+			"ex:flowDirection": "SINK"
+		},
+		{
+			"@id": "inst:1PcG%24%24q0z0HQqDVycPNOG1",
+			"ex:globalId": "1PcG$$q0z0HQqDVycPNOG1",
+			"rdfs:description": "Flow",
+			"ex:flowDirection": "SOURCE"
+		},
+		{
+			"@id": "inst:250LxaDSjChPP4wT1kl7wl",
+			"ex:globalId": "250LxaDSjChPP4wT1kl7wl",
+			"rdfs:description": "Flow",
+			"ex:flowDirection": "SINK"
+		},
+		{
+			"@id": "inst:3iqWiv8IPAAxaYn2086P06",
+			"ex:globalId": "3iqWiv8IPAAxaYn2086P06",
+			"rdfs:description": "Flow",
+			"ex:flowDirection": "SOURCE"
+		},
+		{
+			"@id": "inst:3etXoBRxL3_vsajo4B4h6k",
+			"ex:globalId": "3etXoBRxL3_vsajo4B4h6k",
+			"rdfs:description": "Flow",
+			"ex:flowDirection": "SINK"
+		},
+		{
+			"@id": "inst:2EulWsSPT4XAS21GU6yGhY",
+			"ex:globalId": "2EulWsSPT4XAS21GU6yGhY",
+			"rdfs:description": "Flow",
+			"ex:flowDirection": "SOURCE"
+		},
+		{
+			"@id": "inst:1ZUEAK3tj4lAUVZN4x8N3W",
+			"ex:globalId": "1ZUEAK3tj4lAUVZN4x8N3W",
+			"rdfs:description": "Flow",
+			"ex:flowDirection": "SINK"
+		},
+		{
+			"@id": "inst:1C6tEbfkbE_uz%24Jz6qGYdR",
+			"ex:globalId": "1C6tEbfkbE_uz$Jz6qGYdR",
+			"rdfs:description": "Flow",
+			"ex:flowDirection": "SOURCE"
+		},
+		{
+			"@id": "inst:0MeJ7KHn95jhqWqs1JE%24We",
+			"ex:globalId": "0MeJ7KHn95jhqWqs1JE$We",
+			"rdfs:description": "Flow",
+			"ex:flowDirection": "SINK"
+		},
+		{
+			"@id": "inst:2amFsaphjBmwoS9Wms2HSC",
+			"ex:globalId": "2amFsaphjBmwoS9Wms2HSC",
+			"rdfs:description": "Flow",
+			"ex:flowDirection": "SOURCE"
+		},
+		{
+			"@id": "inst:1_LD205ZnBmuTwiiNTylSW",
+			"ex:globalId": "1_LD205ZnBmuTwiiNTylSW",
+			"rdfs:description": "Flow",
+			"ex:flowDirection": "SINK"
+		},
+		{
+			"@id": "inst:0f49psijDERAZzFErMBLMh",
+			"ex:globalId": "0f49psijDERAZzFErMBLMh",
+			"rdfs:description": "Flow",
+			"ex:flowDirection": "SOURCE"
+		},
+		{
+			"@id": "inst:2%24fFO1JED9LvP4%24qkdxumN",
+			"ex:globalId": "2$fFO1JED9LvP4$qkdxumN",
+			"rdfs:description": "Flow",
+			"ex:flowDirection": "SINK"
+		},
+		{
+			"@id": "inst:3BMw8yQkb1SBNmSG4nM8%244",
+			"ex:globalId": "3BMw8yQkb1SBNmSG4nM8$4",
+			"rdfs:description": "Flow",
+			"ex:flowDirection": "SOURCE"
+		},
+		{
+			"@id": "inst:1mxEIyGFr5KhrqgGA96yGz",
+			"ex:globalId": "1mxEIyGFr5KhrqgGA96yGz",
+			"rdfs:description": "Flow",
+			"ex:flowDirection": "SINK"
+		},
+		{
+			"@id": "inst:0y4i6x13TEOxhAGUZsPERV",
+			"ex:globalId": "0y4i6x13TEOxhAGUZsPERV",
+			"rdfs:description": "Flow",
+			"ex:flowDirection": "SOURCE"
+		},
+		{
+			"@id": "inst:1c7m0fQKv03B6rPIK5650c",
+			"ex:globalId": "1c7m0fQKv03B6rPIK5650c",
+			"rdfs:description": "Flow",
+			"ex:flowDirection": "SINK"
+		},
+		{
+			"@id": "inst:3ch7crWtD8fQNvqEhbz6HQ",
+			"ex:globalId": "3ch7crWtD8fQNvqEhbz6HQ",
+			"rdfs:description": "Flow",
+			"ex:flowDirection": "SOURCE"
+		},
+		{
+			"@id": "inst:2hbS13GiH7MhQujWbK11%24R",
+			"ex:globalId": "2hbS13GiH7MhQujWbK11$R",
+			"rdfs:description": "Flow",
+			"ex:flowDirection": "SINK"
+		},
+		{
+			"@id": "inst:38y%24YRG%24vFiBq6uA_FRwtw",
+			"ex:globalId": "38y$YRG$vFiBq6uA_FRwtw",
+			"rdfs:description": "Flow",
+			"ex:flowDirection": "SOURCE"
+		},
+		{
+			"@id": "inst:04nG6UBaD0Xe%24jkEOwoPkN",
+			"ex:globalId": "04nG6UBaD0Xe$jkEOwoPkN",
+			"rdfs:description": "Flow",
+			"ex:flowDirection": "SINK"
+		},
+		{
+			"@id": "inst:2705Mp0ULCgAtWRw4Yt_oE",
+			"ex:globalId": "2705Mp0ULCgAtWRw4Yt_oE",
+			"rdfs:description": "Flow",
+			"ex:flowDirection": "SOURCE"
+		},
+		{
+			"@id": "inst:2hBFxGDNL7Tg4fy2N2Ieei",
+			"ex:globalId": "2hBFxGDNL7Tg4fy2N2Ieei",
+			"rdfs:description": "Flow",
+			"ex:flowDirection": "SINK"
+		},
+		{
+			"@id": "inst:3Fs63_d_52nP73qGbi51tb",
+			"ex:globalId": "3Fs63_d_52nP73qGbi51tb",
+			"rdfs:description": "Flow",
+			"ex:flowDirection": "SOURCE"
+		},
+		{
+			"@id": "inst:0dG4XB8Mj2QhLcDnrkJh%24F",
+			"ex:globalId": "0dG4XB8Mj2QhLcDnrkJh$F",
+			"rdfs:description": "Flow",
+			"ex:flowDirection": "SINK"
+		},
+		{
+			"@id": "inst:1Btw7oNS10LPh%24kKNWdcq3",
+			"ex:globalId": "1Btw7oNS10LPh$kKNWdcq3",
+			"rdfs:description": "Flow",
+			"ex:flowDirection": "SOURCE"
+		},
+		{
+			"@id": "inst:2wCUSmW_95EumnCi8BbKtG",
+			"ex:globalId": "2wCUSmW_95EumnCi8BbKtG",
+			"rdfs:description": "Flow",
+			"ex:flowDirection": "SOURCE"
+		},
+		{
+			"@id": "inst:1Kc3MIXcbAtPvwDSXD8DmQ",
+			"ex:globalId": "1Kc3MIXcbAtPvwDSXD8DmQ",
+			"rdfs:description": "Flow",
+			"ex:flowDirection": "SINK"
+		},
+		{
+			"@id": "inst:3qR3XzqujFAP69ejQot5rW",
+			"ex:globalId": "3qR3XzqujFAP69ejQot5rW",
+			"rdfs:description": "Flow",
+			"ex:flowDirection": "SOURCE"
+		},
+		{
+			"@id": "inst:15itdpbrHC9u5Nq7vcIcd8",
+			"ex:globalId": "15itdpbrHC9u5Nq7vcIcd8",
+			"rdfs:description": "Flow",
+			"ex:flowDirection": "SINK"
+		},
+		{
+			"@id": "inst:0_vwZArHX4ZgVfzS%244jFYI",
+			"ex:globalId": "0_vwZArHX4ZgVfzS$4jFYI",
+			"rdfs:description": "Flow",
+			"ex:flowDirection": "SOURCE"
+		},
+		{
+			"@id": "inst:3VrR9tDK11ggcbfcnZtVBc",
+			"ex:globalId": "3VrR9tDK11ggcbfcnZtVBc",
+			"rdfs:description": "Flow",
+			"ex:flowDirection": "SINK"
+		},
+		{
+			"@id": "inst:3s%248ANvIXD5hAnEDPYhcWa",
+			"ex:globalId": "3s$8ANvIXD5hAnEDPYhcWa",
+			"rdfs:description": "Flow",
+			"ex:flowDirection": "SOURCE"
+		},
+		{
+			"@id": "inst:3NKbQ7SnnAuR3Ijs7woyLQ",
+			"ex:globalId": "3NKbQ7SnnAuR3Ijs7woyLQ",
+			"rdfs:description": "Flow",
+			"ex:flowDirection": "SINK"
+		},
+		{
+			"@id": "inst:1BjCle57598BrdD%24jjjnqI",
+			"ex:globalId": "1BjCle57598BrdD$jjjnqI",
+			"rdfs:description": "Flow",
+			"ex:flowDirection": "SOURCE"
+		},
+		{
+			"@id": "inst:163Suf1tn1IhPTbqgSAirC",
+			"ex:globalId": "163Suf1tn1IhPTbqgSAirC",
+			"rdfs:description": "Flow",
+			"ex:flowDirection": "SINK"
+		},
+		{
+			"@id": "inst:3KXnd_SNz8ZP%24r0YhzquS3",
+			"ex:globalId": "3KXnd_SNz8ZP$r0YhzquS3",
+			"rdfs:description": "Flow",
+			"ex:flowDirection": "SOURCE"
+		},
+		{
+			"@id": "inst:1%24tHlaPjP3IRbFaCIDk1Ng",
+			"ex:globalId": "1$tHlaPjP3IRbFaCIDk1Ng",
+			"rdfs:description": "Flow",
+			"ex:flowDirection": "SINK"
+		},
+		{
+			"@id": "inst:2rdw71puHFZvLNaWr9T1Ty",
+			"ex:globalId": "2rdw71puHFZvLNaWr9T1Ty",
+			"rdfs:description": "Flow",
+			"ex:flowDirection": "SOURCE"
+		},
+		{
+			"@id": "inst:00WQl_W5DEYvghpZwnGQsZ",
+			"ex:globalId": "00WQl_W5DEYvghpZwnGQsZ",
+			"rdfs:description": "Flow",
+			"ex:flowDirection": "SINK"
+		},
+		{
+			"@id": "inst:0uafia_bTDluchGib0GhBF",
+			"ex:globalId": "0uafia_bTDluchGib0GhBF",
+			"rdfs:description": "Flow",
+			"ex:flowDirection": "SOURCE"
+		},
+		{
+			"@id": "inst:3wg2QGF0bDgBAnnctQwPym",
+			"ex:globalId": "3wg2QGF0bDgBAnnctQwPym",
+			"rdfs:description": "Flow",
+			"ex:flowDirection": "SINK"
+		},
+		{
+			"@id": "inst:3iTkl4LUz62voRI2uwegGz",
+			"ex:globalId": "3iTkl4LUz62voRI2uwegGz",
+			"rdfs:description": "Flow",
+			"ex:flowDirection": "SOURCE"
+		},
+		{
+			"@id": "inst:0eAC_onmb8Hu3KG7Jf7KG5",
+			"ex:globalId": "0eAC_onmb8Hu3KG7Jf7KG5",
+			"rdfs:description": "Flow",
+			"ex:flowDirection": "SINK"
+		},
+		{
+			"@id": "inst:0CsLzgaT5CzfCX17WGC6kb",
+			"ex:globalId": "0CsLzgaT5CzfCX17WGC6kb",
+			"rdfs:description": "Flow",
+			"ex:flowDirection": "SINK"
+		},
+		{
+			"@id": "inst:1Tfel8icTDuwaxcz_QIT8X",
+			"ex:globalId": "1Tfel8icTDuwaxcz_QIT8X",
+			"rdfs:description": "Flow",
+			"ex:flowDirection": "SOURCE"
+		},
+		{
+			"@id": "inst:1iyKprNPXEhBNIm2MB52HU",
+			"ex:globalId": "1iyKprNPXEhBNIm2MB52HU",
+			"rdfs:description": "Flow",
+			"ex:flowDirection": "SINK"
+		},
+		{
+			"@id": "inst:2b6qGuQWf2HQci_TamYaC_",
+			"ex:globalId": "2b6qGuQWf2HQci_TamYaC_",
+			"rdfs:description": "Flow",
+			"ex:flowDirection": "SOURCE"
+		},
+		{
+			"@id": "inst:1duj6KwpzFsuXQy9Q2SSMO",
+			"ex:globalId": "1duj6KwpzFsuXQy9Q2SSMO",
+			"rdfs:description": "Flow",
+			"ex:flowDirection": "SINK"
+		},
+		{
+			"@id": "inst:1B1e6ZI3v9BPVpoFNzo70z",
+			"ex:globalId": "1B1e6ZI3v9BPVpoFNzo70z",
+			"rdfs:description": "Flow",
+			"ex:flowDirection": "SOURCE"
+		},
+		{
+			"@id": "inst:32zhizv8bFMA5%24c0kikxxZ",
+			"ex:globalId": "32zhizv8bFMA5$c0kikxxZ",
+			"rdfs:description": "Flow",
+			"ex:flowDirection": "SINK"
+		},
+		{
+			"@id": "inst:1h6RwTPuH8qRcy9Igl7Mum",
+			"ex:globalId": "1h6RwTPuH8qRcy9Igl7Mum",
+			"rdfs:description": "Flow",
+			"ex:flowDirection": "SOURCE"
+		},
+		{
+			"@id": "inst:3tUmCWIkHDU87o5zZ53egB",
+			"ex:globalId": "3tUmCWIkHDU87o5zZ53egB"
+		},
+		{
+			"@id": "inst:3tUmCWIkHDU87o5zWwvaX%24",
+			"ex:globalId": "3tUmCWIkHDU87o5zWwvaX$"
+		},
+		{
+			"@id": "inst:3tUmCWIkHDU87o5zZ53eg8",
+			"ex:globalId": "3tUmCWIkHDU87o5zZ53eg8"
+		},
+		{
+			"@id": "inst:2dKPftxH1C7Oh5mbMEtvvH",
+			"ex:globalId": "2dKPftxH1C7Oh5mbMEtvvH"
+		},
+		{
+			"@id": "inst:2dKPftxH1C7Oh5mbMEtvvU",
+			"ex:globalId": "2dKPftxH1C7Oh5mbMEtvvU"
+		},
+		{
+			"@id": "inst:2dKPftxH1C7Oh5mbMEtvvR",
+			"ex:globalId": "2dKPftxH1C7Oh5mbMEtvvR"
+		},
+		{
+			"@id": "inst:1rbgoHGi17OAqiJrA0K34n",
+			"ex:globalId": "1rbgoHGi17OAqiJrA0K34n"
+		},
+		{
+			"@id": "inst:0MMKrFmIr4b8IaMYvCQ38f",
+			"ex:globalId": "0MMKrFmIr4b8IaMYvCQ38f"
+		},
+		{
+			"@id": "inst:0MMKrFmIr4b8IaMYvCQ3BR",
+			"ex:globalId": "0MMKrFmIr4b8IaMYvCQ3BR"
+		},
+		{
+			"@id": "inst:0MMKrFmIr4b8IaMYvCQ39n",
+			"ex:globalId": "0MMKrFmIr4b8IaMYvCQ39n"
+		},
+		{
+			"@id": "inst:0MMKrFmIr4b8IaMYvCQ2zP",
+			"ex:globalId": "0MMKrFmIr4b8IaMYvCQ2zP"
+		},
+		{
+			"@id": "inst:0MMKrFmIr4b8IaMYvCQ085",
+			"ex:globalId": "0MMKrFmIr4b8IaMYvCQ085"
+		},
+		{
+			"@id": "inst:0MMKrFmIr4b8IaMYvCQ393",
+			"ex:globalId": "0MMKrFmIr4b8IaMYvCQ393"
+		},
+		{
+			"@id": "inst:0MMKrFmIr4b8IaMYvCQ0q8",
+			"ex:globalId": "0MMKrFmIr4b8IaMYvCQ0q8"
+		},
+		{
+			"@id": "inst:0MMKrFmIr4b8IaMYvCQ2e9",
+			"ex:globalId": "0MMKrFmIr4b8IaMYvCQ2e9"
+		}
+	]
+}

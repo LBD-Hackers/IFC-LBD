@@ -7,8 +7,10 @@ const readFileP = util.promisify(readFile);
 const writeFileP = util.promisify(writeFile);
 import * as WebIFC from "web-ifc/web-ifc-api";
 import { LBDParser } from '.';
+import { JSONLD } from './helpers/BaseDefinitions';
+import { gzip } from "node-gzip";
 
-const supportedSubsets = ["bot", "fso", "products"];
+const supportedSubsets = ["bot", "fso", "products", "properties", "tso"];
 
 export class CLITool{
 
@@ -65,36 +67,61 @@ export class CLITool{
 
         this.argv["verbose"] && console.log("Running with verbose logging");
 
-        const subset = this.argv._[0].toLowerCase();
+        const subset: string = this.argv._[0].toLowerCase();
         if(supportedSubsets.indexOf(subset) == -1){
             return console.error(`Unsupported subset option. Supported options are [${supportedSubsets.map(s => `"${s}"`).join(", ")}]`)
         }
 
         // Init API and load model
+        this.argv["verbose"] && console.log("#".repeat(21 + subset.length));
+        this.argv["verbose"] && console.log(`# IFC-LBD <${subset.toLocaleUpperCase()}> parser #`);
+        this.argv["verbose"] && console.log("#".repeat(21 + subset.length));
+        this.argv["verbose"] && console.log("");
+        this.argv["verbose"] && console.time("Initilized API and loaded model");
         const ifcApi = new WebIFC.IfcAPI();
         await ifcApi.Init();
         const fileData = await readFileP(this.argv.inputFile);
         const modelID = ifcApi.OpenModel(fileData);
+        this.argv["verbose"] && console.timeEnd("Initilized API and loaded model");
+        this.argv["verbose"] && console.log("");
 
-        // Init LBD Parser and parse BOT
-        let triples;
-        if(subset == "bot") triples = await lbdParser.parseBOTTriples(ifcApi, modelID, this.argv["verbose"]);
-        if(subset == "fso") triples = await lbdParser.parseFSOTriples(ifcApi, modelID, this.argv["verbose"]);
-        if(subset == "products") triples = await lbdParser.parseProductTriples(ifcApi, modelID, this.argv["verbose"]);
-
+        // Init LBD Parser and parse triples
+        const triples = await this.parseTriples(lbdParser, ifcApi, subset, modelID);
         if(!triples || triples == undefined) return console.log("Found nothing relevant in the file");
 
         // Close the model, all memory is freed
         ifcApi.CloseModel(modelID);
 
         // Serialize result
+        await this.serialize(triples);
+
+    }
+
+    private async parseTriples(lbdParser: LBDParser, ifcApi: WebIFC.IfcAPI, subset: string, modelID: number = 0): Promise<JSONLD>{
+        let triples;
+        if(subset == "bot") triples = await lbdParser.parseBOTTriples(ifcApi, modelID, this.argv["verbose"]);
+        if(subset == "fso") triples = await lbdParser.parseFSOTriples(ifcApi, modelID, this.argv["verbose"]);
+        if(subset == "products") triples = await lbdParser.parseProductTriples(ifcApi, modelID, this.argv["verbose"]);
+        if(subset == "properties") triples = await lbdParser.parsePropertyTriples(ifcApi, modelID, this.argv["verbose"]);
+        if(subset == "tso") triples = await lbdParser.parseTSOTriples(ifcApi, modelID, this.argv["verbose"]);
+
+        return triples;
+    }
+
+    private async serialize(triples: JSONLD): Promise<void>{
+
         if(this.argv.format == "jsonld"){
+            this.argv["verbose"] && console.time("Serialized JSON-LD");
             await writeFileP(this.argv.outputFile, JSON.stringify(triples, null, "\t"), 'utf8');
+            this.argv["verbose"] && console.timeEnd("Serialized JSON-LD");
         }
         if(this.argv.format == "nquads"){
-            const fp = this.argv.outputFile.replace(".json", ".nq");
+            this.argv["verbose"] && console.time("Serialized NQuads");
+            const fp = this.argv.outputFile.replace(".json", ".nq.gz");
             const nquads: string = typeof triples != "string" ? triples.toString() : triples;
-            await writeFileP(fp, nquads, 'utf8');
+            const zipped: Buffer = await gzip(nquads);
+            await writeFileP(fp, zipped, 'utf8');
+            this.argv["verbose"] && console.timeEnd("Serialized NQuads");
         }
 
     }

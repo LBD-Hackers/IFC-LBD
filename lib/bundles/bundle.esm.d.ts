@@ -16,7 +16,9 @@ declare class LBDParser {
     setWasmPath(path: string): void;
     parseBOTTriples(ifcApi: WebIFC.IfcAPI, modelID: number, verbose?: boolean): Promise<JSONLD | string>;
     parseProductTriples(ifcApi: WebIFC.IfcAPI, modelID: number, verbose?: boolean): Promise<JSONLD | string>;
+    parsePropertyTriples(ifcApi: WebIFC.IfcAPI, modelID: number, verbose?: boolean): Promise<JSONLD | string>;
     parseFSOTriples(ifcApi: WebIFC.IfcAPI, modelID: number, verbose?: boolean): Promise<JSONLD | string>;
+    parseTSOTriples(ifcApi: WebIFC.IfcAPI, modelID: number, verbose?: boolean): Promise<JSONLD | string>;
 }
 
 export { LBDParser };

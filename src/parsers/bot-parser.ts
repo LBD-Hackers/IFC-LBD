@@ -1,4 +1,4 @@
-import { buildRelOneToMany, buildRelOneToOne } from "../helpers/path-search";
+import { buildRelOneToMany, buildRelOneToOne, Input } from "../helpers/path-search";
 
 import {
     IFCRELSPACEBOUNDARY,
@@ -110,66 +110,125 @@ export class BOTParser extends Parser{
      * ZONE-ELEMENT-RELATIONSHIPS
      */
     private async buildSpaceAdjacentElementRelationships(): Promise<any[]>{
-        const subjectRef = "RelatingSpace";
-        const targetRef = "RelatedBuildingElement";
-        const rdfRelationship = "bot:adjacentElement";
-        return await buildRelOneToOne(this.ifcAPI, this.modelID, IFCRELSPACEBOUNDARY, subjectRef, targetRef, rdfRelationship, true);
+
+        const input: Input = {
+            ifcAPI: this.ifcAPI,
+            modelID: this.modelID,
+            ifcRelationship: IFCRELSPACEBOUNDARY,
+            ifcSubjectRel: "RelatingSpace",
+            ifcTargetRel: "RelatedBuildingElement",
+            rdfRelationship: "bot:adjacentElement",
+            includeInterface: true
+        }
+
+        return await buildRelOneToOne(input);
+
     }
 
     private async buildSpaceContainedElementRelationships(): Promise<any[]>{
-        const subjectRef = "RelatingStructure";
-        const targetRef = "RelatedElements";
-        const rdfRelationship = "bot:containsElement";
-        const subjectClass = IFCSPACE;
-        return await buildRelOneToMany(this.ifcAPI, this.modelID, IFCRELCONTAINEDINSPATIALSTRUCTURE, subjectRef, targetRef, rdfRelationship, subjectClass);
+
+        const input: Input = {
+            ifcAPI: this.ifcAPI,
+            modelID: this.modelID,
+            ifcRelationship: IFCRELCONTAINEDINSPATIALSTRUCTURE,
+            ifcSubjectRel: "RelatingStructure",
+            ifcTargetRel: "RelatedElements",
+            rdfRelationship: "bot:containsElement",
+            ifcSubjectClassIn: [IFCSPACE]
+        }
+
+        return await buildRelOneToMany(input);
+
     }
 
     private async buildStoreyElementRelationships(): Promise<any[]>{
-        const subjectRef = "RelatingStructure";
-        const targetRef = "RelatedElements";
-        const rdfRelationship = "bot:hasElement";
-        const subjectClass = IFCBUILDINGSTOREY;
-        return await buildRelOneToMany(this.ifcAPI, this.modelID, IFCRELCONTAINEDINSPATIALSTRUCTURE, subjectRef, targetRef, rdfRelationship, subjectClass);
+
+        const input: Input = {
+            ifcAPI: this.ifcAPI,
+            modelID: this.modelID,
+            ifcRelationship: IFCRELCONTAINEDINSPATIALSTRUCTURE,
+            ifcSubjectRel: "RelatingStructure",
+            ifcTargetRel: "RelatedElements",
+            rdfRelationship: "bot:hasElement",
+            ifcSubjectClassIn: [IFCBUILDINGSTOREY]
+        }
+
+        return await buildRelOneToMany(input);
+
     }
 
     /**
      * ELEMENT-ELEMENT-RELATIONSHIPS
      */
+
+    // NB! PROBABLY REFERS TO THE VOID AND NOT THE WINDOW!
      private async buildHostedElementRelationships(): Promise<any[]>{
-        const subjectRef = "RelatingBuildingElement";
-        const targetRef = "RelatedOpeningElement";
-        const rdfRelationship = "bot:hasSubElement";
-        return await buildRelOneToOne(this.ifcAPI, this.modelID, IFCRELVOIDSELEMENT, subjectRef, targetRef, rdfRelationship);
+
+        const input: Input = {
+            ifcAPI: this.ifcAPI,
+            modelID: this.modelID,
+            ifcRelationship: IFCRELVOIDSELEMENT,
+            ifcSubjectRel: "RelatingBuildingElement",
+            ifcTargetRel: "RelatedOpeningElement",
+            rdfRelationship: "bot:hasSubElement"
+        }
+
+        return await buildRelOneToOne(input);
+
     }
 
     /**
      * ZONE-CONTAINMENT
      */
     private async buildStoreySpaceRelationships(): Promise<any[]>{
-        const subjectRef = "RelatingObject";
-        const targetRef = "RelatedObjects";
-        const rdfRelationship = "bot:hasSpace";
-        const subjectClass = IFCBUILDINGSTOREY;
-        const targetClass = IFCSPACE;
-        return await buildRelOneToMany(this.ifcAPI, this.modelID, IFCRELAGGREGATES, subjectRef, targetRef, rdfRelationship, subjectClass, targetClass);
+
+        const input: Input = {
+            ifcAPI: this.ifcAPI,
+            modelID: this.modelID,
+            ifcRelationship: IFCRELCONTAINEDINSPATIALSTRUCTURE,
+            ifcSubjectRel: "RelatingObject",
+            ifcTargetRel: "RelatedObjects",
+            rdfRelationship: "bot:hasSpace",
+            ifcSubjectClassIn: [IFCBUILDINGSTOREY],
+            ifcTargetClassIn: [IFCSPACE]
+        }
+
+        return await buildRelOneToMany(input);
+
     }
 
     private async buildBuildingStoreyRelationships(): Promise<any[]>{
-        const subjectRef = "RelatingObject";
-        const targetRef = "RelatedObjects";
-        const rdfRelationship = "bot:hasStorey";
-        const subjectClass = IFCBUILDING;
-        const targetClass = IFCBUILDINGSTOREY;
-        return await buildRelOneToMany(this.ifcAPI, this.modelID, IFCRELAGGREGATES, subjectRef, targetRef, rdfRelationship, subjectClass, targetClass);
+
+        const input: Input = {
+            ifcAPI: this.ifcAPI,
+            modelID: this.modelID,
+            ifcRelationship: IFCRELCONTAINEDINSPATIALSTRUCTURE,
+            ifcSubjectRel: "RelatingObject",
+            ifcTargetRel: "RelatedObjects",
+            rdfRelationship: "bot:hasStorey",
+            ifcSubjectClassIn: [IFCBUILDING],
+            ifcTargetClassIn: [IFCBUILDINGSTOREY]
+        }
+
+        return await buildRelOneToMany(input);
+
     }
 
     private async buildSiteBuildingRelationships(): Promise<any[]>{
-        const subjectRef = "RelatingObject";
-        const targetRef = "RelatedObjects";
-        const rdfRelationship = "bot:hasBuilding";
-        const subjectClass = IFCSITE;
-        const targetClass = IFCBUILDING;
-        return await buildRelOneToMany(this.ifcAPI, this.modelID, IFCRELAGGREGATES, subjectRef, targetRef, rdfRelationship, subjectClass, targetClass);
+
+        const input: Input = {
+            ifcAPI: this.ifcAPI,
+            modelID: this.modelID,
+            ifcRelationship: IFCRELCONTAINEDINSPATIALSTRUCTURE,
+            ifcSubjectRel: "RelatingObject",
+            ifcTargetRel: "RelatedObjects",
+            rdfRelationship: "bot:hasBuilding",
+            ifcSubjectClassIn: [IFCSITE],
+            ifcTargetClassIn: [IFCBUILDING]
+        }
+
+        return await buildRelOneToMany(input);
+
     }
 
 }

@@ -3,11 +3,11 @@ import {
     IFCOPENINGELEMENT
 } from 'web-ifc';
 
-import { getElementSubtypes } from "../helpers/class-assignment";
 import { Parser } from "./parser";
 import { JSONLD } from "../helpers/BaseDefinitions";
 import { defaultURIBuilder } from "../helpers/uri-builder";
 import { IfcElements } from "../helpers/IfcElementsMap";
+import { getItemSubtypes } from '../helpers/item-search';
 
 export class ProductParser extends Parser{
 
@@ -41,7 +41,7 @@ export class ProductParser extends Parser{
         const skippedTypes = [IFCOPENINGELEMENT];
 
         // Get all subTypes of IfcElement
-        const subTypes: number[] = getElementSubtypes(IFCELEMENT)
+        const subTypes: number[] = getItemSubtypes(IFCELEMENT)
             .filter(typeID => skippedTypes.indexOf(typeID) == -1);  // Filter out skipped types
     
 
