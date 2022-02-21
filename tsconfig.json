@@ -28,6 +28,6 @@
   },
   "include": [
     "./src/index.ts",
-    "./packge.json"
+    "./package.json"
   ],
 }
