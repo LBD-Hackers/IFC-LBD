@@ -256,21 +256,53 @@ export class FSOParser extends Parser{
      * POST PROCESSING
      */
     private async componentConections(): Promise<void>{
-        const query = `PREFIX fso: <https://w3id.org/fso#>
+
+        const q1 = `PREFIX fso: <https://w3id.org/fso#>
                     INSERT{
                         ?e1 fso:connectedWith ?e2 .
                         ?e2 fso:connectedWith ?e1 .
+                    }
+                    WHERE{
+                        ?e1 a fso:Component .
+                        ?e2 a fso:Component .
+                        ?e1 fso:connectedPort ?p1 .
+                        ?p1 fso:connectedPort ?p2 .
+                        ?p2 fso:connectedComponent ?e2 .
+                    }`;
+        
+        await this.executeUpdateQuery(q1);
+
+        const q2 = `PREFIX fso: <https://w3id.org/fso#>
+                    INSERT{
                         ?e1 fso:feedsFluidTo ?e2 .
                         ?e2 fso:hasFluidFedBy ?e1
                     }
                     WHERE{
+                        ?e1 a fso:Component .
+                        ?e2 a fso:Component .
+                        ?p1 a fso:OutPort .
                         ?e1 fso:connectedPort ?p1 .
                         ?p1 fso:connectedPort ?p2 .
                         ?p2 fso:connectedComponent ?e2 .
-                        ?p1 a fso:OutPort .
-                        ?p2 a fso:InPort .
                     }`;
-        await this.executeUpdateQuery(query);
+        
+        await this.executeUpdateQuery(q2);
+
+        const q3 = `PREFIX fso: <https://w3id.org/fso#>
+                    INSERT{
+                        ?e1 fso:feedsFluidTo ?e2 .
+                        ?e2 fso:hasFluidFedBy ?e1
+                    }
+                    WHERE{
+                        ?e1 a fso:Component .
+                        ?e2 a fso:Component .
+                        ?p2 a fso:InPort .
+                        ?e1 fso:connectedPort ?p1 .
+                        ?p1 fso:connectedPort ?p2 .
+                        ?p2 fso:connectedComponent ?e2 .
+                    }`;
+        
+        await this.executeUpdateQuery(q3);
     }
 
     private async connectionInterfaces(): Promise<void>{
