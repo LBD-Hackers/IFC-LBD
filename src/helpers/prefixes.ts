@@ -5,6 +5,7 @@ export const prefixes = {
     "fso": "https://w3id.org/fso#",
     "ifc": "http://ifcowl.openbimstandards.org/IFC2X3_Final#",
     "inst": "https://example.com/",
+    "kbt": "https://w3id.org/kobl/building-topology#",
     "omg": "https://w3id.org/omg#",
     "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
     "tso": "https://w3id.org/tso#",

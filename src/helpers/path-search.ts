@@ -19,7 +19,7 @@ export class Input{
     ifcRelationship: number;        // Eg. IFCRELCONNECTSPORTS
     ifcSubjectRel: string;          // Eg. RelatedPort
     ifcTargetRel: string;           // Eg. RelatingPort
-    rdfRelationship: string;        // Eg. fso:connectedPort
+    rdfRelationship?: string;       // Eg. fso:connectedPort
     oppoiteRelationship?: string;   // Optional - used to establish a relationship in the other direction. For bidirectional relationships, use the same value as for rdfRelationship
     ifcSubjectClassIn?: number[];   // Optional - used to limit bindings to cases where the subject is included in this list
     ifcTargetClassIn?: number[];    // Optional - used to limit bindings to cases where the target is included in this list
@@ -35,6 +35,11 @@ export async function buildRelOneToOne(d: Input): Promise<any>{
 
     if(d.ifcSubjectClassIn.length) console.log("ifcSubjectClassIn not yet supported for buildRelOneToOne");
     if(d.ifcTargetClassIn.length) console.log("ifcTargetClassIn not yet supported for buildRelOneToOne");
+
+    if(d.rdfRelationship == undefined && d.oppoiteRelationship == undefined){
+        console.error("Specify either an 'rdfRelationship' or an 'oppoiteRelationship'");
+        return [];
+    }
 
     const graph = [];
 
@@ -68,12 +73,14 @@ export async function buildRelOneToOne(d: Input): Promise<any>{
         const interfaceURI = defaultURIBuilder(relProps.GlobalId.value);
 
         // Push relationships
-        graph.push({
-            "@id": subjectURI,
-            [d.rdfRelationship]: {"@id": targetURI}
-        });
+        if(d.rdfRelationship != undefined){
+            graph.push({
+                "@id": subjectURI,
+                [d.rdfRelationship]: {"@id": targetURI}
+            });
+        }
 
-        // Optionally, push it in opposite direction
+        // Push relationships in opposite direction
         if(d.oppoiteRelationship != undefined){
             graph.push({
                 "@id": targetURI,
@@ -108,6 +115,11 @@ export async function buildRelOneToMany(d: Input): Promise<any>{
     if(d.ifcTargetClassIn == undefined) d.ifcTargetClassIn = [];
 
     if(d.includeInterface) console.log("Include interface not yet supported for buildRelOneToMany");
+
+    if(d.rdfRelationship == undefined && d.oppoiteRelationship == undefined){
+        console.error("Specify either an 'rdfRelationship' or an 'oppoiteRelationship'");
+        return [];
+    }
 
     const graph = [];
 
@@ -151,12 +163,14 @@ export async function buildRelOneToMany(d: Input): Promise<any>{
         const subjectURI = defaultURIBuilder(subject.GlobalId.value);
 
         // Push relationships
-        graph.push({
-            "@id": subjectURI,
-            [d.rdfRelationship]: targetObjects
-        });
+        if(d.rdfRelationship != undefined){
+            graph.push({
+                "@id": subjectURI,
+                [d.rdfRelationship]: targetObjects
+            });
+        }
 
-        // Optionally, push it in opposite direction
+        // Push relationships in opposite direction
         if(d.oppoiteRelationship != undefined){
             targetObjects.forEach(item => {
                 const obj = JSON.parse(JSON.stringify(item));

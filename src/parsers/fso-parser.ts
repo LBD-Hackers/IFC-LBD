@@ -256,53 +256,35 @@ export class FSOParser extends Parser{
      * POST PROCESSING
      */
     private async componentConections(): Promise<void>{
-
-        const q1 = `PREFIX fso: <https://w3id.org/fso#>
-                    INSERT{
+        // Components can be asserted as "fso:connectedWith" each other if their ports are connected.
+        const symmetricConnectionQuery = `PREFIX fso: <https://w3id.org/fso#>
+                    INSERT {
                         ?e1 fso:connectedWith ?e2 .
                         ?e2 fso:connectedWith ?e1 .
                     }
-                    WHERE{
-                        ?e1 a fso:Component .
-                        ?e2 a fso:Component .
+                    WHERE {
                         ?e1 fso:connectedPort ?p1 .
                         ?p1 fso:connectedPort ?p2 .
                         ?p2 fso:connectedComponent ?e2 .
+                        ?p1 a fso:Port .
+                        ?p2 a fso:Port .
                     }`;
-        
-        await this.executeUpdateQuery(q1);
 
-        const q2 = `PREFIX fso: <https://w3id.org/fso#>
-                    INSERT{
+        // Components can be asserted to have a directional (fluid) flow relationship if ports are 
+        // connected and one is an OutPort while the other is an InPort.
+        const directionalFluidConnectionQuery = `PREFIX fso: <https://w3id.org/fso#>
+                    INSERT {
                         ?e1 fso:feedsFluidTo ?e2 .
-                        ?e2 fso:hasFluidFedBy ?e1
+                        ?e2 fso:hasFluidFedBy ?e1 .
                     }
-                    WHERE{
-                        ?e1 a fso:Component .
-                        ?e2 a fso:Component .
-                        ?p1 a fso:OutPort .
+                    WHERE {
                         ?e1 fso:connectedPort ?p1 .
                         ?p1 fso:connectedPort ?p2 .
                         ?p2 fso:connectedComponent ?e2 .
                     }`;
-        
-        await this.executeUpdateQuery(q2);
 
-        const q3 = `PREFIX fso: <https://w3id.org/fso#>
-                    INSERT{
-                        ?e1 fso:feedsFluidTo ?e2 .
-                        ?e2 fso:hasFluidFedBy ?e1
-                    }
-                    WHERE{
-                        ?e1 a fso:Component .
-                        ?e2 a fso:Component .
-                        ?p2 a fso:InPort .
-                        ?e1 fso:connectedPort ?p1 .
-                        ?p1 fso:connectedPort ?p2 .
-                        ?p2 fso:connectedComponent ?e2 .
-                    }`;
-        
-        await this.executeUpdateQuery(q3);
+        await this.executeUpdateQuery(symmetricConnectionQuery);
+        await this.executeUpdateQuery(directionalFluidConnectionQuery);
     }
 
     private async connectionInterfaces(): Promise<void>{

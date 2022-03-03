@@ -96,7 +96,7 @@ export class PropertyParser extends Parser{
             let obj = {"@id": URI, "ex:globalId": globalId};
 
             if(name != undefined) obj["rdfs:label"] = decodeString(name);
-            if(description != undefined) obj["rdfs:description"] = description;
+            if(description != undefined) obj["rdfs:description"] = decodeString(description);
 
             // Specific for ports
             if(properties.type == IFCPORT || properties.type == IFCDISTRIBUTIONPORT){
