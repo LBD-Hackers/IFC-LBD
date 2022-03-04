@@ -22,7 +22,7 @@ const typeMappings: {[key: number]: string[]}  = {
 
 export class FSOParser extends Parser{
 
-    public async doParse(): Promise<JSONLD|string>{
+    public async doParse(normalizeToSI: boolean = true): Promise<JSONLD|string>{
 
         this.verbose && console.log("Started FSO parsing");
         this.verbose && console.log("");
@@ -46,7 +46,7 @@ export class FSOParser extends Parser{
         this.jsonLDObject["@graph"].push(...(await this.portFlowDirection(portIDs)));
         this.verbose && console.timeEnd("4/10: Finding port flow directions");
         this.verbose && console.time("5/10: Finding port placements");
-        this.jsonLDObject["@graph"].push(...(await this.portPlacements(portIDs)));
+        this.jsonLDObject["@graph"].push(...(await this.portPlacements(portIDs, normalizeToSI)));
         this.verbose && console.timeEnd("5/10: Finding port placements");
         this.verbose && console.log("");
 
@@ -68,7 +68,7 @@ export class FSOParser extends Parser{
         await this.connectionInterfaces();
         this.verbose && console.timeEnd("9/10: Deducing connection interfaces");
         this.verbose && console.time("10/10: Calculating segment lengths");
-        await this.segmentLengths();
+        await this.segmentLengths(normalizeToSI);
         this.verbose && console.timeEnd("10/10: Calculating segment lengths");
 
         console.timeEnd("Finished FSO parsing");
@@ -224,7 +224,10 @@ export class FSOParser extends Parser{
 
     }
 
-    private async portPlacements(expressIDArray: number[]): Promise<any[]>{
+    private async portPlacements(expressIDArray: number[], normalizeToSI: boolean): Promise<any[]>{
+
+        let mf = 1
+        if(normalizeToSI) mf = await this.getLengthMultiplicationFactor();
         
         const graph: any[] = [];
         for (let i = 0; i < expressIDArray.length; i++) {
@@ -232,7 +235,7 @@ export class FSOParser extends Parser{
             const props = await this.ifcAPI.properties.getItemProperties(this.modelID, expressID, true);
 
             const coordinates = await getGlobalPosition(props.ObjectPlacement);
-            const point = `POINT Z(${coordinates[0]} ${coordinates[1]} ${coordinates[2]})`;
+            const point = `POINT Z(${coordinates[0] * mf} ${coordinates[1] * mf} ${coordinates[2] * mf})`;
 
             const portURI = defaultURIBuilder(props.GlobalId.value);
             const cpURI = portURI + "_cp";
@@ -307,7 +310,11 @@ export class FSOParser extends Parser{
     }
 
     // NB! pretty slow, so probably better to just get them from the IFC directly
-    private async segmentLengths(): Promise<void>{
+    private async segmentLengths(normalizeToSI: boolean): Promise<void>{
+
+        let multiplicationFactor = 1
+        if(normalizeToSI) multiplicationFactor = await this.getLengthMultiplicationFactor();
+
         const query = `PREFIX fso: <https://w3id.org/fso#>
         PREFIX omg: <https://w3id.org/omg#>
         PREFIX fog: <https://w3id.org/fog#>
@@ -322,9 +329,18 @@ export class FSOParser extends Parser{
             FILTER(?port1 != ?port2)
             ?port1 omg:hasGeometry/fog::asSfa_v2-wkt ?p1 .
             ?port2 omg:hasGeometry/fog::asSfa_v2-wkt ?p2 .
-            BIND(geosf:distance(?p1, ?p2, 3) AS ?d)
+            BIND(geosf:distance(?p1, ?p2, 3) * ${multiplicationFactor} AS ?d)
         }`;
         await this.executeUpdateQuery(query);
-    }    
+    }
+
+    private async getLengthMultiplicationFactor(): Promise<number>{
+        const units = await this.getUnits();
+        let multiplicationFactor = 1;
+        if(units && units["LENGTHUNIT"] != undefined){
+            multiplicationFactor = units["LENGTHUNIT"];
+        }
+        return multiplicationFactor;
+    }
 
 }

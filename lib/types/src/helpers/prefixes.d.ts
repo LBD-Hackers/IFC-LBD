@@ -5,6 +5,7 @@ export declare const prefixes: {
     fso: string;
     ifc: string;
     inst: string;
+    kbt: string;
     omg: string;
     rdfs: string;
     tso: string;

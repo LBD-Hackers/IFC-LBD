@@ -99,8 +99,6 @@ export class ProductParser extends Parser{
         // Build triples
         for (let i = 0; i < expressIDArray.length; i++) {
             const expressID = expressIDArray[i];
-
-            const props = await this.ifcAPI.properties.getItemProperties(this.modelID, expressID);
             
             const {type, GlobalId, PredefinedType} = await this.ifcAPI.properties.getItemProperties(this.modelID, expressID);
             const URI = defaultURIBuilder(GlobalId.value);
@@ -109,7 +107,9 @@ export class ProductParser extends Parser{
             graph.push({
                 "@id": URI,
                 "@type": `ifc:${IfcElements[type]}`,
-                "kbt:ifcTypeSpecification": `ifc:${PredefinedType.value}`
+                "kbt:ifcTypeSpecification": {
+                    "@id": `ifc:${PredefinedType.value}`
+                }
             });
             
         }

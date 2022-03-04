@@ -5,7 +5,7 @@ export declare class Input {
     ifcRelationship: number;
     ifcSubjectRel: string;
     ifcTargetRel: string;
-    rdfRelationship: string;
+    rdfRelationship?: string;
     oppoiteRelationship?: string;
     ifcSubjectClassIn?: number[];
     ifcTargetClassIn?: number[];

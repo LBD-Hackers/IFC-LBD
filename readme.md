@@ -61,6 +61,9 @@ ifcApi.CloseModel(modelID);
 
 ### Flow Systems Ontology (FSO)
 Exports triples in compliance with the [Flow Systems Ontology](https://w3id.org/fso). In addition, ports are also exported and the center points of these are exported as [OMG](https://w3id.org/omg) geometries. Pipe lengths are calculated from the distance between its two ports.
+
+Coordinates and lengths are normalized to meters.
+
 ```typescript
 // Init LBD Parser and parse FSO
 const lbdParser = new LBDParser();
@@ -83,6 +86,7 @@ const products = await lbdParser.parseProductTriples(ifcApi, modelID);
 ```
 
 ### IFC Properties
+All measurements (lengths, areas, volumes) are normalized to SI-units (m, m2, m3).
 ```typescript
 // Init LBD Parser and parse properties
 const lbdParser = new LBDParser();

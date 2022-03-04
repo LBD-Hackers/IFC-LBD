@@ -6,7 +6,13 @@ import { toRDF, fromRDF, compact } from "jsonld";
 import * as N3 from 'n3';
 import { newEngine } from '@comunica/actor-init-sparql-rdfjs';
 import { geoSPARQLFunctions } from "comunica-geosparql/lib/bundles/bundle.umd";
+import { IfcUnits } from '../helpers/unit-tools';
 
+export interface ModelUnits{
+    LENGTHUNIT: number;
+    AREAUNIT: number;
+    VOLUMEUNIT: number;
+}
 export class Parser{
 
     public jsonLDObject: JSONLD = {"@context": prefixes, "@graph": []};
@@ -19,11 +25,29 @@ export class Parser{
     public store: N3.Store = new N3.Store();
     public extensionFunctions = {...extensionFunctions, ...geoSPARQLFunctions};
 
+    public modelUnits: ModelUnits; // Model units
+
+    private globalIdMap: any = {}; // Object that maintains idMap between expressID and GlobalId
+
     constructor(ifcAPI: WebIFC.IfcAPI, modelID: number, format: SerializationFormat = SerializationFormat.JSONLD, verbose: boolean = false){
         this.modelID = modelID;
         this.ifcAPI = ifcAPI;
         this.verbose = verbose;
         this.format = format;
+    }
+
+    public async getGlobalId(expressID: number){
+        if(!this.idMapIncludes(expressID)){
+            const { GlobalId} = await this.ifcAPI.properties.getItemProperties(this.modelID, expressID);
+            this.storeGlobalId(expressID, GlobalId.value);
+            return GlobalId;
+        }else{
+            return this.globalIdMap[expressID];
+        }
+    }
+
+    public storeGlobalId(expressID: number, globalId: string){
+        this.globalIdMap[expressID] = globalId;
     }
 
     public async getTriples(): Promise<JSONLD|string>{
@@ -73,6 +97,26 @@ export class Parser{
 
     public getStoreSize(): number{
         return this.store.size;
+    }
+
+    public async getUnits(): Promise<ModelUnits>{
+
+        if(this.modelUnits == undefined){
+            const ifcUnits = new IfcUnits(this.ifcAPI);
+            this.modelUnits = await ifcUnits.getUnitsOfModel(this.modelID);
+        }
+
+        return this.modelUnits;
+    }
+
+    // Should take an IFC nominal value and convert it to a normalized one
+    public normalizeMeasurement(){
+
+    }
+
+    private idMapIncludes(expressID: number){
+        if(this.globalIdMap == undefined) return false;
+        return Object.keys(this.globalIdMap).indexOf(expressID.toString()) != -1;
     }
 
     private async getJSONLD(): Promise<JSONLD>{
