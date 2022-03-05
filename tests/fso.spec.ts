@@ -17,7 +17,7 @@ beforeAll(async () => {
 
 describe('FSO', () => {
 
-    test('can parse MEP model', async () => {
+    test('can parse MEP model with lengths converted to meters', async () => {
 
         // Init API and load model
         const ifcApi = new WebIFC.IfcAPI();
@@ -35,18 +35,23 @@ describe('FSO', () => {
         const rdf: any = await toRDF(fso);
         const tripleCount = rdf.length;
 
-        // // Print lengths
-        // rdf.forEach(triple => {
-        //     if(triple.predicate.value == "https://example.com/length"){
-        //         console.log(triple);
-        //     }
-        // })
+        // Get length of specific pipe
+        let pipeLength = 0;
+        rdf.forEach(triple => {
+            if(triple.subject.value == "https://example.com/3ToSAz1uv2RhyV07DgOmV3" && triple.predicate.value == "https://example.com/length"){
+                pipeLength = parseFloat(triple.object.value);
+            }
+        })
 
         // Evaluate
         expect(Array.isArray(fso["@graph"])).toBe(true);
         expect(fso["@graph"].length).toBe(605);
         expect(Array.isArray(rdf)).toBe(true);
-        expect(tripleCount).toBe(3198);
+        expect(tripleCount).toBe(3758);
+
+        expect(pipeLength).toBe(252.933);   // in mm as the model is in
+
+        // Next: Allow user to use the "normalizeToSI" which will convert all lengths to meters
 
     });
 

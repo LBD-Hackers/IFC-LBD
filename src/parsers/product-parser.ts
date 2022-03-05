@@ -103,14 +103,18 @@ export class ProductParser extends Parser{
             const {type, GlobalId, PredefinedType} = await this.ifcAPI.properties.getItemProperties(this.modelID, expressID);
             const URI = defaultURIBuilder(GlobalId.value);
 
-            // Push product
-            graph.push({
+            let obj = {
                 "@id": URI,
-                "@type": `ifc:${IfcElements[type]}`,
-                "kbt:ifcTypeSpecification": {
-                    "@id": `ifc:${PredefinedType.value}`
-                }
-            });
+                "@type": `ifc:${IfcElements[type]}`
+            }
+
+            // Add type if present
+            if(PredefinedType){
+                obj["kbt:ifcTypeSpecification"] = { "@id": `ifc:${PredefinedType.value}` }
+            }
+
+            // Push product
+            graph.push(obj);
             
         }
 

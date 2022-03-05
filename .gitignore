@@ -4,3 +4,4 @@
 .history
 triples.json
 *.nq
+*.nq.gz

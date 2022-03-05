@@ -77,7 +77,7 @@
     "ifc-lbd": "./lib/cli-tool/index.js"
   },
   "dependencies": {
-    "comunica-geosparql": "^0.0.1",
+    "comunica-geosparql": "^0.0.2",
     "node-gzip": "^1.1.2"
   }
 }

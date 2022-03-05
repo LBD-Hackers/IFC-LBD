@@ -1,7 +1,7 @@
 import { Parser } from "./parser";
 import { JSONLD } from "../helpers/BaseDefinitions";
 export declare class FSOParser extends Parser {
-    doParse(): Promise<JSONLD | string>;
+    doParse(normalizeToSI?: boolean): Promise<JSONLD | string>;
     /**
      * CLASS ASSIGNMENT
      */
@@ -23,5 +23,6 @@ export declare class FSOParser extends Parser {
     private componentConections;
     private connectionInterfaces;
     private segmentLengths;
+    private getLengthMultiplicationFactor;
 }
 //# sourceMappingURL=fso-parser.d.ts.map
