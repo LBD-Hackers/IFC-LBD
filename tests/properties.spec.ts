@@ -64,6 +64,9 @@ describe('PROPERTIES', () => {
         const rdf: any = await toRDF(props);
         const tripleCount = rdf.length;
 
+        // Get length of specific pipe
+        
+
         // Evaluate
         expect(Array.isArray(props["@graph"])).toBe(true);
         expect(props["@graph"].length).toBe(364);
