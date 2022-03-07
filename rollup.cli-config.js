@@ -27,7 +27,7 @@ export default  {
       include: ['src/**/*.ts'], 
       extensions, 
       exclude: "node_modules/(?!web-ifc)",
-      "plugins": [["@babel/plugin-transform-runtime", {
+      plugins: [["@babel/plugin-transform-runtime", {
           "regenerator": true
         }]
       ]

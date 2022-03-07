@@ -1,31 +1,19 @@
 import {
     IFCDISTRIBUTIONPORT,
-    IFCDISTRIBUTIONSYSTEM,
-    IFCELEMENT,
     IFCGROUP,
-    IFCOBJECT,
     IFCPORT,
-    IFCPRODUCT,
-    IFCSYSTEM
+    IFCPRODUCT
 } from 'web-ifc';
 import { ModelUnits, Parser } from "./parser";
 import { JSONLD } from "../helpers/BaseDefinitions";
 import { getAllItemsOfTypeOrSubtype } from "../helpers/item-search";
 import { defaultURIBuilder } from '../helpers/uri-builder';
 import { decodeString } from '../helpers/character-decode';
-import { IfcDatatypes, IfcLabels } from '../helpers/IfcDatatypesMap';
-import { getUCUMCode, UnitType } from '../helpers/unit-tools';
-import { BehaviorSubject, distinctUntilChanged, filter, map, Observable } from 'rxjs';
+import { Input, PropertyAPI } from '../helpers/properties';
+import { ProgressTracker } from '../helpers/progress-tracker';
 
 // Thoughts
 // - We should probably have a list of known IFC property sets and properties that we can match against
-
-interface PSetProperty{
-    URI: string;
-    camelName: string;
-    label: string;
-    unit?: string;
-}
 
 export class PropertyParser extends Parser{
 
@@ -35,10 +23,7 @@ export class PropertyParser extends Parser{
     public psetNames: string[] = [];    // Holds all property set names found in model
     public psetProperties: any = {};    // Holds the properties that exist in each property set. Key = psetName
 
-    // For tracking progress
-    public processedCount = 0;
-    public processedCount$ = new BehaviorSubject<number>(0);
-    public progressEmitEvery = 5;   // Emit every 5 %
+    public progressTracker = new ProgressTracker()
 
     public async doParse(normalizeToSI: boolean = true): Promise<JSONLD|string>{
 
@@ -54,28 +39,30 @@ export class PropertyParser extends Parser{
         this.modelUnits = await this.getUnits();
         this.verbose && console.timeEnd("Getting model units");
 
-        // Subscribe to progress in current event
-        if(this.verbose){
-            this.getProgress(this.itemIDs.length).subscribe(progress => {
-                console.log(progress);
-            });
-        }
-
         this.verbose && console.log("## STEP 1: DIRECT PROPERTIES ##");
-        this.verbose && console.time("1/3: Finding direct properties");
+        this.verbose && console.time("1/3: Found direct properties");
         this.jsonLDObject["@graph"].push(...(await this.getElementProperties()));
-        this.verbose && console.timeEnd("1/3: Finding direct properties");
+        this.verbose && console.timeEnd("1/3: Found direct properties");
         console.log("");
 
+        const input: Input = {
+            ifcAPI: this.ifcAPI,
+            modelID: this.modelID,
+            normalizeToSI,
+            modelUnits: this.modelUnits
+        }
+        const propertyAPI = new PropertyAPI(input);
+
         this.verbose && console.log("## STEP 2: PSET PROPERTIES ##");
-        this.verbose && console.time("2/3: Finding pset properties");
-        this.jsonLDObject["@graph"].push(...(await this.getPSetProperties(normalizeToSI)));
-        this.verbose && console.timeEnd("2/3: Finding pset properties");
+        this.verbose && console.time("2/3: Found pset properties");
+        this.jsonLDObject["@graph"].push(...(await propertyAPI.getAllProperties(this.verbose)));
+        this.verbose && console.timeEnd("2/3: Found pset properties");
         console.log("");
 
         this.verbose && console.log("## STEP 3: WRITE PROPERTY SETS ##");
         this.verbose && console.time("3/3: Writing the property sets themselves (TBox)");
-        this.jsonLDObject["@graph"].push(...(await this.writePSets()));
+        this.jsonLDObject["@graph"].push(...(await propertyAPI.getPSets()));
+        this.jsonLDObject["@graph"].push(...(await propertyAPI.getElementQuantities()));
         this.verbose && console.timeEnd("3/3: Writing the property sets themselves (TBox)");
         console.log("");
 
@@ -102,81 +89,27 @@ export class PropertyParser extends Parser{
      */
     async getElementProperties(): Promise<any[]>{
 
+        // Subscribe to progress in current event
+        if(this.verbose){
+            this.progressTracker.getProgress(this.itemIDs.length).subscribe(progress => {
+                console.log(progress);
+            });
+        }
+
         // Reset counter
-        this.resetProcessedCount();
+        this.progressTracker.resetProcessedCount();
 
         const propertyPromises = [];
         for (let i = 0; i < this.itemIDs.length; i++) {
             const expressID = this.itemIDs[i];
-            propertyPromises.push(this.buildDirectProperties(expressID));
+            propertyPromises.push(this.buildDirectProperties(expressID, this.progressTracker));
         }
 
         return await Promise.all(propertyPromises);
 
     }
 
-    async getPSetProperties(normalizeToSI: boolean): Promise<any[]>{
-
-        // Reset counter
-        this.resetProcessedCount();
-
-        let psetPropsPromises = [];
-
-        for (let i = 0; i < this.itemIDs.length; i++) {
-            const expressID = this.itemIDs[i];
-            const globalId = await this.getGlobalId(expressID);
-            psetPropsPromises.push(this.buildPsetProperties(expressID, globalId, normalizeToSI));
-        }
-        
-        const graph = await Promise.all(psetPropsPromises);
-        return graph.filter(item => item != null);  // Remove empty elements
-
-    }
-
-    public writePSets(){
-
-        const graph = [];
-
-        for (let i = 0; i < this.psetNames.length; i++) {
-
-            const psetName = this.psetNames[i];
-            const psetURI = `ex:${encodeURIComponent(this.pascalize(psetName))}`;
-
-            let psetObject = {
-                "@id": psetURI,
-                "@type": "ifc:IfcPropertySet",
-                "rdfs:label": psetName,
-                "ex:hasProperty": []
-            };
-
-            for (let j = 0; j < this.psetProperties[psetName].length; j++) {
-                const psetProp = this.psetProperties[psetName][j];
-
-                if(psetProp == undefined) continue;
-
-                const propObject = {
-                    "@id": psetProp.URI,
-                    "@type": "rdf:Property",
-                    "rdfs:label": psetProp.label,
-                    "ex:belongsToPset": {"@id": psetURI}
-                }
-
-                // Add unit
-                if(psetProp.unit != undefined){
-                    propObject["qudt:ucumCode"] = {'@value': psetProp.unit, '@type': "xsd:string"};
-                }
-
-                psetObject["ex:hasProperty"].push(propObject);
-            }
-
-            graph.push(psetObject);
-        }
-
-        return graph;
-        
-    }
-
-    private async buildDirectProperties(expressID: number): Promise<any>{
+    private async buildDirectProperties(expressID: number, progressTracker?: ProgressTracker): Promise<any>{
 
         const properties = await this.ifcAPI.properties.getItemProperties(this.modelID, expressID);
 
@@ -224,148 +157,10 @@ export class PropertyParser extends Parser{
         // }
 
         // Increment count
-        this.incrementProcessedCount();
+        if(progressTracker != undefined) progressTracker.incrementProcessedCount();
 
         return obj;
 
     }
-
-    private async buildPsetProperties(expressID: number, objectGlobalId: string, normalizeToSI: boolean){
-
-        let propObject = {
-            "@id": defaultURIBuilder(objectGlobalId)
-        }
-
-        const psetProperties = await this.ifcAPI.properties.getPropertySets(this.modelID, expressID, true);
-
-        for (let i = 0; i < psetProperties.length; i++) {
-
-            // Deconstruct object
-            const { expressID, type, Name, GlobalId, Description, HasProperties } = psetProperties[i];
-
-            if(HasProperties == undefined || !HasProperties.length) continue;
-    
-            // Add pset name to array containing the pset names
-            const psetName = Name.value;
-            if(this.psetNames.indexOf(psetName) == -1){
-                this.psetNames.push(psetName);
-                this.psetProperties[psetName] = [];
-            }
-
-            // Loop over properties and save them
-            for (let j = 0; j < HasProperties.length; j++) {
-
-                const name = HasProperties[j].Name.value;
-                const camelName = this.camelize(name);
-                const psetPascalName = this.pascalize(psetName);
-                const propNameFull = camelName + psetPascalName;
-                const nominalValue = HasProperties[j].NominalValue;
-                if(nominalValue == undefined) continue;
-                const value = this.nominalValueToJSONLD(nominalValue, normalizeToSI);
-                const uri = `inst:${propNameFull}`;
-
-                propObject[uri] = value;
-
-                // Add properties to object containing the pset properties
-                if(this.psetProperties[psetName].map(item => item.camelName).indexOf(camelName) == -1){
-
-                    const prop: PSetProperty = {
-                        URI: uri,
-                        label: name,
-                        camelName
-                    }
-
-                    if(normalizeToSI){
-                        if(nominalValue.label == "IFCLENGTHMEASURE") prop.unit = getUCUMCode(UnitType.LENGTHUNIT, this.modelUnits.LENGTHUNIT);
-                        if(nominalValue.label == "IFCAREAMEASURE") prop.unit = getUCUMCode(UnitType.AREAUNIT, this.modelUnits.AREAUNIT);
-                        if(nominalValue.label == "IFCVOLUMEMEASURE") prop.unit = getUCUMCode(UnitType.VOLUMEUNIT, this.modelUnits.VOLUMEUNIT);
-                    }
-
-                    this.psetProperties[psetName].push(prop);
-                }
-
-            }
-
-        }
-
-        // Increment count
-        this.incrementProcessedCount();
-
-        // Skip if no properties were added
-        if(Object.keys(propObject).length == 1) return null;
-
-        return propObject;
-
-    }
-
-    private nominalValueToJSONLD(val: any, normalizeToSI: boolean){
-
-        let dataType;
-
-        if(IfcLabels[val.label] == "xsd:boolean"){
-            if(val.value == "F") val.value = false;
-            if(val.value == "T") val.value = true;
-            dataType == "xsd:boolean";
-        }
-
-        if(IfcLabels[val.label] == "xsd:integer") dataType == "xsd:integer";
-
-        if(normalizeToSI){
-            if(val.label == "IFCLENGTHMEASURE"){
-                val.value = this.modelUnits.LENGTHUNIT * val.value;
-            }
-            if(val.label == "IFCAREAMEASURE"){
-                val.value = this.modelUnits.AREAUNIT * val.value;
-            }
-            if(val.label == "IFCVOLUMEMEASURE"){
-                val.value = this.modelUnits.VOLUMEUNIT * val.value;
-            }
-        }
-
-        if(dataType == undefined) dataType = IfcDatatypes[val.valueType];
-
-        if(dataType == undefined) console.log(val);
-
-        let value = dataType == "xsd:string" ? decodeString(val.value) : val.value.toString();
-
-        return {'@value': value, '@type': dataType}
-    }
-
-    private camelize(str: string): string{
-        return str.replace(/(?:^\w|[A-Z]|\b\w)/g, function(word, index) {
-          return index === 0 ? word.toLowerCase() : word.toUpperCase();
-        }).replace(/\s+/g, '').replace(/\s+/g, '');
-    }
-
-    private resetProcessedCount(): void{
-        this.processedCount = 0;
-        this.processedCount$.next(this.processedCount);
-    }
-
-    private incrementProcessedCount(): void{
-        this.processedCount++;
-        this.processedCount$.next(this.processedCount);
-    }
-
-    private getProgress(totalCount: number): Observable<string>{
-        return this.processedCount$.asObservable().pipe(
-            filter(currentCount => currentCount > 0),                                       // Skip 0 %
-            map(currentCount => currentCount/totalCount*100),                               // Calculate pct
-            map(pct => Math.floor(pct/this.progressEmitEvery)*this.progressEmitEvery),      // Round down
-            distinctUntilChanged(),                                                         // Emit only when different from last
-            map(pct => `${pct} %`)                                                          // To string
-        );
-    }
-
-    private pascalize(string) {
-        return `${string}`
-          .replace(new RegExp(/[-_]+/, 'g'), ' ')
-          .replace(new RegExp(/[^\w\s]/, 'g'), '')
-          .replace(
-            new RegExp(/\s+(.)(\w*)/, 'g'),
-            ($1, $2, $3) => `${$2.toUpperCase() + $3.toLowerCase()}`
-          )
-          .replace(new RegExp(/\w/), s => s.toUpperCase());
-      }
 
 }

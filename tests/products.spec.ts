@@ -35,7 +35,7 @@ describe('PRODUCTS', () => {
 
         // Evaluate
         expect(Array.isArray(products["@graph"])).toBe(true);
-        expect(products["@graph"].length).toBe(218);
+        expect(products["@graph"].length).toBe(354);
 
     });
 

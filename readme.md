@@ -107,6 +107,8 @@ Remember to write tests! That's also the preferred approach to developing new fu
 |FSO[triples]|-|1,560|-|32,024|
 |Products[ms]|9|8|46|174|
 |Products[triples]|218|85|3,635|16,012|
+|Properties[ms]|355|110|6228| |
+|Properties[triples]|14898|525|259,038| |
 
 ## Units
 In the current setup, all units are as defined in the input model. Will be neutralized to the following in a future release:

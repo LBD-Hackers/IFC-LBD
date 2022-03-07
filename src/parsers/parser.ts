@@ -40,7 +40,7 @@ export class Parser{
         if(!this.idMapIncludes(expressID)){
             const { GlobalId} = await this.ifcAPI.properties.getItemProperties(this.modelID, expressID);
             this.storeGlobalId(expressID, GlobalId.value);
-            return GlobalId;
+            return GlobalId.value;
         }else{
             return this.globalIdMap[expressID];
         }

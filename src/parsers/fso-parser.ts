@@ -22,7 +22,7 @@ const typeMappings: {[key: number]: string[]}  = {
 
 export class FSOParser extends Parser{
 
-    public async doParse(normalizeToSI: boolean = true): Promise<JSONLD|string>{
+    public async doParse(normalizeToSI: boolean = false): Promise<JSONLD|string>{
 
         this.verbose && console.log("Started FSO parsing");
         this.verbose && console.log("");
@@ -226,8 +226,10 @@ export class FSOParser extends Parser{
 
     private async portPlacements(expressIDArray: number[], normalizeToSI: boolean): Promise<any[]>{
 
-        let mf = 1
-        if(normalizeToSI) mf = await this.getLengthMultiplicationFactor();
+        let mf = 1;
+        if(normalizeToSI){
+            mf = await this.getLengthMultiplicationFactor();
+        }
         
         const graph: any[] = [];
         for (let i = 0; i < expressIDArray.length; i++) {
@@ -245,7 +247,7 @@ export class FSOParser extends Parser{
                 "omg:hasGeometry": {
                     "@id": cpURI,
                     "@type": ["omg:Geometry", "ex:CenterPoint"],
-                    "fog::asSfa_v2-wkt": point
+                    "fog:asSfa_v2-wkt": point
                 }
             });
 
@@ -312,8 +314,13 @@ export class FSOParser extends Parser{
     // NB! pretty slow, so probably better to just get them from the IFC directly
     private async segmentLengths(normalizeToSI: boolean): Promise<void>{
 
-        let multiplicationFactor = 1
-        if(normalizeToSI) multiplicationFactor = await this.getLengthMultiplicationFactor();
+        let mf = 1;
+        let decimals = 3;
+        if(normalizeToSI){
+            mf = await this.getLengthMultiplicationFactor();
+        }
+        console.log(mf);
+        console.log(decimals);
 
         const query = `PREFIX fso: <https://w3id.org/fso#>
         PREFIX omg: <https://w3id.org/omg#>
@@ -327,9 +334,9 @@ export class FSOParser extends Parser{
             ?seg a fso:Segment ;
                 fso:connectedPort ?port1 , ?port2 .
             FILTER(?port1 != ?port2)
-            ?port1 omg:hasGeometry/fog::asSfa_v2-wkt ?p1 .
-            ?port2 omg:hasGeometry/fog::asSfa_v2-wkt ?p2 .
-            BIND(geosf:distance(?p1, ?p2, 3) * ${multiplicationFactor} AS ?d)
+            ?port1 omg:hasGeometry/fog:asSfa_v2-wkt ?p1 .
+            ?port2 omg:hasGeometry/fog:asSfa_v2-wkt ?p2 .
+            BIND(geosf:distance(?p1, ?p2, ${decimals}, ${mf}) AS ?d)
         }`;
         await this.executeUpdateQuery(query);
     }
