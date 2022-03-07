@@ -1,10 +1,7 @@
 import { JSONLD, SerializationFormat } from "../helpers/BaseDefinitions";
 import * as WebIFC from "web-ifc/web-ifc-api.js";
 import * as N3 from 'n3';
-<<<<<<< HEAD
 import { QueryEngine } from '@comunica/query-sparql';
-=======
->>>>>>> 1b11010ee10f2e8082c0ba68efbceffe5cbd0347
 export interface ModelUnits {
     LENGTHUNIT: number;
     AREAUNIT: number;
