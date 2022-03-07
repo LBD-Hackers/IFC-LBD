@@ -54,7 +54,6 @@
     "yargs": "^17.3.0"
   },
   "peerDependencies": {
-    "@comunica/actor-init-sparql-rdfjs": "^1.22.3",
     "n3": "^1.13.0",
     "jsonld": "^5.2.0",
     "web-ifc": "^0.0.30"

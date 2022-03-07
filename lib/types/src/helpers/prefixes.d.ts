@@ -7,7 +7,10 @@ export declare const prefixes: {
     inst: string;
     kbt: string;
     omg: string;
+    qudt: string;
+    rdf: string;
     rdfs: string;
     tso: string;
+    xsd: string;
 };
 //# sourceMappingURL=prefixes.d.ts.map

@@ -13,7 +13,7 @@ const globalVarNames = {
   'web-ifc': 'webIfc',
   'jsonld': 'jsonld',
   'n3': 'N3',
-  '@comunica/actor-init-sparql-rdfjs': 'comunica'
+  '@comunica/query-sparql': 'comunica'
 }
 
 export default [

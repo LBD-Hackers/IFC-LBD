@@ -15,6 +15,7 @@ import { defaultURIBuilder } from '../helpers/uri-builder';
 import { decodeString } from '../helpers/character-decode';
 import { IfcDatatypes, IfcLabels } from '../helpers/IfcDatatypesMap';
 import { getUCUMCode, UnitType } from '../helpers/unit-tools';
+import { BehaviorSubject, distinctUntilChanged, filter, map, Observable } from 'rxjs';
 
 // Thoughts
 // - We should probably have a list of known IFC property sets and properties that we can match against
@@ -34,6 +35,11 @@ export class PropertyParser extends Parser{
     public psetNames: string[] = [];    // Holds all property set names found in model
     public psetProperties: any = {};    // Holds the properties that exist in each property set. Key = psetName
 
+    // For tracking progress
+    public processedCount = 0;
+    public processedCount$ = new BehaviorSubject<number>(0);
+    public progressEmitEvery = 5;   // Emit every 5 %
+
     public async doParse(normalizeToSI: boolean = true): Promise<JSONLD|string>{
 
         this.verbose && console.log("Started PROPERTIES parsing");
@@ -47,6 +53,13 @@ export class PropertyParser extends Parser{
         this.verbose && console.time("Getting model units");
         this.modelUnits = await this.getUnits();
         this.verbose && console.timeEnd("Getting model units");
+
+        // Subscribe to progress in current event
+        if(this.verbose){
+            this.getProgress(this.itemIDs.length).subscribe(progress => {
+                console.log(progress);
+            });
+        }
 
         this.verbose && console.log("## STEP 1: DIRECT PROPERTIES ##");
         this.verbose && console.time("1/3: Finding direct properties");
@@ -89,6 +102,9 @@ export class PropertyParser extends Parser{
      */
     async getElementProperties(): Promise<any[]>{
 
+        // Reset counter
+        this.resetProcessedCount();
+
         const propertyPromises = [];
         for (let i = 0; i < this.itemIDs.length; i++) {
             const expressID = this.itemIDs[i];
@@ -101,7 +117,11 @@ export class PropertyParser extends Parser{
 
     async getPSetProperties(normalizeToSI: boolean): Promise<any[]>{
 
+        // Reset counter
+        this.resetProcessedCount();
+
         let psetPropsPromises = [];
+
         for (let i = 0; i < this.itemIDs.length; i++) {
             const expressID = this.itemIDs[i];
             const globalId = await this.getGlobalId(expressID);
@@ -203,6 +223,9 @@ export class PropertyParser extends Parser{
         //     console.log(properties);
         // }
 
+        // Increment count
+        this.incrementProcessedCount();
+
         return obj;
 
     }
@@ -220,7 +243,7 @@ export class PropertyParser extends Parser{
             // Deconstruct object
             const { expressID, type, Name, GlobalId, Description, HasProperties } = psetProperties[i];
 
-            if(HasProperties == undefined || !HasProperties.length) return;
+            if(HasProperties == undefined || !HasProperties.length) continue;
     
             // Add pset name to array containing the pset names
             const psetName = Name.value;
@@ -264,6 +287,9 @@ export class PropertyParser extends Parser{
             }
 
         }
+
+        // Increment count
+        this.incrementProcessedCount();
 
         // Skip if no properties were added
         if(Object.keys(propObject).length == 1) return null;
@@ -309,6 +335,26 @@ export class PropertyParser extends Parser{
         return str.replace(/(?:^\w|[A-Z]|\b\w)/g, function(word, index) {
           return index === 0 ? word.toLowerCase() : word.toUpperCase();
         }).replace(/\s+/g, '').replace(/\s+/g, '');
+    }
+
+    private resetProcessedCount(): void{
+        this.processedCount = 0;
+        this.processedCount$.next(this.processedCount);
+    }
+
+    private incrementProcessedCount(): void{
+        this.processedCount++;
+        this.processedCount$.next(this.processedCount);
+    }
+
+    private getProgress(totalCount: number): Observable<string>{
+        return this.processedCount$.asObservable().pipe(
+            filter(currentCount => currentCount > 0),                                       // Skip 0 %
+            map(currentCount => currentCount/totalCount*100),                               // Calculate pct
+            map(pct => Math.floor(pct/this.progressEmitEvery)*this.progressEmitEvery),      // Round down
+            distinctUntilChanged(),                                                         // Emit only when different from last
+            map(pct => `${pct} %`)                                                          // To string
+        );
     }
 
     private pascalize(string) {

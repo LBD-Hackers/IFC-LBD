@@ -4,7 +4,7 @@ import { prefixes } from '../helpers/prefixes';
 import { extensionFunctions } from '../helpers/communica-extension-functions';
 import { toRDF, fromRDF, compact } from "jsonld";
 import * as N3 from 'n3';
-import { newEngine } from '@comunica/actor-init-sparql-rdfjs';
+import { QueryEngine } from '@comunica/query-sparql';
 import { geoSPARQLFunctions } from "comunica-geosparql/lib/bundles/bundle.umd";
 import { IfcUnits } from '../helpers/unit-tools';
 
@@ -21,7 +21,7 @@ export class Parser{
     public ifcAPI: WebIFC.IfcAPI;
     public verbose: boolean;
     public format: SerializationFormat;
-    public communicaEngine = newEngine();
+    public communicaEngine = new QueryEngine();
     public store: N3.Store = new N3.Store();
     public extensionFunctions = {...extensionFunctions, ...geoSPARQLFunctions};
 
@@ -72,7 +72,7 @@ export class Parser{
 
     public async executeUpdateQuery(query: string): Promise<void>{
         // Initiate the update
-        const engine = newEngine();
+        const engine = new QueryEngine();
         const result: any = await engine.query(query, {
             sources: [this.store],
             extensionFunctions: this.extensionFunctions
@@ -84,7 +84,7 @@ export class Parser{
 
     public async executeSelectQuery(query: string): Promise<void>{
         // Initiate the update
-        const engine = newEngine();
+        const engine = new QueryEngine();
         const result: any = await engine.query(query, {
             sources: [this.store],
             extensionFunctions: this.extensionFunctions
