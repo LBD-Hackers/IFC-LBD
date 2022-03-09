@@ -99,16 +99,16 @@ This library is intended to be expanded, so please go and add your parser or ext
 Remember to write tests! That's also the preferred approach to developing new functionalities. Run specific test: `npm run test -i <path>` (eg `jest -i tests/fso.spec.ts`)
 
 ## Stats
-|Model|Duplex (2,4MB)|MEP(962KB)|Schependomlaan(49,3MB)|Office MEP(209MB)|Lalandia(425MB)|
-|---|---|---|---|---|---|
-|BOT[ms]|34|13|128|349|424|
-|BOT[triples]|1,718|175|12,251|33,087|13,484|
-|FSO[ms]|-|48|-|165| |
-|FSO[triples]|-|1,560|-|32,024| |
-|Products[ms]|9|8|46|174|830|
-|Products[triples]|218|85|3,635|16,012|16,507|
-|Properties[ms]|355|110|6228| | |
-|Properties[triples]|14898|525|259,038| | |
+|Model|Duplex (2,4MB)|MEP(962KB)|Schependomlaan(49,3MB)|Office MEP(209,1MB)|
+|---|---|---|---|---|
+|BOT[ms]|34|13|128|349|
+|BOT[triples]|1,718|175|12,251|33,087|
+|FSO[ms]|-|48|-|165|
+|FSO[triples]|-|1,560|-|32,024|
+|Products[ms]|9|8|46|174|
+|Products[triples]|218|85|3,635|16,012|
+|Properties[ms]|161|48|3,066| |
+|Properties[triples]|15,506|1,401|266,391| |
 
 ## Units
 In the current setup, all units are as defined in the input model. Will be neutralized to the following in a future release:

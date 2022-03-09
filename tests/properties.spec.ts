@@ -40,9 +40,9 @@ describe('PROPERTIES', () => {
 
         // Evaluate
         expect(Array.isArray(props["@graph"])).toBe(true);
-        expect(props["@graph"].length).toBe(560);
+        expect(props["@graph"].length).toBe(2680);
         expect(Array.isArray(rdf)).toBe(true);
-        expect(tripleCount).toBe(14782);
+        expect(tripleCount).toBe(15506);
 
     });
 
@@ -69,7 +69,7 @@ describe('PROPERTIES', () => {
 
         // Evaluate
         expect(Array.isArray(props["@graph"])).toBe(true);
-        expect(props["@graph"].length).toBe(364);
+        expect(props["@graph"].length).toBe(678);
         expect(Array.isArray(rdf)).toBe(true);
         expect(tripleCount).toBe(1401);
 
