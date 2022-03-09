@@ -21,7 +21,6 @@ export class Parser{
     public ifcAPI: WebIFC.IfcAPI;
     public verbose: boolean;
     public format: SerializationFormat;
-    public communicaEngine = new QueryEngine();
     public store: N3.Store = new N3.Store();
     public extensionFunctions = {...extensionFunctions, ...geoSPARQLFunctions};
 
@@ -71,21 +70,18 @@ export class Parser{
     }
 
     public async executeUpdateQuery(query: string): Promise<void>{
-        // Initiate the update
         const engine = new QueryEngine();
-        const result: any = await engine.query(query, {
+        await engine.queryVoid(query, {
             sources: [this.store],
             extensionFunctions: this.extensionFunctions
         });
-        
-        // Wait for the update to complete
-        await result.updateResult;
     }
 
     public async executeSelectQuery(query: string): Promise<void>{
         // Initiate the update
         const engine = new QueryEngine();
-        const result: any = await engine.query(query, {
+        console.log(engine);
+        const result: any = await engine.queryBindings(query, {
             sources: [this.store],
             extensionFunctions: this.extensionFunctions
         });

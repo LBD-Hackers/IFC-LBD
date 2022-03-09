@@ -290,6 +290,7 @@ export class FSOParser extends Parser{
 
         await this.executeUpdateQuery(symmetricConnectionQuery);
         await this.executeUpdateQuery(directionalFluidConnectionQuery);
+
     }
 
     private async connectionInterfaces(): Promise<void>{
@@ -319,8 +320,6 @@ export class FSOParser extends Parser{
         if(normalizeToSI){
             mf = await this.getLengthMultiplicationFactor();
         }
-        console.log(mf);
-        console.log(decimals);
 
         const query = `PREFIX fso: <https://w3id.org/fso#>
         PREFIX omg: <https://w3id.org/omg#>

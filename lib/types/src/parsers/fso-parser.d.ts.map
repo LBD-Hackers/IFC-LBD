@@ -1,5 +1,1 @@
-<<<<<<< HEAD
-{"version":3,"file":"fso-parser.d.ts","sourceRoot":"","sources":["../../../../src/parsers/fso-parser.ts"],"names":[],"mappings":"AACA,OAAO,EAAE,MAAM,EAAE,MAAM,UAAU,CAAC;AAClC,OAAO,EAAE,MAAM,EAAE,MAAM,4BAA4B,CAAC;AAoBpD,qBAAa,SAAU,SAAQ,MAAM;IAEpB,OAAO,CAAC,aAAa,GAAE,OAAc,GAAG,OAAO,CAAC,MAAM,GAAC,MAAM,CAAC;IA4D3E;;OAEG;YACW,QAAQ;IAetB;;OAEG;YAIW,QAAQ;YAmBR,aAAa;YAqCb,eAAe;IAgB7B;;OAEG;YAKW,iBAAiB;YAuCjB,cAAc;IA+B5B;;OAEG;YACW,mBAAmB;YAgCnB,oBAAoB;YAoBpB,cAAc;YAwBd,6BAA6B;CAS9C"}
-=======
 {"version":3,"file":"fso-parser.d.ts","sourceRoot":"","sources":["../../../../src/parsers/fso-parser.ts"],"names":[],"mappings":"AACA,OAAO,EAAE,MAAM,EAAE,MAAM,UAAU,CAAC;AAClC,OAAO,EAAE,MAAM,EAAE,MAAM,4BAA4B,CAAC;AAoBpD,qBAAa,SAAU,SAAQ,MAAM;IAEpB,OAAO,CAAC,aAAa,GAAE,OAAe,GAAG,OAAO,CAAC,MAAM,GAAC,MAAM,CAAC;IA4D5E;;OAEG;YACW,QAAQ;IAetB;;OAEG;YAIW,QAAQ;YAmBR,aAAa;YAqCb,eAAe;IAgB7B;;OAEG;YAKW,iBAAiB;YAuCjB,cAAc;IAiC5B;;OAEG;YACW,mBAAmB;YAgCnB,oBAAoB;YAoBpB,cAAc;YA6Bd,6BAA6B;CAS9C"}
->>>>>>> 1b11010ee10f2e8082c0ba68efbceffe5cbd0347
