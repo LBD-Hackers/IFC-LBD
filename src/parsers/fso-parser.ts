@@ -50,6 +50,7 @@ export class FSOParser extends Parser{
         this.verbose && console.timeEnd("5/10: Finding port placements");
         this.verbose && console.log("");
 
+
         this.verbose && console.log("## STEP 3: SYSTEMS ##");
         this.verbose && console.time("6/10: Finding system-component relationships");
         this.jsonLDObject["@graph"].push(...(await this.systemComponent()));

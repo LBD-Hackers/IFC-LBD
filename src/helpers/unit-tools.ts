@@ -1,5 +1,4 @@
-import * as WebIFC from "web-ifc/web-ifc-api.js";
-import { IFCUNITASSIGNMENT } from 'web-ifc';
+import { IFCUNITASSIGNMENT, IfcAPI } from 'web-ifc/web-ifc-api.js';
 
 // Known types that are currently unsupported
 // TIMEUNIT = 'TIMEUNIT',
@@ -39,9 +38,9 @@ export function getUCUMCode(unitType: UnitType, multiplicationFactor: number): s
 export class IfcUnits {
 
   allUnits: { [modelID: number]: any } = {};
-  private ifcAPI: WebIFC.IfcAPI;
+  private ifcAPI: IfcAPI;
 
-  constructor(ifcAPI: WebIFC.IfcAPI) {
+  constructor(ifcAPI: IfcAPI) {
     this.ifcAPI = ifcAPI;
   }
 

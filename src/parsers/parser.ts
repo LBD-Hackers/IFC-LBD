@@ -1,5 +1,5 @@
 import { JSONLD, N3Format, SerializationFormat } from "../helpers/BaseDefinitions";
-import * as WebIFC from "web-ifc/web-ifc-api.js";
+import { IfcAPI } from 'web-ifc/web-ifc-api.js';
 import { prefixes } from '../helpers/prefixes';
 import { extensionFunctions } from '../helpers/communica-extension-functions';
 import { toRDF, fromRDF, compact } from "jsonld";
@@ -18,7 +18,7 @@ export class Parser{
     public jsonLDObject: JSONLD = {"@context": prefixes, "@graph": []};
 
     public modelID: number;
-    public ifcAPI: WebIFC.IfcAPI;
+    public ifcAPI: IfcAPI;
     public verbose: boolean;
     public format: SerializationFormat;
     public store: N3.Store = new N3.Store();
@@ -28,7 +28,7 @@ export class Parser{
 
     private globalIdMap: any = {}; // Object that maintains idMap between expressID and GlobalId
 
-    constructor(ifcAPI: WebIFC.IfcAPI, modelID: number, format: SerializationFormat = SerializationFormat.JSONLD, verbose: boolean = false){
+    constructor(ifcAPI: IfcAPI, modelID: number, format: SerializationFormat = SerializationFormat.JSONLD, verbose: boolean = false){
         this.modelID = modelID;
         this.ifcAPI = ifcAPI;
         this.verbose = verbose;

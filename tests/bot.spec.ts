@@ -2,7 +2,7 @@ import { readFile } from "fs";
 import * as util from "util";
 const readFileP = util.promisify(readFile);
 import * as path from 'path';
-import * as WebIFC from "web-ifc/web-ifc-api.js";
+import {IfcAPI} from "web-ifc/web-ifc-api.js";
 // import { LBDParser } from "../src";
 import { LBDParser } from "../lib/bundles/bundle.esm";
 import { toRDF } from 'jsonld';
@@ -22,7 +22,7 @@ describe('BOT', () => {
     test('can parse Duplex house', async () => {
 
         // Init API and load model
-        const ifcApi = new WebIFC.IfcAPI();
+        const ifcApi = new IfcAPI();
         await ifcApi.Init();
         const modelID = ifcApi.OpenModel(duplexModelData);
 
@@ -48,7 +48,7 @@ describe('BOT', () => {
     test('can parse MEP model', async () => {
 
         // Init API and load model
-        const ifcApi = new WebIFC.IfcAPI();
+        const ifcApi = new IfcAPI();
         await ifcApi.Init();
         const modelID = ifcApi.OpenModel(duplexModelData);
 

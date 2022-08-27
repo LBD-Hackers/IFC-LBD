@@ -1,20 +1,8 @@
-import * as WebIFC from "web-ifc/web-ifc-api.js";
+import { IfcAPI } from "web-ifc";
 import { defaultURIBuilder } from "./uri-builder";
 
-import {
-    IFCRELSPACEBOUNDARY,
-    IFCRELCONTAINEDINSPATIALSTRUCTURE,
-    IFCRELVOIDSELEMENT,
-    IFCRELAGGREGATES,
-    IFCBUILDING,
-    IFCSITE,
-    IFCBUILDINGSTOREY,
-    IFCSPACE,
-    IFCELEMENT
-} from 'web-ifc';
-
 export class Input{
-    ifcAPI: WebIFC.IfcAPI;
+    ifcAPI: IfcAPI;
     modelID: number;
     ifcRelationship: number;        // Eg. IFCRELCONNECTSPORTS
     ifcSubjectRel: string;          // Eg. RelatedPort
@@ -59,14 +47,6 @@ export async function buildRelOneToOne(d: Input): Promise<any>{
             d.ifcAPI.properties.getItemProperties(d.modelID, relProps[d.ifcSubjectRel].value),
             d.ifcAPI.properties.getItemProperties(d.modelID, relProps[d.ifcTargetRel].value)
         ]);
-
-        if(subject.GlobalId.value == "0dG4XB8Mj2QhLcDnrkJh$F"){
-            console.log("subject");
-        }
-
-        if(target.GlobalId.value == "0dG4XB8Mj2QhLcDnrkJh$F"){
-            console.log("target");
-        }
 
         const subjectURI = defaultURIBuilder(subject.GlobalId.value);
         const targetURI = defaultURIBuilder(target.GlobalId.value);
