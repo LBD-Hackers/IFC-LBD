@@ -1,4 +1,4 @@
-import { buildRelOneToMany, buildRelOneToOne, Input } from "../helpers/path-search";
+import { pathSearch } from "../helpers";
 
 import {
     IFCRELSPACEBOUNDARY,
@@ -111,7 +111,7 @@ export class BOTParser extends Parser{
      */
     private async buildSpaceAdjacentElementRelationships(): Promise<any[]>{
 
-        const input: Input = {
+        const input: pathSearch.Input = {
             ifcAPI: this.ifcAPI,
             modelID: this.modelID,
             ifcRelationship: IFCRELSPACEBOUNDARY,
@@ -121,13 +121,13 @@ export class BOTParser extends Parser{
             includeInterface: true
         }
 
-        return await buildRelOneToOne(input);
+        return await pathSearch.buildRelOneToOne(input);
 
     }
 
     private async buildSpaceContainedElementRelationships(): Promise<any[]>{
 
-        const input: Input = {
+        const input: pathSearch.Input = {
             ifcAPI: this.ifcAPI,
             modelID: this.modelID,
             ifcRelationship: IFCRELCONTAINEDINSPATIALSTRUCTURE,
@@ -137,13 +137,13 @@ export class BOTParser extends Parser{
             ifcSubjectClassIn: [IFCSPACE]
         }
 
-        return await buildRelOneToMany(input);
+        return await pathSearch.buildRelOneToMany(input);
 
     }
 
     private async buildStoreyElementRelationships(): Promise<any[]>{
 
-        const input: Input = {
+        const input: pathSearch.Input = {
             ifcAPI: this.ifcAPI,
             modelID: this.modelID,
             ifcRelationship: IFCRELCONTAINEDINSPATIALSTRUCTURE,
@@ -153,7 +153,7 @@ export class BOTParser extends Parser{
             ifcSubjectClassIn: [IFCBUILDINGSTOREY]
         }
 
-        return await buildRelOneToMany(input);
+        return await pathSearch.buildRelOneToMany(input);
 
     }
 
@@ -164,7 +164,7 @@ export class BOTParser extends Parser{
     // NB! PROBABLY REFERS TO THE VOID AND NOT THE WINDOW!
      private async buildHostedElementRelationships(): Promise<any[]>{
 
-        const input: Input = {
+        const input: pathSearch.Input = {
             ifcAPI: this.ifcAPI,
             modelID: this.modelID,
             ifcRelationship: IFCRELVOIDSELEMENT,
@@ -173,7 +173,7 @@ export class BOTParser extends Parser{
             rdfRelationship: "bot:hasSubElement"
         }
 
-        return await buildRelOneToOne(input);
+        return await pathSearch.buildRelOneToOne(input);
 
     }
 
@@ -182,7 +182,7 @@ export class BOTParser extends Parser{
      */
     private async buildStoreySpaceRelationships(): Promise<any[]>{
 
-        const input: Input = {
+        const input: pathSearch.Input = {
             ifcAPI: this.ifcAPI,
             modelID: this.modelID,
             ifcRelationship: IFCRELAGGREGATES,
@@ -193,13 +193,13 @@ export class BOTParser extends Parser{
             ifcTargetClassIn: [IFCSPACE]
         }
 
-        return await buildRelOneToMany(input);
+        return await pathSearch.buildRelOneToMany(input);
 
     }
 
     private async buildBuildingStoreyRelationships(): Promise<any[]>{
 
-        const input: Input = {
+        const input: pathSearch.Input = {
             ifcAPI: this.ifcAPI,
             modelID: this.modelID,
             ifcRelationship: IFCRELAGGREGATES,
@@ -210,13 +210,13 @@ export class BOTParser extends Parser{
             ifcTargetClassIn: [IFCBUILDINGSTOREY]
         }
 
-        return await buildRelOneToMany(input);
+        return await pathSearch.buildRelOneToMany(input);
 
     }
 
     private async buildSiteBuildingRelationships(): Promise<any[]>{
 
-        const input: Input = {
+        const input: pathSearch.Input = {
             ifcAPI: this.ifcAPI,
             modelID: this.modelID,
             ifcRelationship: IFCRELAGGREGATES,
@@ -227,7 +227,7 @@ export class BOTParser extends Parser{
             ifcTargetClassIn: [IFCBUILDING]
         }
 
-        return await buildRelOneToMany(input);
+        return await pathSearch.buildRelOneToMany(input);
 
     }
 

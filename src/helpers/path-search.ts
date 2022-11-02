@@ -1,18 +1,6 @@
 import * as WebIFC from "web-ifc/web-ifc-api.js";
 import { defaultURIBuilder } from "./uri-builder";
 
-import {
-    IFCRELSPACEBOUNDARY,
-    IFCRELCONTAINEDINSPATIALSTRUCTURE,
-    IFCRELVOIDSELEMENT,
-    IFCRELAGGREGATES,
-    IFCBUILDING,
-    IFCSITE,
-    IFCBUILDINGSTOREY,
-    IFCSPACE,
-    IFCELEMENT
-} from 'web-ifc';
-
 export class Input{
     ifcAPI: WebIFC.IfcAPI;
     modelID: number;

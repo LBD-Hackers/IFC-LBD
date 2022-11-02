@@ -7,6 +7,7 @@ import { FSOParser } from "./parsers/fso-parser";
 import { TSOParser } from "./parsers/tso-parser";
 
 export * from "./helpers/BaseDefinitions";
+export * as helpers from "./helpers";
 export class LBDParser{
 
     // initialize the API

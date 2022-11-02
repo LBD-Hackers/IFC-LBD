@@ -6,8 +6,7 @@ import {
 } from 'web-ifc';
 import { ModelUnits, Parser } from "./parser";
 import { JSONLD } from "../helpers/BaseDefinitions";
-import { getAllItemsOfTypeOrSubtype } from "../helpers/item-search";
-import { defaultURIBuilder } from '../helpers/uri-builder';
+import { uriBuilder, itemSearch } from '../helpers';
 import { decodeString } from '../helpers/character-decode';
 import { Input, PropertyAPI } from '../helpers/properties';
 import { ProgressTracker } from '../helpers/progress-tracker';
@@ -86,8 +85,8 @@ export class PropertyParser extends Parser{
 
     async getAllRelevantItems(): Promise<number[]>{
         let arr = [];
-        arr.push(...await getAllItemsOfTypeOrSubtype(this.ifcAPI, this.modelID, IFCPRODUCT));   // Elements, spaces etc.
-        arr.push(...await getAllItemsOfTypeOrSubtype(this.ifcAPI, this.modelID, IFCGROUP));     // Systems etc.
+        arr.push(...await itemSearch.getAllItemsOfTypeOrSubtype(this.ifcAPI, this.modelID, IFCPRODUCT));   // Elements, spaces etc.
+        arr.push(...await itemSearch.getAllItemsOfTypeOrSubtype(this.ifcAPI, this.modelID, IFCGROUP));     // Systems etc.
         return arr;
     }
 
@@ -146,7 +145,7 @@ export class PropertyParser extends Parser{
         this.storeGlobalId(expressID, globalId);    // Store the global id now that we have it (so it is directly available next time)
         const description = properties.Description?.value;
 
-        const URI = defaultURIBuilder(globalId);
+        const URI = uriBuilder.defaultURIBuilder(globalId);
 
         let obj = {"@id": URI, "ex:globalId": globalId};
 

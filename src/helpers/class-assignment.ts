@@ -1,5 +1,4 @@
 import * as WebIFC from "web-ifc/web-ifc-api.js";
-import { TreeNode } from "./BaseDefinitions";
 import { getAllItemsOfTypeOrSubtype } from "./item-search";
 import { defaultURIBuilder } from "./uri-builder";
 

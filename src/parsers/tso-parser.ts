@@ -1,7 +1,6 @@
 import { buildClassInstances } from "../helpers/class-assignment";
 import { Parser } from "./parser";
-import { JSONLD } from "../helpers/BaseDefinitions";
-import { buildRelOneToOne, Input } from "../helpers/path-search";
+import { pathSearch, JSONLD } from "../helpers";
 import { IFCRELCONNECTSPORTTOELEMENT } from "web-ifc";
 
 const typeMappings: {[key: number]: string[]}  = {
@@ -68,7 +67,7 @@ export class TSOParser extends Parser{
         let graph = [];
 
         // UNTIL IFC 4, THE RELATIONSHIP IS EXPRESSED WITH IFCRELCONNECTSPORTTOELEMENT
-        const inputA: Input = {
+        const inputA: pathSearch.Input = {
             ifcAPI: this.ifcAPI,
             modelID: this.modelID,
             ifcRelationship: IFCRELCONNECTSPORTTOELEMENT,
@@ -78,7 +77,7 @@ export class TSOParser extends Parser{
             oppoiteRelationship: "tso:connectionPointOf"
         }
 
-        graph.push(...(await buildRelOneToOne(inputA)));
+        graph.push(...(await pathSearch.buildRelOneToOne(inputA)));
 
         return graph;
 

@@ -1,6 +1,7 @@
 import * as WebIFC from "web-ifc";
 import { JSONLD, ParserSettings } from "./helpers/BaseDefinitions";
 export * from "./helpers/BaseDefinitions";
+export * as helpers from "./helpers";
 export declare class LBDParser {
     ifcApi: WebIFC.IfcAPI;
     settings: ParserSettings;

@@ -1,5 +1,5 @@
 import { Parser } from "./parser";
-import { JSONLD } from "../helpers/BaseDefinitions";
+import { JSONLD } from "../helpers";
 export declare class TSOParser extends Parser {
     doParse(): Promise<JSONLD | string>;
     /**

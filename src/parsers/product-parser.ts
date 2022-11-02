@@ -7,10 +7,9 @@ import {
 
 import { Parser } from "./parser";
 import { JSONLD } from "../helpers/BaseDefinitions";
-import { defaultURIBuilder } from "../helpers/uri-builder";
+import { uriBuilder } from "../helpers";
 import { IfcElements } from "../helpers/IfcElementsMap";
-import { getItemSubtypes } from '../helpers/item-search';
-import { buildRelOneToMany, buildRelOneToOne, Input } from '../helpers/path-search';
+import { itemSearch, pathSearch } from '../helpers';
 
 export class ProductParser extends Parser{
 
@@ -53,7 +52,7 @@ export class ProductParser extends Parser{
         const skippedTypes = [IFCOPENINGELEMENT];
 
         // Get all subTypes of IfcElement
-        const subTypes: number[] = getItemSubtypes(IFCELEMENT)
+        const subTypes: number[] = itemSearch.getItemSubtypes(IFCELEMENT)
             .filter(typeID => skippedTypes.indexOf(typeID) == -1);  // Filter out skipped types
     
 
@@ -68,7 +67,7 @@ export class ProductParser extends Parser{
             const expressID = expressIDArray[i];
             
             const {type, GlobalId} = await this.ifcAPI.properties.getItemProperties(this.modelID, expressID);
-            const URI = defaultURIBuilder(GlobalId.value);
+            const URI = uriBuilder.defaultURIBuilder(GlobalId.value);
 
             // Push product
             graph.push({
@@ -87,7 +86,7 @@ export class ProductParser extends Parser{
         const graph = [];
 
         // Get all subTypes of IfcTypeObject
-        const subTypes: number[] = getItemSubtypes(IFCTYPEOBJECT);
+        const subTypes: number[] = itemSearch.getItemSubtypes(IFCTYPEOBJECT);
         
         // Get all items in model that belong to any of these types
         let expressIDArray: number[] = [];
@@ -100,7 +99,7 @@ export class ProductParser extends Parser{
             const expressID = expressIDArray[i];
             
             const {type, GlobalId, PredefinedType} = await this.ifcAPI.properties.getItemProperties(this.modelID, expressID);
-            const URI = defaultURIBuilder(GlobalId.value);
+            const URI = uriBuilder.defaultURIBuilder(GlobalId.value);
 
             let obj = {
                 "@id": URI,
@@ -123,7 +122,7 @@ export class ProductParser extends Parser{
 
     private async assignProductType(): Promise<any[]>{
 
-        const input: Input = {
+        const input: pathSearch.Input = {
             ifcAPI: this.ifcAPI,
             modelID: this.modelID,
             ifcRelationship: IFCRELDEFINESBYTYPE,
@@ -132,7 +131,7 @@ export class ProductParser extends Parser{
             oppoiteRelationship: "kbt:elementType"
         }
 
-        return await buildRelOneToMany(input);
+        return await pathSearch.buildRelOneToMany(input);
 
     }
 

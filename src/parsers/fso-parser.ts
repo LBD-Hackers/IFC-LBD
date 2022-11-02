@@ -1,11 +1,9 @@
 import { buildClassInstances } from "../helpers/class-assignment";
 import { Parser } from "./parser";
 import { JSONLD } from "../helpers/BaseDefinitions";
-import { defaultURIBuilder } from "../helpers/uri-builder";
-import { buildRelOneToMany, buildRelOneToOne, Input } from '../helpers/path-search';
+import { pathSearch, uriBuilder, itemSearch } from '../helpers';
 import { getGlobalPosition } from '../helpers/object-placement';
 import { IFCDISTRIBUTIONSYSTEM, IFCPORT, IFCRELASSIGNSTOGROUP, IFCRELCONNECTSPORTS, IFCRELCONNECTSPORTTOELEMENT, IFCRELNESTS, IFCSYSTEM } from "web-ifc";
-import { getAllItemsOfTypeOrSubtype } from "../helpers/item-search";
 
 const typeMappings: {[key: number]: string[]}  = {
     2254336722: ["fso:DistributionSystem"],
@@ -35,7 +33,7 @@ export class FSOParser extends Parser{
         this.verbose && console.log("");
 
         this.verbose && console.log("## STEP 2: PORTS ##");
-        const portIDs = await getAllItemsOfTypeOrSubtype(this.ifcAPI, this.modelID, IFCPORT);
+        const portIDs = await itemSearch.getAllItemsOfTypeOrSubtype(this.ifcAPI, this.modelID, IFCPORT);
         this.verbose && console.time("2/10: Finding port-port connections");
         this.jsonLDObject["@graph"].push(...(await this.portPort()));
         this.verbose && console.timeEnd("2/10: Finding port-port connections");
@@ -108,7 +106,7 @@ export class FSOParser extends Parser{
     // <port2> fso:connectedPort <port1>
     private async portPort(): Promise<any[]>{
 
-        const input: Input = {
+        const input: pathSearch.Input = {
             ifcAPI: this.ifcAPI,
             modelID: this.modelID,
             ifcRelationship: IFCRELCONNECTSPORTS,
@@ -119,7 +117,7 @@ export class FSOParser extends Parser{
             oppoiteRelationship: "fso:connectedPort"
         }
 
-        return await buildRelOneToOne(input);
+        return await pathSearch.buildRelOneToOne(input);
 
     }
 
@@ -130,7 +128,7 @@ export class FSOParser extends Parser{
         let graph = [];
 
         // UNTIL IFC 4, THE RELATIONSHIP IS EXPRESSED WITH IFCRELCONNECTSPORTTOELEMENT
-        const inputA: Input = {
+        const inputA: pathSearch.Input = {
             ifcAPI: this.ifcAPI,
             modelID: this.modelID,
             ifcRelationship: IFCRELCONNECTSPORTTOELEMENT,
@@ -141,11 +139,11 @@ export class FSOParser extends Parser{
             oppoiteRelationship: "fso:connectedComponent"
         }
 
-        graph.push(...(await buildRelOneToOne(inputA)));
+        graph.push(...(await pathSearch.buildRelOneToOne(inputA)));
 
         // AFTER IFC 4, THE RELATIONSHIP IS EXPRESSED WITH IFCRELNESTS
         // IFCRELNESTS has a 
-        const inputB: Input = {
+        const inputB: pathSearch.Input = {
             ifcAPI: this.ifcAPI,
             modelID: this.modelID,
             ifcRelationship: IFCRELNESTS,
@@ -156,7 +154,7 @@ export class FSOParser extends Parser{
             oppoiteRelationship: "fso:connectedComponent"
         }
 
-        graph.push(...(await buildRelOneToMany(inputB)));
+        graph.push(...(await pathSearch.buildRelOneToMany(inputB)));
 
         return graph;
     }
@@ -164,7 +162,7 @@ export class FSOParser extends Parser{
     // <system> fso:hasComponent <element>
     private async systemComponent(): Promise<any[]>{
 
-        const input: Input = {
+        const input: pathSearch.Input = {
             ifcAPI: this.ifcAPI,
             modelID: this.modelID,
             ifcRelationship: IFCRELASSIGNSTOGROUP,
@@ -174,7 +172,7 @@ export class FSOParser extends Parser{
             ifcSubjectClassIn: [IFCSYSTEM, IFCDISTRIBUTIONSYSTEM]
         }
 
-        return await buildRelOneToMany(input);
+        return await pathSearch.buildRelOneToMany(input);
 
     }
 
@@ -213,7 +211,7 @@ export class FSOParser extends Parser{
 
             if(portType != ""){
                 graph.push({
-                    "@id": defaultURIBuilder(props.GlobalId.value),
+                    "@id": uriBuilder.defaultURIBuilder(props.GlobalId.value),
                     "@type": portType
                 });
             }
@@ -239,7 +237,7 @@ export class FSOParser extends Parser{
             const coordinates = await getGlobalPosition(props.ObjectPlacement);
             const point = `POINT Z(${coordinates[0] * mf} ${coordinates[1] * mf} ${coordinates[2] * mf})`;
 
-            const portURI = defaultURIBuilder(props.GlobalId.value);
+            const portURI = uriBuilder.defaultURIBuilder(props.GlobalId.value);
             const cpURI = portURI + "_cp";
 
             graph.push({
