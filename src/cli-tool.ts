@@ -5,8 +5,8 @@ import { readFile, writeFile } from "fs";
 import * as util from "util";
 const readFileP = util.promisify(readFile);
 const writeFileP = util.promisify(writeFile);
-import * as WebIFC from "web-ifc/web-ifc-api";
-import { LBDParser } from '.';
+import * as WebIFC from "web-ifc";
+import { LBDParser, ParserSettings } from '.';
 import { JSONLD } from './helpers/BaseDefinitions';
 import { gzip } from "node-gzip";
 
@@ -61,7 +61,13 @@ export class CLITool{
 
     }
 
-    public async parseFile(lbdParser: LBDParser){
+    public async parseFile(){
+
+        console.log(this.argv.format);
+
+        const settings = new ParserSettings();
+        settings.format = this.argv.format;
+        const lbdParser: LBDParser = new LBDParser(settings);
         
         if(this.argv["input-file"] == undefined) return;
 
@@ -117,12 +123,14 @@ export class CLITool{
         }
         if(this.argv.format == "nquads"){
             this.argv["verbose"] && console.time("Serialized NQuads");
-            const fp = this.argv.outputFile.replace(".json", ".nq.gz");
+            this.argv.outputFile = this.argv.outputFile.replace(".json", ".nq.gz");
             const nquads: string = typeof triples != "string" ? triples.toString() : triples;
             const zipped: Buffer = await gzip(nquads);
-            await writeFileP(fp, zipped, 'utf8');
+            await writeFileP(this.argv.outputFile, zipped, 'utf8');
             this.argv["verbose"] && console.timeEnd("Serialized NQuads");
         }
+
+        console.log(`Triples were saved at ${this.argv.outputFile}`);
 
     }
 

@@ -2,7 +2,7 @@ const { readFile } = require("fs");
 const util = require("util");
 const readFileP = util.promisify(readFile);
 const path = require("path");
-const WebIFC = require("web-ifc/web-ifc-api.js");
+const WebIFC = require("web-ifc");
 const LBDParser = require("../lib/cjs/index");
 const { toRDF } = require("jsonld");
 

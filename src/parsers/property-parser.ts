@@ -25,46 +25,53 @@ export class PropertyParser extends Parser{
 
     public progressTracker = new ProgressTracker()
 
-    public async doParse(normalizeToSI: boolean = true): Promise<JSONLD|string>{
+    public async doParse(): Promise<JSONLD|string>{
+
+        const directOnly = !this.settings.properties.includePSetProperties;
 
         this.verbose && console.log("Started PROPERTIES parsing");
         this.verbose && console.log("");
         console.time("Finished PROPERTIES parsing");
 
         this.verbose && console.log("## PRE STEPS ##");
+
         this.verbose && console.time("Getting element and group IDs");
         this.itemIDs = await this.getAllRelevantItems();
         this.verbose && console.timeEnd("Getting element and group IDs");
-        this.verbose && console.time("Getting model units");
-        this.modelUnits = await this.getUnits();
-        this.verbose && console.timeEnd("Getting model units");
 
         this.verbose && console.log("## STEP 1: DIRECT PROPERTIES ##");
-        this.verbose && console.time("1/3: Found direct properties");
+        this.verbose && console.time(`1/${directOnly ? "1" : "3"}: Found direct properties`);
         this.jsonLDObject["@graph"].push(...(await this.getElementProperties()));
-        this.verbose && console.timeEnd("1/3: Found direct properties");
+        this.verbose && console.timeEnd(`1/${directOnly ? "1" : "3"}: Found direct properties`);
         console.log("");
 
-        const input: Input = {
-            ifcAPI: this.ifcAPI,
-            modelID: this.modelID,
-            normalizeToSI,
-            modelUnits: this.modelUnits
+        if(!directOnly){
+            this.verbose && console.time("Getting model units");
+            this.modelUnits = await this.getUnits();
+            this.verbose && console.timeEnd("Getting model units");
+
+            const input: Input = {
+                ifcAPI: this.ifcAPI,
+                modelID: this.modelID,
+                normalizeToSI: this.settings.properties.normalizeToSI,
+                modelUnits: this.modelUnits
+            }
+            const propertyAPI = new PropertyAPI(input);
+    
+            this.verbose && console.log("## STEP 2: PSET PROPERTIES ##");
+            this.verbose && console.time("2/3: Found pset properties");
+            this.jsonLDObject["@graph"].push(...(await propertyAPI.getAllProperties(this.verbose)));
+            this.verbose && console.timeEnd("2/3: Found pset properties");
+            console.log("");
+    
+            this.verbose && console.log("## STEP 3: WRITE PROPERTY SETS ##");
+            this.verbose && console.time("3/3: Writing the property sets themselves (TBox)");
+            this.jsonLDObject["@graph"].push(...(await propertyAPI.getPSets()));
+            this.jsonLDObject["@graph"].push(...(await propertyAPI.getElementQuantities()));
+            this.verbose && console.timeEnd("3/3: Writing the property sets themselves (TBox)");
+            console.log("");
+
         }
-        const propertyAPI = new PropertyAPI(input);
-
-        this.verbose && console.log("## STEP 2: PSET PROPERTIES ##");
-        this.verbose && console.time("2/3: Found pset properties");
-        this.jsonLDObject["@graph"].push(...(await propertyAPI.getAllProperties(this.verbose)));
-        this.verbose && console.timeEnd("2/3: Found pset properties");
-        console.log("");
-
-        this.verbose && console.log("## STEP 3: WRITE PROPERTY SETS ##");
-        this.verbose && console.time("3/3: Writing the property sets themselves (TBox)");
-        this.jsonLDObject["@graph"].push(...(await propertyAPI.getPSets()));
-        this.jsonLDObject["@graph"].push(...(await propertyAPI.getElementQuantities()));
-        this.verbose && console.timeEnd("3/3: Writing the property sets themselves (TBox)");
-        console.log("");
 
         console.timeEnd("Finished PROPERTIES parsing");
 

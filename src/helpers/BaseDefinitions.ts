@@ -1,3 +1,18 @@
+export class ParserSettings{
+    format: SerializationFormat = SerializationFormat.JSONLD;
+    properties: PropertiesSettings = new PropertiesSettings();
+    fso: FSOSettings = new FSOSettings();
+}
+
+export class PropertiesSettings{
+    normalizeToSI: boolean = true;
+    includePSetProperties: boolean = true;
+}
+
+export class FSOSettings{
+    normalizeToSI: boolean = false;
+}
+
 export interface JSONLD{
     "@context": any,
     "@graph": any[]

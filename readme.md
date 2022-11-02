@@ -96,6 +96,8 @@ const properties = await lbdParser.parsePropertyTriples(ifcApi, modelID);
 ## Contribute
 This library is intended to be expanded, so please go and add your parser or extend one of the existing ones!
 
+While developing, use the CLI tool (Ex `npm run build:cli-tool && node ./lib/cli-tool/index.js properties -i ./tests/artifacts/Duplex.ifc`)
+
 Remember to write tests! That's also the preferred approach to developing new functionalities. Run specific test: `npm run test -i <path>` (eg `jest -i tests/fso.spec.ts`)
 
 ## Stats

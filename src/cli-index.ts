@@ -1,5 +1,4 @@
 #!/usr/bin/env node
-import { LBDParser } from ".";
 import { CLITool } from "./cli-tool";
 
 async function main(){
@@ -8,8 +7,7 @@ async function main(){
     const argv = await cliTool.init();
 
     // Parse file
-    const lbdParser = new LBDParser(argv.format);
-    await cliTool.parseFile(lbdParser);
+    await cliTool.parseFile();
 
 }
 

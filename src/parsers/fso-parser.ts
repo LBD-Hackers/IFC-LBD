@@ -22,7 +22,7 @@ const typeMappings: {[key: number]: string[]}  = {
 
 export class FSOParser extends Parser{
 
-    public async doParse(normalizeToSI: boolean = false): Promise<JSONLD|string>{
+    public async doParse(): Promise<JSONLD|string>{
 
         this.verbose && console.log("Started FSO parsing");
         this.verbose && console.log("");
@@ -46,7 +46,7 @@ export class FSOParser extends Parser{
         this.jsonLDObject["@graph"].push(...(await this.portFlowDirection(portIDs)));
         this.verbose && console.timeEnd("4/10: Finding port flow directions");
         this.verbose && console.time("5/10: Finding port placements");
-        this.jsonLDObject["@graph"].push(...(await this.portPlacements(portIDs, normalizeToSI)));
+        this.jsonLDObject["@graph"].push(...(await this.portPlacements(portIDs, this.settings.fso.normalizeToSI)));
         this.verbose && console.timeEnd("5/10: Finding port placements");
         this.verbose && console.log("");
 
@@ -68,7 +68,7 @@ export class FSOParser extends Parser{
         await this.connectionInterfaces();
         this.verbose && console.timeEnd("9/10: Deducing connection interfaces");
         this.verbose && console.time("10/10: Calculating segment lengths");
-        await this.segmentLengths(normalizeToSI);
+        await this.segmentLengths(this.settings.fso.normalizeToSI);
         this.verbose && console.timeEnd("10/10: Calculating segment lengths");
 
         console.timeEnd("Finished FSO parsing");

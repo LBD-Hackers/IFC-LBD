@@ -1,21 +1,21 @@
-import * as WebIFC from "web-ifc/web-ifc-api";
+import * as WebIFC from "web-ifc";
 import { BOTParser } from "./parsers/bot-parser";
 import { ProductParser } from "./parsers/product-parser";
 import { PropertyParser } from "./parsers/property-parser";
-import { CLITool } from "./cli-tool";
-import { JSONLD, SerializationFormat } from "./helpers/BaseDefinitions";
+import { JSONLD, ParserSettings } from "./helpers/BaseDefinitions";
 import { FSOParser } from "./parsers/fso-parser";
 import { TSOParser } from "./parsers/tso-parser";
 
+export * from "./helpers/BaseDefinitions";
 export class LBDParser{
 
     // initialize the API
     public ifcApi: WebIFC.IfcAPI = new WebIFC.IfcAPI();
-    
-    public format: SerializationFormat;
 
-    constructor(format: SerializationFormat = SerializationFormat.JSONLD){
-        this.format = format;
+    public settings: ParserSettings;
+
+    constructor(settings: ParserSettings = new ParserSettings()){
+        this.settings = settings;
     }
 
     public setWasmPath(path: string){
@@ -23,27 +23,27 @@ export class LBDParser{
     }
 
     public async parseBOTTriples(ifcApi: WebIFC.IfcAPI, modelID: number, verbose: boolean = false): Promise<JSONLD|string>{
-        const botParser = new BOTParser(ifcApi, modelID, this.format, verbose);
+        const botParser = new BOTParser(ifcApi, modelID, this.settings, verbose);
         return await botParser.doParse();
     }
 
     public async parseProductTriples(ifcApi: WebIFC.IfcAPI, modelID: number, verbose: boolean = false): Promise<JSONLD|string>{
-        const productParser = new ProductParser(ifcApi, modelID, this.format, verbose);
+        const productParser = new ProductParser(ifcApi, modelID, this.settings, verbose);
         return await productParser.doParse();
     }
 
     public async parsePropertyTriples(ifcApi: WebIFC.IfcAPI, modelID: number, verbose: boolean = false): Promise<JSONLD|string>{
-        const productParser = new PropertyParser(ifcApi, modelID, this.format, verbose);
+        const productParser = new PropertyParser(ifcApi, modelID, this.settings, verbose);
         return await productParser.doParse();
     }
 
     public async parseFSOTriples(ifcApi: WebIFC.IfcAPI, modelID: number, verbose: boolean = false): Promise<JSONLD|string>{
-        const fsoParser = new FSOParser(ifcApi, modelID, this.format, verbose);
+        const fsoParser = new FSOParser(ifcApi, modelID, this.settings, verbose);
         return await fsoParser.doParse();
     }
 
     public async parseTSOTriples(ifcApi: WebIFC.IfcAPI, modelID: number, verbose: boolean = false): Promise<JSONLD|string>{
-        const tsoParser = new TSOParser(ifcApi, modelID, this.format, verbose);
+        const tsoParser = new TSOParser(ifcApi, modelID, this.settings, verbose);
         return await tsoParser.doParse();
     }
 

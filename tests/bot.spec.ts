@@ -2,7 +2,7 @@ import { readFile } from "fs";
 import * as util from "util";
 const readFileP = util.promisify(readFile);
 import * as path from 'path';
-import * as WebIFC from "web-ifc/web-ifc-api.js";
+import * as WebIFC from "web-ifc";
 // import { LBDParser } from "../src";
 import { LBDParser } from "../lib/bundles/bundle.esm";
 import { toRDF } from 'jsonld';

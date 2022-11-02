@@ -2,8 +2,7 @@ import {
     IFCELEMENT,
     IFCOPENINGELEMENT,
     IFCRELDEFINESBYTYPE,
-    IFCTYPEOBJECT,
-    IFCTYPEPRODUCT
+    IFCTYPEOBJECT
 } from 'web-ifc';
 
 import { Parser } from "./parser";

@@ -1,5 +1,5 @@
-import { JSONLD, N3Format, SerializationFormat } from "../helpers/BaseDefinitions";
-import * as WebIFC from "web-ifc/web-ifc-api.js";
+import { JSONLD, N3Format, ParserSettings, SerializationFormat } from "../helpers/BaseDefinitions";
+import * as WebIFC from "web-ifc";
 import { prefixes } from '../helpers/prefixes';
 import { extensionFunctions } from '../helpers/communica-extension-functions';
 import { toRDF, fromRDF, compact } from "jsonld";
@@ -20,7 +20,7 @@ export class Parser{
     public modelID: number;
     public ifcAPI: WebIFC.IfcAPI;
     public verbose: boolean;
-    public format: SerializationFormat;
+    public settings: ParserSettings;
     public store: N3.Store = new N3.Store();
     public extensionFunctions = {...extensionFunctions, ...geoSPARQLFunctions};
 
@@ -28,11 +28,11 @@ export class Parser{
 
     private globalIdMap: any = {}; // Object that maintains idMap between expressID and GlobalId
 
-    constructor(ifcAPI: WebIFC.IfcAPI, modelID: number, format: SerializationFormat = SerializationFormat.JSONLD, verbose: boolean = false){
+    constructor(ifcAPI: WebIFC.IfcAPI, modelID: number, settings: ParserSettings, verbose: boolean = false){
         this.modelID = modelID;
         this.ifcAPI = ifcAPI;
         this.verbose = verbose;
-        this.format = format;
+        this.settings = settings;
     }
 
     public async getGlobalId(expressID: number){
@@ -50,8 +50,8 @@ export class Parser{
     }
 
     public async getTriples(): Promise<JSONLD|string>{
-        if(this.format == SerializationFormat.JSONLD) return this.getJSONLD();
-        if(this.format == SerializationFormat.NQuads) return this.getNQuads();
+        if(this.settings.format == SerializationFormat.JSONLD) return this.getJSONLD();
+        if(this.settings.format == SerializationFormat.NQuads) return this.getNQuads();
         return "";
     }
 
