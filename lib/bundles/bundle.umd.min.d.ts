@@ -100,6 +100,15 @@ declare namespace uriBuilder_d {
   };
 }
 
+declare function decodeString(str: string): string;
+
+declare const characterDecode_d_decodeString: typeof decodeString;
+declare namespace characterDecode_d {
+  export {
+    characterDecode_d_decodeString as decodeString,
+  };
+}
+
 //# sourceMappingURL=index.d.ts.map
 
 type index_d_ParserSettings = ParserSettings;
@@ -123,6 +132,7 @@ declare namespace index_d {
     itemSearch_d as itemSearch,
     pathSearch_d as pathSearch,
     uriBuilder_d as uriBuilder,
+    characterDecode_d as characterDecode,
     index_d_ParserSettings as ParserSettings,
     index_d_PropertiesSettings as PropertiesSettings,
     index_d_FSOSettings as FSOSettings,

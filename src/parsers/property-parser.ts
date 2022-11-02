@@ -6,8 +6,7 @@ import {
 } from 'web-ifc';
 import { ModelUnits, Parser } from "./parser";
 import { JSONLD } from "../helpers/BaseDefinitions";
-import { uriBuilder, itemSearch } from '../helpers';
-import { decodeString } from '../helpers/character-decode';
+import { uriBuilder, itemSearch, characterDecode } from '../helpers';
 import { Input, PropertyAPI } from '../helpers/properties';
 import { ProgressTracker } from '../helpers/progress-tracker';
 
@@ -149,8 +148,8 @@ export class PropertyParser extends Parser{
 
         let obj = {"@id": URI, "ex:globalId": globalId};
 
-        if(name != undefined) obj["rdfs:label"] = decodeString(name);
-        if(description != undefined) obj["rdfs:description"] = decodeString(description);
+        if(name != undefined) obj["rdfs:label"] = characterDecode.decodeString(name);
+        if(description != undefined) obj["rdfs:description"] = characterDecode.decodeString(description);
 
         // Specific for ports
         if(properties.type == IFCPORT || properties.type == IFCDISTRIBUTIONPORT){
