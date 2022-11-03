@@ -5,8 +5,10 @@ import {
     IfcElementQuantity,
     IFCELEMENTQUANTITY,
     IfcElements,
+    IFCPROPERTYLISTVALUE,
     IfcPropertySet,
     IFCPROPERTYSET,
+    IFCPROPERTYSINGLEVALUE,
     IFCQUANTITYAREA,
     IFCQUANTITYCOUNT,
     IFCQUANTITYLENGTH,
@@ -289,6 +291,15 @@ export class PropertyAPI{
         for (let i = 0; i < HasProperties.length; i++) {
 
             const prop: any = HasProperties[i];
+
+            // Skip here if not single value (for now)
+            if(prop.type != IFCPROPERTYSINGLEVALUE) continue;
+
+            // // Handle lists
+            // if(prop.type == IFCPROPERTYLISTVALUE){
+            //     // Skip quantities for this purpose
+            //     continue;
+            // }
 
             const name = prop.Name.value;
             const camelName = this.camelize(name);

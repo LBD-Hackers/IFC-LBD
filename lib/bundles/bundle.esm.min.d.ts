@@ -92,11 +92,44 @@ declare namespace pathSearch_d {
 }
 
 declare function defaultURIBuilder(globalId: string): string;
+declare function contextBasedUUID(contextString: string): string;
+declare function uuidURIBuilder(globalId: string): Promise<string>;
 
 declare const uriBuilder_d_defaultURIBuilder: typeof defaultURIBuilder;
+declare const uriBuilder_d_contextBasedUUID: typeof contextBasedUUID;
+declare const uriBuilder_d_uuidURIBuilder: typeof uuidURIBuilder;
 declare namespace uriBuilder_d {
   export {
     uriBuilder_d_defaultURIBuilder as defaultURIBuilder,
+    uriBuilder_d_contextBasedUUID as contextBasedUUID,
+    uriBuilder_d_uuidURIBuilder as uuidURIBuilder,
+  };
+}
+
+declare function ifcGlobalIdToRevitGuid(ifcGuid: string): Promise<string>;
+
+declare function createIfcGlobalId(): string;
+
+declare function contextBasedGuid(contextString: string): string;
+
+declare function revitGuidToIFCGlobalId(revitGuid: string): string;
+
+declare function revitUniqueIdToRevitGuid(revitUniqueId: any, revitElementId?: any, log?: boolean): string;
+
+//# sourceMappingURL=index.d.ts.map
+
+declare const index_d$1_ifcGlobalIdToRevitGuid: typeof ifcGlobalIdToRevitGuid;
+declare const index_d$1_createIfcGlobalId: typeof createIfcGlobalId;
+declare const index_d$1_contextBasedGuid: typeof contextBasedGuid;
+declare const index_d$1_revitGuidToIFCGlobalId: typeof revitGuidToIFCGlobalId;
+declare const index_d$1_revitUniqueIdToRevitGuid: typeof revitUniqueIdToRevitGuid;
+declare namespace index_d$1 {
+  export {
+    index_d$1_ifcGlobalIdToRevitGuid as ifcGlobalIdToRevitGuid,
+    index_d$1_createIfcGlobalId as createIfcGlobalId,
+    index_d$1_contextBasedGuid as contextBasedGuid,
+    index_d$1_revitGuidToIFCGlobalId as revitGuidToIFCGlobalId,
+    index_d$1_revitUniqueIdToRevitGuid as revitUniqueIdToRevitGuid,
   };
 }
 
@@ -132,6 +165,7 @@ declare namespace index_d {
     itemSearch_d as itemSearch,
     pathSearch_d as pathSearch,
     uriBuilder_d as uriBuilder,
+    index_d$1 as guidTools,
     characterDecode_d as characterDecode,
     index_d_ParserSettings as ParserSettings,
     index_d_PropertiesSettings as PropertiesSettings,
