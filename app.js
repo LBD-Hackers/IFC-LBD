@@ -9,8 +9,8 @@ import {
 } from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import { IFCLoader } from "web-ifc-three/IFCLoader";
-
-// import { LBDParser } from "../../lib/bundles/bundle.esm";
+import { LBDParser } from "../../lib/bundles/browser/bundle.esm";
+import { IfcAPI } from "web-ifc";
 
 //Creates the Three.js scene
 const scene = new Scene();
@@ -20,20 +20,49 @@ initScene();
 const input = document.getElementById("file-input");
   input.addEventListener(
     "change",
-    (changed) => {
+    async (changed) => {
       const file = changed.target.files[0];
       var ifcURL = URL.createObjectURL(file);
-      loadFile(ifcURL)
+      await Promise.all([
+        loadInViewer(ifcURL),
+        parseTriples(file)
+      ])
     },
     false
 );
 
-function loadFile(ifcURL){
+async function parseTriples(file){
+
+    console.log("Reading file...");
+    const arrayBuffer = await readFile(file);
+
+    console.log("Loading model...");
+
+    const ifcAPI = new IfcAPI();
+    ifcAPI.SetWasmPath("./assets/");
+    await ifcAPI.Init();
+    const modelID = ifcAPI.OpenModel(new Uint8Array(arrayBuffer));
+    console.log("Loaded model");
+    
+    
+    // Parse BOT
+    console.time("BOT parsing done");
+    const lbdParser = new LBDParser();
+    const bot = await lbdParser.parseBOTTriples(ifcAPI, modelID);
+    console.log(bot);
+    console.timeEnd("BOT parsing done");
+
+}
+
+async function loadInViewer(ifcURL){
 
     // Sets up the IFC loading
     const ifcLoader = new IFCLoader();
 
-    ifcLoader.ifcManager.setWasmPath("./");
+    await ifcLoader.ifcManager.setWasmPath("./assets/");
+    await ifcLoader.ifcManager.applyWebIfcConfig({
+        USE_FAST_BOOLS: true
+    })
 
     ifcLoader.ifcManager.setOnProgress = exampleCallback;
 
@@ -42,17 +71,8 @@ function loadFile(ifcURL){
         console.log("Progress: ", progress, "%");
     }
 
-    ifcLoader.load( ifcURL, (ifcModel) => {
+    ifcLoader.load( ifcURL, (ifcModel) => scene.add(ifcModel.mesh));
 
-        // Add to scene
-        scene.add(ifcModel.mesh);
-
-        // Parse BOT
-        const modelID = ifcModel.mesh.modelID;
-        const ifcAPI = ifcModel.ifcManager.ifcAPI;
-        console.log(modelID);
-
-    });
 }
 
 function initScene() {
@@ -124,4 +144,18 @@ function initScene() {
         renderer.setSize(size.width, size.height);
     });
 
+}
+
+function readFile(file) {
+    return new Promise((resolve, reject) => {
+      // Create file reader
+      let reader = new FileReader()
+  
+      // Register event listeners
+      reader.addEventListener("loadend", (e) => resolve(e.target.result))
+      reader.addEventListener("error", reject)
+  
+      // Read file
+      reader.readAsArrayBuffer(file)
+    })
 }
