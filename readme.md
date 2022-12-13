@@ -99,12 +99,16 @@ This library is intended to be expanded, so please go and add your parser or ext
 Remember to write tests! That's also the preferred approach to developing new functionalities. Run specific test: `npm run test -i <path>` (eg `jest -i tests/fso.spec.ts`)
 
 ## Stats
+Execute like `node ./lib/cli-tool/index.js bot -i ./tests/artifacts/Duplex.ifc` 
+
+For triple count, copy resulting JSON-LD to [JSON-LD Playground](https://json-ld.org/playground/) and convert to N-Quads + get line count.
+
 |Model|Duplex (2,4MB)|MEP(962KB)|Schependomlaan(49,3MB)|Office MEP(209,1MB)|
 |---|---|---|---|---|
 |BOT[ms]|34|13|128|349|
 |BOT[triples]|1,718|175|12,251|33,087|
-|FSO[ms]|-|48|-|165|
-|FSO[triples]|-|1,560|-|32,024|
+|FSO[ms]|-|55|-|165|
+|FSO[triples]|-|2,386|-|32,024|
 |Products[ms]|9|8|46|174|
 |Products[triples]|218|85|3,635|16,012|
 |Properties[ms]|161|48|3,066| |

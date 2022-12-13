@@ -17,12 +17,12 @@ export declare class FSOParser extends Parser {
      */
     private portFlowDirection;
     private portPlacements;
+    private componentConections;
+    private segmentLengths;
     /**
      * POST PROCESSING
      */
-    private componentConections;
-    private connectionInterfaces;
-    private segmentLengths;
     private getLengthMultiplicationFactor;
+    private calculateDistance;
 }
 //# sourceMappingURL=fso-parser.d.ts.map

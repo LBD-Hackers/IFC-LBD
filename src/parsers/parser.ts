@@ -1,11 +1,8 @@
 import { JSONLD, N3Format, SerializationFormat } from "../helpers/BaseDefinitions";
 import { IfcAPI } from 'web-ifc/web-ifc-api.js';
 import { prefixes } from '../helpers/prefixes';
-import { extensionFunctions } from '../helpers/communica-extension-functions';
 import { toRDF, fromRDF, compact } from "jsonld";
 import * as N3 from 'n3';
-import { QueryEngine } from '@comunica/query-sparql';
-import { geoSPARQLFunctions } from "comunica-geosparql/lib/bundles/bundle.umd";
 import { IfcUnits } from '../helpers/unit-tools';
 
 export interface ModelUnits{
@@ -22,7 +19,6 @@ export class Parser{
     public verbose: boolean;
     public format: SerializationFormat;
     public store: N3.Store = new N3.Store();
-    public extensionFunctions = {...extensionFunctions, ...geoSPARQLFunctions};
 
     public modelUnits: ModelUnits; // Model units
 
@@ -70,25 +66,7 @@ export class Parser{
     }
 
     public async executeUpdateQuery(query: string): Promise<void>{
-        const engine = new QueryEngine();
-        await engine.queryVoid(query, {
-            sources: [this.store],
-            extensionFunctions: this.extensionFunctions
-        });
-    }
-
-    public async executeSelectQuery(query: string): Promise<void>{
-        // Initiate the update
-        const engine = new QueryEngine();
-        console.log(engine);
-        const result: any = await engine.queryBindings(query, {
-            sources: [this.store],
-            extensionFunctions: this.extensionFunctions
-        });
-        
-        const { data } = await engine.resultToString(result,
-            'application/sparql-results+json');
-        data.pipe(process.stdout); // Print to standard output
+        console.error("NOT SUPPORTED");
     }
 
     public getStoreSize(): number{
