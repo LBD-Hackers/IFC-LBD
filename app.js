@@ -14,47 +14,83 @@ import { IfcAPI } from "web-ifc";
 
 //Creates the Three.js scene
 const scene = new Scene();
+let file;
 
 initScene();
 
+// Event: Upload file
 const input = document.getElementById("file-input");
   input.addEventListener(
     "change",
     async (changed) => {
-      const file = changed.target.files[0];
-      var ifcURL = URL.createObjectURL(file);
-      await Promise.all([
-        loadInViewer(ifcURL),
-        parseTriples(file)
-      ])
+
+      // Set file
+      file = changed.target.files[0];
+
+      // Unhide parsing options
+      document.getElementById("parsers").classList.remove("hidden");
+
+      // Hide file uoload
+      document.getElementById("file-input").classList.add("hidden");
+
+      // Load in viewer
+      document.getElementById("status").innerHTML = "Loading model in scene...";
+      await loadInViewer();
+      document.getElementById("status").innerHTML = "";
+
     },
     false
 );
 
-async function parseTriples(file){
+// Event: Do parse
+document.getElementById("bot-parse").addEventListener("click", () => parseTriples("bot"));
+document.getElementById("products-parse").addEventListener("click", () => parseTriples("prod"));
+document.getElementById("props-parse").addEventListener("click", () => parseTriples("props"));
+document.getElementById("fso-parse").addEventListener("click", () => parseTriples("fso"));
 
-    console.log("Reading file...");
+async function parseTriples(subset){
+
+    document.getElementById("status").innerHTML = "Reading file...";
     const arrayBuffer = await readFile(file);
 
-    console.log("Loading model...");
-
+    document.getElementById("status").innerHTML = "Loading model...";
     const ifcAPI = new IfcAPI();
     ifcAPI.SetWasmPath("./assets/");
     await ifcAPI.Init();
     const modelID = ifcAPI.OpenModel(new Uint8Array(arrayBuffer));
-    console.log("Loaded model");
     
-    
-    // Parse BOT
-    console.time("BOT parsing done");
+    document.getElementById("status").innerHTML = "Parsing LBD triples...";
+    console.time("Parsing done");
     const lbdParser = new LBDParser();
-    const bot = await lbdParser.parseBOTTriples(ifcAPI, modelID);
-    console.log(bot);
-    console.timeEnd("BOT parsing done");
+    let triples = "";
+    switch(subset){
+        case "bot":
+            triples = await lbdParser.parseBOTTriples(ifcAPI, modelID);
+            break;
+        case "prod":
+            triples = await lbdParser.parseProductTriples(ifcAPI, modelID);
+            break;
+        case "props":
+            triples = await lbdParser.parsePropertyTriples(ifcAPI, modelID);
+            break;
+        case "fso":
+            triples = await lbdParser.parseFSOTriples(ifcAPI, modelID);
+            break;
+    }
+    console.timeEnd("Parsing done");
+    document.getElementById("status").innerHTML = "Open console to see results";
+
+    // Print to console
+    console.log(triples);
+
+    // Save memory
+    ifcAPI.CloseModel(modelID);
 
 }
 
-async function loadInViewer(ifcURL){
+async function loadInViewer(){
+
+    const ifcURL = URL.createObjectURL(file);
 
     // Sets up the IFC loading
     const ifcLoader = new IFCLoader();
