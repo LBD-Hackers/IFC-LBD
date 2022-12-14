@@ -1,21 +1,3 @@
-// {
-//   "compilerOptions": {
-//     "target": "ES2015",
-//     "module": "esnext",
-//     "strict": true,
-//     "esModuleInterop": true,
-//     "forceConsistentCasingInFileNames": true,
-//     "outDir": "./out-tsc",
-//     "moduleResolution": "node",
-//     "skipLibCheck": true,
-//     "declaration": true,
-//     "resolveJsonModule": true
-//   },
-//   "include": [
-//     "./src/**/*.ts"
-// , "src/bin/cli-tool.js"  ]
-// }
-
 {
   "compilerOptions": {
     "declaration": true,
@@ -26,8 +8,13 @@
     "moduleResolution": "node",
     "outDir": "lib/types",
   },
+  "exclude": [
+    "node_modules",
+    "lib"
+  ],
   "include": [
     "./src/index.ts",
-    "./package.json"
+    "./package.json",
+    "jest.config.ts"
   ],
 }
