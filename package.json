@@ -1,23 +1,25 @@
 {
   "name": "ifc-lbd",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "",
   "repository": {
     "url": "https://github.com/LBD-Hackers/IFC-LBD",
     "type": "git"
   },
   "main": "lib/bundles/bundle.esm.js",
-  "module": "lib/bundles/bundle.esm.js",
   "types": "lib/types/index.d.ts",
+  "type": "module",
   "scripts": {
-    "build": "npm-run-all -l clean -p build:node build:cli-tool build:browser declarations",
+    "build": "npm-run-all -l clean -p build:node build:cli-tool build:browser build:cjs declarations",
     "clean": "rimraf lib",
     "declarations": "tsc -p tsconfig.json",
+    "build:bundles": "cross-env BABEL_ENV=esmBundled rollup -c",
     "build:cli-tool": "cross-env BABEL_ENV=esmBundled rollup -c rollup.cli-config.js",
     "build:node": "cross-env BABEL_ENV=esmBundled rollup -c rollup.node-config.js",
     "build:browser": "cross-env BABEL_ENV=esmBundled rollup -c rollup.browser-config.js",
+    "build:cjs": "cross-env BABEL_ENV=cjs babel src --extensions '.ts' --out-dir 'lib/cjs' --source-maps",
     "copy-assets": "cp node_modules/web-ifc/web-ifc.wasm lib && cp node_modules/web-ifc/web-ifc-mt.wasm lib",
-    "test": "jest ./tests"
+    "test": "jest --experimental-vm-modules ./tests"
   },
   "keywords": [],
   "author": "Mads Holten Rasmussen<mhra@niras.dk>",
@@ -81,5 +83,11 @@
     "path": false,
     "fs": false,
     "events": false
+  },
+  "exports": {
+    ".": {
+      "require": "./lib/cjs/index.cjs",
+      "import": "./lib/bundles/bundle.esm.js"
+    }
   }
 }

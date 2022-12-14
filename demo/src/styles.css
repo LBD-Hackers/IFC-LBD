@@ -2,6 +2,7 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  font-family: Consolas,monaco,monospace; 
 }
 
 html, body {
@@ -15,7 +16,17 @@ html, body {
   outline: none;
 }
 
-#file-input{
+#btn-container{
   z-index: 1;
   position: absolute;
+  top: 5px;
+  left: 5px;
+}
+.column{
+  display: flex;
+  gap: 5px;
+  flex-direction: column;
+}
+.hidden{
+  visibility: hidden;
 }

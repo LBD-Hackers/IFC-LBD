@@ -57,9 +57,7 @@ export default [
     input: './lib/types/src/index.d.ts',
     output: [
       { file: 'lib/bundles/bundle.esm.d.ts', format: 'es' },
-      { file: 'lib/bundles/bundle.esm.min.d.ts', format: 'es' },
-      { file: 'lib/bundles/bundle.umd.d.ts', format: 'es' },
-      { file: 'lib/bundles/bundle.umd.min.d.ts', format: 'es' }
+      { file: 'lib/bundles/bundle.esm.min.d.ts', format: 'es' }
     ],
     plugins: [dts()],
   }

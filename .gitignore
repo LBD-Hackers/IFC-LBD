@@ -5,3 +5,5 @@
 triples.json
 *.nq
 *.nq.gz
+lib
+demo/node_modules
