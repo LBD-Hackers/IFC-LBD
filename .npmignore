@@ -1,6 +1,7 @@
 # folders
 src
 demo
+node_modules
 
 # toolchain
 webpack.config.js

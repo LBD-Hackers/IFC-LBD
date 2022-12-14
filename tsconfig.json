@@ -8,8 +8,13 @@
     "moduleResolution": "node",
     "outDir": "lib/types",
   },
+  "exclude": [
+    "node_modules",
+    "lib"
+  ],
   "include": [
     "./src/index.ts",
-    "./package.json"
+    "./package.json",
+    "jest.config.ts"
   ],
 }

@@ -1,6 +1,8 @@
 # IFC to LBD
 IFC to Linked Building Data (LBD) is built on [IFC.js](https://ifcjs.github.io/info/). It uses the [web-ifc](https://github.com/IFCjs/web-ifc) model loader and parses out triples in [JSON-LD](https://json-ld.org/) format.
 
+[demo](https://lbd-hackers.github.io/IFC-LBD/demo/src)
+
 ## Install
 `npm i ifc-lbd`
 
