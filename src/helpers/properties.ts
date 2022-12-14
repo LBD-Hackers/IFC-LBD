@@ -1,4 +1,4 @@
-import * as WebIFC from "web-ifc/web-ifc-api.js";
+import { IfcAPI } from 'web-ifc/web-ifc-api.js';
 import { defaultURIBuilder } from "./uri-builder";
 
 import {
@@ -12,7 +12,7 @@ import {
     IFCQUANTITYLENGTH,
     IFCQUANTITYVOLUME,
     IFCRELDEFINESBYPROPERTIES
-} from 'web-ifc';
+} from 'web-ifc/web-ifc-api.js';
 import { getUCUMCode, UnitType } from "./unit-tools";
 import { IfcDatatypes, IfcLabels } from "./IfcDatatypesMap";
 import { ModelUnits } from "../parsers/parser";
@@ -27,7 +27,7 @@ interface PSetProperty{
 }
 
 export class Input{
-    ifcAPI: WebIFC.IfcAPI;
+    ifcAPI: IfcAPI;
     modelID: number;
     modelUnits: ModelUnits;
     normalizeToSI: boolean = true;
@@ -35,7 +35,7 @@ export class Input{
 
 export class PropertyAPI{
 
-    private ifcAPI: WebIFC.IfcAPI;
+    private ifcAPI: IfcAPI;
     private modelID: number;
     private normalizeToSI: boolean;
     private modelUnits: ModelUnits;

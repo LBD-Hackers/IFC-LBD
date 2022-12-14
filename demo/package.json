@@ -5,19 +5,21 @@
     "main": "app.js",
     "scripts": {
         "build": "rollup -c ./rollup.config.js && npm run copy:wasms",
-        "copy:wasms": "cp ./node_modules/web-ifc/web-ifc.wasm src && cp ./node_modules/web-ifc/web-ifc-mt.wasm src",
+        "copy:wasm": "cp ./node_modules/web-ifc/web-ifc.wasm src/assets",
         "watch": "rollup -w -c ./rollup.config.js"
     },
     "author": "",
     "license": "ISC",
     "devDependencies": {
-        "@rollup/plugin-node-resolve": "^11.2.1",
+        "@rollup/plugin-node-resolve": "^15.0.1",
         "rollup": "^2.45.2"
     },
     "dependencies": {
+        "@rollup/plugin-commonjs": "^23.0.4",
         "jsonld": "^5.2.0",
-        "three": "^0.128.0",
-        "web-ifc-three": "0.0.32"
+        "rollup-plugin-serve": "^2.0.2",
+        "web-ifc": "0.0.36",
+        "web-ifc-three": "0.0.121"
     },
     "browser": {
         "crypto": false,

@@ -1,21 +1,21 @@
 {
   "name": "ifc-lbd",
-  "version": "0.1.3",
+  "version": "0.2.0",
   "description": "",
   "repository": {
     "url": "https://github.com/LBD-Hackers/IFC-LBD",
     "type": "git"
   },
-  "main": "lib/bundles/bundle.umd.js",
+  "main": "lib/bundles/bundle.esm.js",
   "module": "lib/bundles/bundle.esm.js",
   "types": "lib/types/index.d.ts",
   "scripts": {
-    "build": "npm-run-all -l clean -p build:bundles build:cli-tool declarations",
+    "build": "npm-run-all -l clean -p build:node build:cli-tool build:browser declarations",
     "clean": "rimraf lib",
     "declarations": "tsc -p tsconfig.json",
-    "build:bundles": "cross-env BABEL_ENV=esmBundled rollup -c",
     "build:cli-tool": "cross-env BABEL_ENV=esmBundled rollup -c rollup.cli-config.js",
-    "build:cjs": "cross-env BABEL_ENV=cjs babel src --extensions '.ts' --out-dir 'lib/cjs' --source-maps",
+    "build:node": "cross-env BABEL_ENV=esmBundled rollup -c rollup.node-config.js",
+    "build:browser": "cross-env BABEL_ENV=esmBundled rollup -c rollup.browser-config.js",
     "copy-assets": "cp node_modules/web-ifc/web-ifc.wasm lib && cp node_modules/web-ifc/web-ifc-mt.wasm lib",
     "test": "jest ./tests"
   },
@@ -30,7 +30,7 @@
     "@babel/preset-typescript": "^7.16.5",
     "@babel/runtime": "^7.16.5",
     "@rollup/plugin-babel": "^5.3.0",
-    "@rollup/plugin-commonjs": "^21.0.1",
+    "@rollup/plugin-commonjs": "^23.0.4",
     "@rollup/plugin-json": "^4.1.0",
     "@rollup/plugin-node-resolve": "^13.1.1",
     "@types/jest": "^27.0.3",
@@ -56,19 +56,9 @@
     "ts-node": "^10.4.0",
     "tslib": "^2.3.1",
     "typescript": "^4.5.4",
-    "web-ifc": "^0.0.33",
+    "web-ifc": "^0.0.35",
     "web-ifc-three": "^0.0.103",
     "yargs": "^17.3.0"
-  },
-  "peerDependencies": {
-    "@comunica/query-sparql": "^2.0.5",
-    "jsonld": "^5.2.0",
-    "n3": "^1.13.0"
-  },
-  "browser": {
-    "crypto": false,
-    "path": false,
-    "fs": false
   },
   "files": [
     "lib/*"
@@ -77,11 +67,19 @@
     "ifc-lbd": "./lib/cli-tool/index.js"
   },
   "dependencies": {
-    "@comunica/query-sparql": "^2.0.5",
-    "comunica-geosparql": "^0.0.1",
     "jsonld": "^5.2.0",
-    "n3": "^1.13.0",
+    "n3": "^1.15.0",
     "node-gzip": "^1.1.2",
     "rxjs": "^7.5.4"
+  },
+  "peerDependencies": {
+    "jsonld": "^5.2.0",
+    "n3": "^1.15.0"
+  },
+  "browser": {
+    "crypto": false,
+    "path": false,
+    "fs": false,
+    "events": false
   }
 }

@@ -1,8 +1,8 @@
-import * as WebIFC from "web-ifc/web-ifc-api.js";
+import { IfcAPI } from 'web-ifc/web-ifc-api.js';
 import { TreeNode } from "./BaseDefinitions";
 import { IfcTypesTree } from "./IfcTypesTree";
 
-export async function getAllItemsOfTypeOrSubtype(ifcAPI: WebIFC.IfcAPI, modelID: number, ifcType: number): Promise<number[]>{
+export async function getAllItemsOfTypeOrSubtype(ifcAPI: IfcAPI, modelID: number, ifcType: number): Promise<number[]>{
     const subTypes: number[] = getItemSubtypes(ifcType);
     let items: any[] = [];
     for (let i = 0; i < subTypes.length; i++) {

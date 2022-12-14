@@ -3,9 +3,9 @@ import { readFile } from "fs";
 import * as util from "util";
 const readFileP = util.promisify(readFile);
 import * as path from 'path';
-import * as WebIFC from "web-ifc/web-ifc-api.js";
-// import { LBDParser } from "../src";     // For development
-import { LBDParser } from "../lib/bundles/bundle.esm";   // For testing the bundle
+import { IfcAPI } from 'web-ifc/web-ifc-api.js';
+import { LBDParser } from "../src";     // For development
+// import { LBDParser } from "../lib/bundles/bundle.esm";   // For testing the bundle
 import { toRDF } from 'jsonld';
 
 const duplexModelPath = path.join(__dirname, './artifacts/Duplex.ifc');
@@ -23,7 +23,7 @@ describe('PROPERTIES', () => {
     test('can parse Duplex model', async () => {
 
         // Init API and load model
-        const ifcApi = new WebIFC.IfcAPI();
+        const ifcApi = new IfcAPI();
         await ifcApi.Init();
         const modelID = ifcApi.OpenModel(duplexModelData);
 
@@ -49,7 +49,7 @@ describe('PROPERTIES', () => {
     test('can parse MEP model', async () => {
 
         // Init API and load model
-        const ifcApi = new WebIFC.IfcAPI();
+        const ifcApi = new IfcAPI();
         await ifcApi.Init();
         const modelID = ifcApi.OpenModel(mepModelData);
 

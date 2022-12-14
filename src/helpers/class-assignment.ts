@@ -1,9 +1,8 @@
-import * as WebIFC from "web-ifc/web-ifc-api.js";
-import { TreeNode } from "./BaseDefinitions";
+import { IfcAPI } from "web-ifc";
 import { getAllItemsOfTypeOrSubtype } from "./item-search";
 import { defaultURIBuilder } from "./uri-builder";
 
-export async function buildClassInstances(ifcAPI: WebIFC.IfcAPI, modelID: number, ifcType: number, rdfClasses: string[], includeSubTypes: boolean = false): Promise<any[]>{
+export async function buildClassInstances(ifcAPI: IfcAPI, modelID: number, ifcType: number, rdfClasses: string[], includeSubTypes: boolean = false): Promise<any[]>{
 
     let items = includeSubTypes 
         ? await getAllItemsOfTypeOrSubtype(ifcAPI, modelID, ifcType) 
@@ -13,7 +12,7 @@ export async function buildClassInstances(ifcAPI: WebIFC.IfcAPI, modelID: number
     
 }
 
-export async function buildClassInstancesFromExpressIDs(ifcAPI: WebIFC.IfcAPI, modelID: number, expressIDs: number[], rdfClasses: string[]){
+export async function buildClassInstancesFromExpressIDs(ifcAPI: IfcAPI, modelID: number, expressIDs: number[], rdfClasses: string[]){
 
     const graph = [];
 

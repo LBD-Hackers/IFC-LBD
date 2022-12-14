@@ -1,26 +1,28 @@
 import resolve from '@rollup/plugin-node-resolve';
+import serve from 'rollup-plugin-serve';
 import commonjs from '@rollup/plugin-commonjs';
-import json from '@rollup/plugin-json';
-import builtins from 'rollup-plugin-node-builtins';
-import globals from 'rollup-plugin-node-globals';
+
+const globalVarNames = {
+  'queue-microtask': 'queueMicrotask'
+}
+const extensions = ['.js', '.ts' ];
 
 export default {
   input: 'src/app.js',
   output: [
     {
       format: 'esm',
-      file: 'src/bundle.js',
-      sourcemap: true
+      file: 'src/bundle.js'
     }
   ],
   plugins: [
-    resolve({
-      browser: true,
-      preferBuiltins: false
+    serve({
+      open: true,
+      contentBase: 'src',
     }),
-    commonjs(),
-    globals(),
-    builtins(),
-    json()
+    resolve({ 
+      browser: true
+    }),
+    commonjs()
   ]
 };
