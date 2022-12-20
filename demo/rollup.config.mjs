@@ -21,7 +21,8 @@ export default {
       contentBase: 'src',
     }),
     resolve({ 
-      browser: true
+      browser: true,
+      preferBuiltins: false
     }),
     commonjs()
   ]

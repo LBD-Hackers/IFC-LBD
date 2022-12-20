@@ -1,7 +1,7 @@
 # IFC to LBD
 IFC to Linked Building Data (LBD) is built on [IFC.js](https://ifcjs.github.io/info/). It uses the [web-ifc](https://github.com/IFCjs/web-ifc) model loader and parses out triples in [JSON-LD](https://json-ld.org/) format.
 
-[demo](https://lbd-hackers.github.io/IFC-LBD/demo/src/index.html)
+[demo](https://lbd-hackers.github.io/IFC-LBD/)
 ## Install
 `npm i ifc-lbd`
 
@@ -38,11 +38,13 @@ Install globally on your machine
 Run a subset (BOT, products)
 `ifc-lbd [subset] -i ./myFile.ifc`
 
+*NB!* If used in Node 18, you currently need to set the `--no-experimental-fetch` flag when executing the command. But how to do this with a globally installed command?
+
 See settings
 `ifc-lbd -h`
 
 Run in dev
-`node ./lib/cli-tool/index.js bot -i ./tests/artifacts/Duplex.ifc`
+`node --no-experimental-fetch ./dist/cli-index.cjs bot -i ./tests/artifacts/Duplex.ifc`
 
 ### Building Topology Ontology (BOT)
 Exports triples in compliance with the [Building Topology Ontology](https://w3id.org/bot).

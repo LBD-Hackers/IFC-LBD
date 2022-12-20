@@ -1,4 +1,4 @@
-import { IFCUNITASSIGNMENT, IfcAPI } from 'web-ifc/web-ifc-api.js';
+import { IFCUNITASSIGNMENT, IfcAPI } from 'web-ifc';
 
 // Known types that are currently unsupported
 // TIMEUNIT = 'TIMEUNIT',

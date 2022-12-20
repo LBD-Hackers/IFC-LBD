@@ -3,10 +3,10 @@ import { readFile } from "fs";
 import * as util from "util";
 const readFileP = util.promisify(readFile);
 import * as path from 'path';
-import { IfcAPI } from 'web-ifc/web-ifc-api.js';
+import { IfcAPI } from "web-ifc";
 import { LBDParser } from "../src";     // For development
-// import { LBDParser } from "../lib/bundles/bundle.esm";   // For testing the bundle
-import { toRDF } from 'jsonld';
+// import { LBDParser } from "./dist/index.js";   // For testing the bundle
+import { JsonLdDocument, toRDF } from 'jsonld';
 
 const duplexModelPath = path.join(__dirname, './artifacts/Duplex.ifc');
 const mepModelPath = path.join(__dirname, './artifacts/MEP.ifc');
@@ -29,13 +29,13 @@ describe('PROPERTIES', () => {
 
         // Init LBD Parser and parse BOT
         const lbdParser = new LBDParser();
-        const props: any = await lbdParser.parsePropertyTriples(ifcApi, modelID);
+        const props = await lbdParser.parsePropertyTriples(ifcApi, modelID);
 
         // Close the model, all memory is freed
         ifcApi.CloseModel(modelID);
         
         // Get all RDF triples from returned JSON-LD object
-        const rdf: any = await toRDF(props);
+        const rdf: any = await toRDF(props as JsonLdDocument);
         const tripleCount = rdf.length;
 
         // Evaluate
@@ -55,13 +55,13 @@ describe('PROPERTIES', () => {
 
         // Init LBD Parser and parse BOT
         const lbdParser = new LBDParser();
-        const props: any = await lbdParser.parsePropertyTriples(ifcApi, modelID);
+        const props = await lbdParser.parsePropertyTriples(ifcApi, modelID);
 
         // Close the model, all memory is freed
         ifcApi.CloseModel(modelID);
         
         // Get all RDF triples from returned JSON-LD object
-        const rdf: any = await toRDF(props);
+        const rdf = await toRDF(props);
         const tripleCount = rdf.length;
 
         // Get length of specific pipe

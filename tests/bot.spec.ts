@@ -2,10 +2,10 @@ import { readFile } from "fs";
 import * as util from "util";
 const readFileP = util.promisify(readFile);
 import * as path from 'path';
-import {IfcAPI} from "web-ifc/web-ifc-api.js";
+import { IfcAPI } from "web-ifc";
+import { LBDParser } from "../dist/index.cjs";
 // import { LBDParser } from "../src";
-import { LBDParser } from "../lib/bundles/bundle.esm";
-import { toRDF } from 'jsonld';
+import jsonld from 'jsonld';
 
 const duplexModelPath = path.join(__dirname, './artifacts/Duplex.ifc');
 const mepModelPath = path.join(__dirname, './artifacts/MEP.ifc');
@@ -21,6 +21,8 @@ describe('BOT', () => {
 
     test('can parse Duplex house', async () => {
 
+        console.log("XX");
+
         // Init API and load model
         const ifcApi = new IfcAPI();
         await ifcApi.Init();
@@ -28,13 +30,13 @@ describe('BOT', () => {
 
         // Init LBD Parser and parse BOT
         const lbdParser = new LBDParser();
-        const bot: any = await lbdParser.parseBOTTriples(ifcApi, modelID);
+        const bot = await lbdParser.parseBOTTriples(ifcApi, modelID);
 
         // Close the model, all memory is freed
         ifcApi.CloseModel(modelID);
         
         // Get all RDF triples from returned JSON-LD object
-        const rdf: any = await toRDF(bot);
+        let rdf: any = await jsonld.toRDF(bot as jsonld.JsonLdDocument);
         const tripleCount = rdf.length;
 
         // Evaluate
@@ -54,13 +56,13 @@ describe('BOT', () => {
 
         // Init LBD Parser and parse BOT
         const lbdParser = new LBDParser();
-        const bot: any = await lbdParser.parseBOTTriples(ifcApi, modelID);
+        const bot = await lbdParser.parseBOTTriples(ifcApi, modelID);
 
         // Close the model, all memory is freed
         ifcApi.CloseModel(modelID);
         
         // Get all RDF triples from returned JSON-LD object
-        const rdf: any = await toRDF(bot);
+        let rdf: any = await jsonld.toRDF(bot);
         const tripleCount = rdf.length;
 
         // Evaluate

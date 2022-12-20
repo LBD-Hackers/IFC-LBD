@@ -1,11 +1,10 @@
-import "babel-polyfill";
 import { readFile } from "fs";
 import * as util from "util";
 const readFileP = util.promisify(readFile);
 import * as path from 'path';
-import { IfcAPI } from 'web-ifc/web-ifc-api.js';
-// import { LBDParser } from "../src";
-import { LBDParser } from "../lib/bundles/bundle.esm";
+import { IfcAPI } from "web-ifc";
+import { LBDParser } from "../src";
+// import { LBDParser } from "./dist/index.js";
 
 const duplexModelPath = path.join(__dirname, './artifacts/Duplex.ifc');
 const mepModelPath = path.join(__dirname, './artifacts/MEP.ifc');

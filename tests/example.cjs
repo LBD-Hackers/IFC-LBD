@@ -2,8 +2,8 @@ const { readFile } = require("fs");
 const util = require("util");
 const readFileP = util.promisify(readFile);
 const path = require("path");
-const WebIFC = require("web-ifc");
-const LBDParser = require("../lib/cjs/index");
+const { IfcAPI } = require("web-ifc");
+const { LBDParser } = require("../dist/index.cjs");
 const { toRDF } = require("jsonld");
 
 
@@ -15,7 +15,7 @@ async function main(model){
     const mepModelData = await readFileP(mepModelPath);
 
     // Init API and load models
-    const ifcApi = new WebIFC.IfcAPI();
+    const ifcApi = new IfcAPI();
     await ifcApi.Init();
     let modelID;
 

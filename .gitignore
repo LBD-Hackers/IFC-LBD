@@ -5,5 +5,5 @@
 triples.json
 *.nq
 *.nq.gz
-lib
+dist
 demo/node_modules

@@ -5,7 +5,7 @@ import { readFile, writeFile } from "fs";
 import * as util from "util";
 const readFileP = util.promisify(readFile);
 const writeFileP = util.promisify(writeFile);
-import * as WebIFC from "web-ifc/web-ifc-api";
+import { IfcAPI } from "web-ifc";
 import { LBDParser } from '.';
 import { JSONLD } from './helpers/BaseDefinitions';
 import { gzip } from "node-gzip";
@@ -78,7 +78,7 @@ export class CLITool{
         this.argv["verbose"] && console.log("#".repeat(21 + subset.length));
         this.argv["verbose"] && console.log("");
         this.argv["verbose"] && console.time("Initilized API and loaded model");
-        const ifcApi = new WebIFC.IfcAPI();
+        const ifcApi = new IfcAPI();
         await ifcApi.Init();
         const fileData = await readFileP(this.argv.inputFile);
         const modelID = ifcApi.OpenModel(fileData);
@@ -97,7 +97,7 @@ export class CLITool{
 
     }
 
-    private async parseTriples(lbdParser: LBDParser, ifcApi: WebIFC.IfcAPI, subset: string, modelID: number = 0): Promise<JSONLD>{
+    private async parseTriples(lbdParser: LBDParser, ifcApi: IfcAPI, subset: string, modelID: number = 0): Promise<JSONLD>{
         let triples;
         if(subset == "bot") triples = await lbdParser.parseBOTTriples(ifcApi, modelID, this.argv["verbose"]);
         if(subset == "fso") triples = await lbdParser.parseFSOTriples(ifcApi, modelID, this.argv["verbose"]);

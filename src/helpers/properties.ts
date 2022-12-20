@@ -1,4 +1,4 @@
-import { IfcAPI } from 'web-ifc/web-ifc-api.js';
+import { IfcAPI } from 'web-ifc';
 import { defaultURIBuilder } from "./uri-builder";
 
 import {
@@ -12,7 +12,7 @@ import {
     IFCQUANTITYLENGTH,
     IFCQUANTITYVOLUME,
     IFCRELDEFINESBYPROPERTIES
-} from 'web-ifc/web-ifc-api.js';
+} from 'web-ifc';
 import { getUCUMCode, UnitType } from "./unit-tools";
 import { IfcDatatypes, IfcLabels } from "./IfcDatatypesMap";
 import { ModelUnits } from "../parsers/parser";

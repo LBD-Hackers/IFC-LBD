@@ -9,7 +9,7 @@ import {
 } from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import { IFCLoader } from "web-ifc-three/IFCLoader";
-import { LBDParser } from "../../lib/bundles/browser/bundle.esm";
+import { LBDParser } from "../../dist/index.js";
 import { IfcAPI } from "web-ifc";
 
 //Creates the Three.js scene

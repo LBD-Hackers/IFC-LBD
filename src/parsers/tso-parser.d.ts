@@ -1,0 +1,13 @@
+import { Parser } from "./parser";
+import { JSONLD } from "../helpers/BaseDefinitions";
+export declare class TSOParser extends Parser {
+    doParse(): Promise<JSONLD | string>;
+    /**
+     * CLASS ASSIGNMENT
+     */
+    private classify;
+    /**
+     * RELATIONSHIPS
+     */
+    private connections;
+}

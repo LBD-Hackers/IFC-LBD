@@ -1,5 +1,5 @@
 import { JSONLD, N3Format, SerializationFormat } from "../helpers/BaseDefinitions";
-import { IfcAPI } from 'web-ifc/web-ifc-api.js';
+import { IfcAPI } from 'web-ifc';
 import { prefixes } from '../helpers/prefixes';
 import { toRDF, fromRDF, compact } from "jsonld";
 import * as N3 from 'n3';

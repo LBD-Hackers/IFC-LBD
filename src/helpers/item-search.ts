@@ -1,4 +1,4 @@
-import { IfcAPI } from 'web-ifc/web-ifc-api.js';
+import { IfcAPI } from 'web-ifc';
 import { TreeNode } from "./BaseDefinitions";
 import { IfcTypesTree } from "./IfcTypesTree";
 

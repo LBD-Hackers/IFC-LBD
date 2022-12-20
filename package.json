@@ -1,81 +1,51 @@
 {
   "name": "ifc-lbd",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "",
   "repository": {
     "url": "https://github.com/LBD-Hackers/IFC-LBD",
     "type": "git"
   },
-  "main": "lib/bundles/bundle.esm.js",
-  "types": "lib/types/index.d.ts",
+  "main": "dist/index.js",
   "type": "module",
   "scripts": {
-    "build": "npm-run-all -l clean -p build:node build:cli-tool build:browser build:cjs declarations",
-    "clean": "rimraf lib",
-    "declarations": "tsc -p tsconfig.json",
-    "build:bundles": "cross-env BABEL_ENV=esmBundled rollup -c",
-    "build:cli-tool": "cross-env BABEL_ENV=esmBundled rollup -c rollup.cli-config.js",
-    "build:node": "cross-env BABEL_ENV=esmBundled rollup -c rollup.node-config.js",
-    "build:browser": "cross-env BABEL_ENV=esmBundled rollup -c rollup.browser-config.js",
-    "build:cjs": "cross-env BABEL_ENV=cjs babel src --extensions '.ts' --out-dir 'lib/cjs' --source-maps",
-    "copy-assets": "cp node_modules/web-ifc/web-ifc.wasm lib && cp node_modules/web-ifc/web-ifc-mt.wasm lib",
-    "test": "jest --experimental-vm-modules ./tests"
+    "build": "npm-run-all clean build:node build:cli copy:assets",
+    "clean": "rimraf dist",
+    "build:cli": "tsup src/cli-index.ts --format cjs",
+    "build:node": "tsup src/index.ts --format esm,cjs --sourcemap",
+    "copy:assets": "cp node_modules/web-ifc/web-ifc.wasm dist",
+    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js ./tests-new",
+    "publish-demo": "git subtree push --prefix demo/src origin gh-pages"
   },
   "keywords": [],
   "author": "Mads Holten Rasmussen<mhra@niras.dk>",
   "license": "ISC",
   "devDependencies": {
-    "@babel/cli": "^7.16.0",
-    "@babel/plugin-transform-modules-commonjs": "^7.16.5",
-    "@babel/plugin-transform-runtime": "^7.16.5",
-    "@babel/preset-env": "^7.16.5",
-    "@babel/preset-typescript": "^7.16.5",
-    "@babel/runtime": "^7.16.5",
-    "@rollup/plugin-babel": "^5.3.0",
-    "@rollup/plugin-commonjs": "^23.0.4",
-    "@rollup/plugin-json": "^4.1.0",
-    "@rollup/plugin-node-resolve": "^13.1.1",
-    "@types/jest": "^27.0.3",
-    "@types/jsonld": "^1.5.6",
-    "@types/meow": "^6.0.0",
-    "@types/yargs": "^17.0.7",
-    "babel-jest": "^27.4.5",
-    "babel-polyfill": "^6.26.0",
-    "jest": "^27.4.5",
-    "npm-run-all": "^4.1.5",
+    "@babel/plugin-transform-runtime": "^7.19.6",
+    "@babel/preset-env": "^7.20.2",
+    "@babel/preset-typescript": "^7.18.6",
+    "@types/jest": "^29.2.4",
+    "@types/jsonld": "^1.5.8",
+    "jest": "^29.3.1",
+    "node-fetch": "^3.3.0",
     "rimraf": "^3.0.2",
-    "rollup": "^2.61.1",
-    "rollup-plugin-copy": "^3.4.0",
-    "rollup-plugin-dts": "^4.1.0",
-    "rollup-plugin-node-builtins": "^2.1.2",
-    "rollup-plugin-node-globals": "^1.4.0",
-    "rollup-plugin-peer-deps-external": "^2.2.4",
-    "rollup-plugin-preserve-shebang": "^1.0.1",
-    "rollup-plugin-re": "^1.0.7",
-    "rollup-plugin-terser": "^7.0.2",
-    "rollup-plugin-typescript2": "^0.31.1",
-    "ts-jest": "^27.1.2",
-    "ts-node": "^10.4.0",
-    "tslib": "^2.3.1",
-    "typescript": "^4.5.4",
-    "web-ifc": "^0.0.35",
-    "web-ifc-three": "^0.0.103",
-    "yargs": "^17.3.0"
+    "tsup": "^6.5.0",
+    "web-ifc": "^0.0.36"
   },
   "files": [
-    "lib/*"
+    "dist/*"
   ],
   "bin": {
-    "ifc-lbd": "./lib/cli-tool/index.js"
+    "ifc-lbd": "./dist/cli-index.cjs"
   },
   "dependencies": {
-    "jsonld": "^5.2.0",
+    "jsonld": "^6.0.0",
     "n3": "^1.15.0",
     "node-gzip": "^1.1.2",
-    "rxjs": "^7.5.4"
+    "rxjs": "^7.5.4",
+    "yargs": "^17.6.2"
   },
   "peerDependencies": {
-    "jsonld": "^5.2.0",
     "n3": "^1.15.0"
   },
   "browser": {
@@ -86,8 +56,8 @@
   },
   "exports": {
     ".": {
-      "require": "./lib/cjs/index.cjs",
-      "import": "./lib/bundles/bundle.esm.js"
+      "require": "./dist/index.cjs",
+      "import": "./dist/index.js"
     }
   }
 }

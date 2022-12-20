@@ -1,12 +1,11 @@
-import "babel-polyfill";
 import { readFile } from "fs";
 import * as util from "util";
 const readFileP = util.promisify(readFile);
 import * as path from 'path';
-import { IfcAPI } from 'web-ifc/web-ifc-api.js';
-// import { LBDParser } from "../src";     // For development
-import { LBDParser } from "../lib/bundles/bundle.esm";  // For testing the bundle
-import { toRDF } from 'jsonld';
+import { IfcAPI } from "web-ifc";
+import { LBDParser } from "../src";     // For development
+// import { LBDParser } from "./dist/index.js";  // For testing the bundle
+import { JsonLdDocument, toRDF } from 'jsonld';
 
 const mepModelPath = path.join(__dirname, './artifacts/MEP.ifc');
 let mepModelData;
@@ -26,13 +25,13 @@ describe('FSO', () => {
 
         // Init LBD Parser and parse FSO
         const lbdParser = new LBDParser();
-        const fso: any = await lbdParser.parseFSOTriples(ifcApi, modelID);
+        const fso = await lbdParser.parseFSOTriples(ifcApi, modelID);
 
         // Close the model, all memory is freed
         ifcApi.CloseModel(modelID);
         
         // Get all RDF triples from returned JSON-LD object
-        const rdf: any = await toRDF(fso);
+        const rdf: any = await toRDF(fso as JsonLdDocument);
         const tripleCount = rdf.length;
 
         // Get length of specific pipe + aggregated length

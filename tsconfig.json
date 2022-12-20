@@ -6,15 +6,13 @@
     "skipLibCheck": true,
     "resolveJsonModule": true,
     "moduleResolution": "node",
-    "outDir": "lib/types",
+    "outDir": "dist"
   },
   "exclude": [
     "node_modules",
     "lib"
   ],
   "include": [
-    "./src/index.ts",
-    "./package.json",
-    "jest.config.ts"
+    "./src/index.ts"
   ],
 }
