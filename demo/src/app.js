@@ -14,7 +14,7 @@ import { IfcAPI } from "web-ifc";
 
 //Creates the Three.js scene
 const scene = new Scene();
-let file;
+let arrayBuffer;
 
 initScene();
 
@@ -24,8 +24,8 @@ const input = document.getElementById("file-input");
     "change",
     async (changed) => {
 
-      // Set file
-      file = changed.target.files[0];
+      // Get file
+      const file = changed.target.files[0];
 
       // Unhide parsing options
       document.getElementById("parsers").classList.remove("hidden");
@@ -34,8 +34,12 @@ const input = document.getElementById("file-input");
       document.getElementById("file-input").classList.add("hidden");
 
       // Load in viewer
-      document.getElementById("status").innerHTML = "Loading model in scene...";
-      await loadInViewer();
+      document.getElementById("status").innerHTML = "Loading model in scene + building array buffer...";
+      const [v, ab] = await Promise.all([
+        loadInViewer(file),
+        readFile(file)
+      ]);
+      arrayBuffer = ab;
       document.getElementById("status").innerHTML = "";
 
     },
@@ -50,14 +54,13 @@ document.getElementById("fso-parse").addEventListener("click", () => parseTriple
 
 async function parseTriples(subset){
 
-    document.getElementById("status").innerHTML = "Reading file...";
-    const arrayBuffer = await readFile(file);
-
     document.getElementById("status").innerHTML = "Loading model...";
     const ifcAPI = new IfcAPI();
     ifcAPI.SetWasmPath("./assets/");
     await ifcAPI.Init();
     const modelID = ifcAPI.OpenModel(new Uint8Array(arrayBuffer));
+
+    // CAN WE SOMEHOW GET ACCESS TO IFCAPI FROM web-ifc-three SO WE DON'T NEED TO LOAD THE MODEL TWICE?
     
     document.getElementById("status").innerHTML = "Parsing LBD triples...";
     console.time("Parsing done");
@@ -83,12 +86,15 @@ async function parseTriples(subset){
     // Print to console
     console.log(triples);
 
+    const rdf = await toRDF(triples);
+    document.getElementById("status").innerHTML = `Open console to see results (${rdf.length} triples)`;
+
     // Save memory
     ifcAPI.CloseModel(modelID);
 
 }
 
-async function loadInViewer(){
+async function loadInViewer(file){
 
     const ifcURL = URL.createObjectURL(file);
 
