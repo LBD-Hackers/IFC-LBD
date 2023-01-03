@@ -1,6 +1,6 @@
 import yargs from 'yargs';
 import { hideBin } from 'yargs/helpers';
-import {version} from '../package.json';
+// import {version} from '../package.json';
 import { readFile, writeFile } from "fs";
 import * as util from "util";
 const readFileP = util.promisify(readFile);
@@ -19,7 +19,7 @@ export class CLITool{
     public async init(){
 
         this.argv = await yargs(hideBin(process.argv))
-            .version(version)   
+            .version("xx")
             .command('[subset]', 'parse ifc', (yargs) => {
                 return yargs
                 .positional('subset', {

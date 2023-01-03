@@ -6,6 +6,7 @@
     "skipLibCheck": true,
     "resolveJsonModule": true,
     "moduleResolution": "node",
+    "rootDir": "src",
     "outDir": "dist"
   },
   "exclude": [
@@ -14,5 +15,5 @@
   ],
   "include": [
     "./src/index.ts"
-  ],
+  ]
 }
