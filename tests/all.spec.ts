@@ -4,12 +4,12 @@ const readFileP = util.promisify(readFile);
 import * as path from 'path';
 import { IfcAPI } from "web-ifc";
 // import { LBDParser } from "../dist/index.cjs";
-import { JSONLD, LBDParser, ParserSettings } from "../src";
+import { JSONLD, LBDParser, ParserSettings, SerializationFormat } from "../src";
 import { JsonLdDocument, toRDF } from 'jsonld';
 
 // Necessary for mocking jest
-import { enableFetchMocks } from 'jest-fetch-mock';
-enableFetchMocks();
+import { enableFetchMocks } from 'jest-fetch-mock'
+enableFetchMocks()
 
 const duplexModelPath = path.join(__dirname, './artifacts/Duplex.ifc');
 const mepModelPath = path.join(__dirname, './artifacts/MEP.ifc');
@@ -21,9 +21,9 @@ beforeAll(async () => {
     mepModelData = await readFileP(mepModelPath);
 })
 
-describe('BOT', () => {
+describe('Parse all', () => {
 
-    test('can parse Duplex house', async () => {
+    test('per default parses both BOT, FSO, PROPERTIES and PRODUCTS', async () => {
 
         // Init API and load model
         const ifcApi = new IfcAPI();
@@ -31,8 +31,11 @@ describe('BOT', () => {
         const modelID = ifcApi.OpenModel(duplexModelData);
 
         // Init LBD Parser and parse BOT
-        const lbdParser = new LBDParser();
-        const bot = await lbdParser.parseBOTTriples(ifcApi, modelID);
+        const settings = new ParserSettings();
+        settings.verbose = false;
+        const lbdParser = new LBDParser(settings);
+        
+        const bot = await lbdParser.parse(ifcApi, modelID);
 
         // Close the model, all memory is freed
         ifcApi.CloseModel(modelID);
@@ -43,13 +46,13 @@ describe('BOT', () => {
 
         // Evaluate
         expect(Array.isArray(bot["@graph"])).toBe(true);
-        expect(bot["@graph"].length).toBe(839);
+        expect(bot["@graph"].length).toBe(3873);
         expect(Array.isArray(rdf)).toBe(true);
-        expect(tripleCount).toBe(1718);
+        expect(tripleCount).toBe(17578);
 
     });
 
-    test('can parse MEP model', async () => {
+    test('can be configured to return NQuads instead of JSONLD', async () => {
 
         // Init API and load model
         const ifcApi = new IfcAPI();
@@ -57,8 +60,43 @@ describe('BOT', () => {
         const modelID = ifcApi.OpenModel(duplexModelData);
 
         // Init LBD Parser and parse BOT
-        const lbdParser = new LBDParser();
-        const bot = await lbdParser.parseBOTTriples(ifcApi, modelID);
+        const settings = new ParserSettings();
+        settings.verbose = false;
+        settings.outputFormat = SerializationFormat.NQuads;
+        const lbdParser = new LBDParser(settings);
+        
+        const bot: any = await lbdParser.parse(ifcApi, modelID);
+
+        // Close the model, all memory is freed
+        ifcApi.CloseModel(modelID);
+
+        const tripleCount = bot.split("\n").filter(triple => triple.trim() != "").length;
+
+        // Evaluate
+        expect(typeof bot).toBe("string");
+        expect(tripleCount).toBe(17578);
+
+    });
+
+    test('can parse only BOT triples using the generic parser based on settings', async () => {
+
+        // Init API and load model
+        const ifcApi = new IfcAPI();
+        await ifcApi.Init();
+        const modelID = ifcApi.OpenModel(duplexModelData);
+
+        // Init LBD Parser and parse BOT
+        const settings = new ParserSettings();
+        settings.verbose = false;
+        settings.subsets = {
+            BOT: true,
+            FSO: false,
+            PRODUCTS: false,
+            PROPERTIES: false
+        };
+        const lbdParser = new LBDParser(settings);
+
+        const bot = await lbdParser.parse(ifcApi, modelID);
 
         // Close the model, all memory is freed
         ifcApi.CloseModel(modelID);

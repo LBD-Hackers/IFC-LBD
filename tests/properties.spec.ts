@@ -1,4 +1,3 @@
-import "babel-polyfill";
 import { readFile } from "fs";
 import * as util from "util";
 const readFileP = util.promisify(readFile);
@@ -7,6 +6,11 @@ import { IfcAPI } from "web-ifc";
 import { LBDParser } from "../src";     // For development
 // import { LBDParser } from "./dist/index.js";   // For testing the bundle
 import { JsonLdDocument, toRDF } from 'jsonld';
+import { JSONLD } from "../src/helpers/BaseDefinitions";
+
+// Necessary for mocking jest
+import { enableFetchMocks } from 'jest-fetch-mock';
+enableFetchMocks();
 
 const duplexModelPath = path.join(__dirname, './artifacts/Duplex.ifc');
 const mepModelPath = path.join(__dirname, './artifacts/MEP.ifc');
@@ -61,7 +65,7 @@ describe('PROPERTIES', () => {
         ifcApi.CloseModel(modelID);
         
         // Get all RDF triples from returned JSON-LD object
-        const rdf = await toRDF(props);
+        const rdf: any = await toRDF(props as JSONLD);
         const tripleCount = rdf.length;
 
         // Get length of specific pipe

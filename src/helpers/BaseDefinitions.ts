@@ -9,6 +9,22 @@ export interface TreeNode{
     "children"?: TreeNode[];
 }
 
+export class ParserSettings{
+    namespace: string = "https://web-bim/resources/";
+    subsets: Subsets = new Subsets();
+    outputFormat: SerializationFormat = SerializationFormat.JSONLD;
+    normalizeToSIUnits: boolean = true;
+    verbose: boolean = false;
+}
+
+export class Subsets{
+    BOT: boolean = true;
+    PROPERTIES: boolean = true;
+    PRODUCTS: boolean = true;
+    FSO: boolean = false;
+    // interfaces: boolean = true;
+}
+
 export enum SerializationFormat{
     NQuads="nquads",
     JSONLD="jsonld"

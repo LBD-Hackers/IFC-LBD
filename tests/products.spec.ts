@@ -6,6 +6,10 @@ import { IfcAPI } from "web-ifc";
 import { LBDParser } from "../src";
 // import { LBDParser } from "./dist/index.js";
 
+// Necessary for mocking jest
+import { enableFetchMocks } from 'jest-fetch-mock';
+enableFetchMocks();
+
 const duplexModelPath = path.join(__dirname, './artifacts/Duplex.ifc');
 const mepModelPath = path.join(__dirname, './artifacts/MEP.ifc');
 let duplexModelData;

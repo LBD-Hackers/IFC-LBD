@@ -3,9 +3,13 @@ import * as util from "util";
 const readFileP = util.promisify(readFile);
 import * as path from 'path';
 import { IfcAPI } from "web-ifc";
-import { LBDParser } from "../src";     // For development
+import { LBDParser, ParserSettings } from "../src";     // For development
 // import { LBDParser } from "./dist/index.js";  // For testing the bundle
 import { JsonLdDocument, toRDF } from 'jsonld';
+
+// Necessary for mocking jest
+import { enableFetchMocks } from 'jest-fetch-mock';
+enableFetchMocks();
 
 const mepModelPath = path.join(__dirname, './artifacts/MEP.ifc');
 let mepModelData;

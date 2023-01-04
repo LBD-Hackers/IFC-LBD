@@ -9,6 +9,5 @@ module.exports = {
   transform: {
     "^.+\\.[t|j]sx?$": "babel-jest"
   },
-  testTimeout: 10000,
-  globals: { fetch }
+  testTimeout: 10000
 };

@@ -1,4 +1,4 @@
-import { JSONLD, N3Format, SerializationFormat } from "../helpers/BaseDefinitions";
+import { JSONLD, N3Format, ParserSettings, SerializationFormat } from "../helpers/BaseDefinitions";
 import { IfcAPI } from 'web-ifc';
 import { prefixes } from '../helpers/prefixes';
 import { toRDF, fromRDF, compact } from "jsonld";
@@ -24,11 +24,11 @@ export class Parser{
 
     private globalIdMap: any = {}; // Object that maintains idMap between expressID and GlobalId
 
-    constructor(ifcAPI: IfcAPI, modelID: number, format: SerializationFormat = SerializationFormat.JSONLD, verbose: boolean = false){
+    constructor(ifcAPI: IfcAPI, modelID: number, settings: ParserSettings){
         this.modelID = modelID;
         this.ifcAPI = ifcAPI;
-        this.verbose = verbose;
-        this.format = format;
+        this.verbose = settings.verbose;
+        this.format = settings.outputFormat;
     }
 
     public async getGlobalId(expressID: number){

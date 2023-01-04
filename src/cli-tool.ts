@@ -7,24 +7,22 @@ const readFileP = util.promisify(readFile);
 const writeFileP = util.promisify(writeFile);
 import { IfcAPI } from "web-ifc";
 import { LBDParser } from '.';
-import { JSONLD } from './helpers/BaseDefinitions';
+import { JSONLD, ParserSettings, SerializationFormat } from './helpers/BaseDefinitions';
 import { gzip } from "node-gzip";
-
-const supportedSubsets = ["bot", "fso", "products", "properties", "tso"];
 
 export class CLITool{
 
-    public argv: any;
+    public supportedSubsets = ["bot", "fso", "products", "properties", "all"];
 
-    public async init(){
+    public async getArgs(): Promise<any>{
 
-        this.argv = await yargs(hideBin(process.argv))
-            .version("xx")
+        return await yargs(hideBin(process.argv))
+            .version("0.3.0")
             .command('[subset]', 'parse ifc', (yargs) => {
                 return yargs
                 .positional('subset', {
                     describe: 'what information do you wish to extract?',
-                    choices: supportedSubsets,
+                    choices: this.supportedSubsets,
                     demandOption: true
                 })
             }, (argv) => {
@@ -56,72 +54,51 @@ export class CLITool{
                 description: 'Run with verbose logging'
             })
             .parse();
-    
-        return this.argv;
 
     }
 
-    public async parseFile(lbdParser: LBDParser){
-        
-        if(this.argv["input-file"] == undefined) return;
+    public async parseFile(inputFilePath: string, outputFilePath: string, settings: ParserSettings){
 
-        this.argv["verbose"] && console.log("Running with verbose logging");
+        const lbdParser = new LBDParser(settings);
 
-        const subset: string = this.argv._[0].toLowerCase();
-        if(supportedSubsets.indexOf(subset) == -1){
-            return console.error(`Unsupported subset option. Supported options are [${supportedSubsets.map(s => `"${s}"`).join(", ")}]`)
-        }
+        settings.verbose && console.log("Running with verbose logging");
 
         // Init API and load model
-        this.argv["verbose"] && console.log("#".repeat(21 + subset.length));
-        this.argv["verbose"] && console.log(`# IFC-LBD <${subset.toLocaleUpperCase()}> parser #`);
-        this.argv["verbose"] && console.log("#".repeat(21 + subset.length));
-        this.argv["verbose"] && console.log("");
-        this.argv["verbose"] && console.time("Initilized API and loaded model");
+        settings.verbose && console.log("");
+        settings.verbose && console.time("Initilized API and loaded model");
         const ifcApi = new IfcAPI();
         await ifcApi.Init();
-        const fileData = await readFileP(this.argv.inputFile);
+        const fileData = await readFileP(inputFilePath);
         const modelID = ifcApi.OpenModel(fileData);
-        this.argv["verbose"] && console.timeEnd("Initilized API and loaded model");
-        this.argv["verbose"] && console.log("");
+        settings.verbose && console.timeEnd("Initilized API and loaded model");
+        settings.verbose && console.log("");
 
         // Init LBD Parser and parse triples
-        const triples = await this.parseTriples(lbdParser, ifcApi, subset, modelID);
+        const triples = await lbdParser.parse(ifcApi, modelID);
         if(!triples || triples == undefined) return console.log("Found nothing relevant in the file");
 
         // Close the model, all memory is freed
         ifcApi.CloseModel(modelID);
 
         // Serialize result
-        await this.serialize(triples);
+        await this.serialize(triples, outputFilePath, settings);
 
     }
 
-    private async parseTriples(lbdParser: LBDParser, ifcApi: IfcAPI, subset: string, modelID: number = 0): Promise<JSONLD>{
-        let triples;
-        if(subset == "bot") triples = await lbdParser.parseBOTTriples(ifcApi, modelID, this.argv["verbose"]);
-        if(subset == "fso") triples = await lbdParser.parseFSOTriples(ifcApi, modelID, this.argv["verbose"]);
-        if(subset == "products") triples = await lbdParser.parseProductTriples(ifcApi, modelID, this.argv["verbose"]);
-        if(subset == "properties") triples = await lbdParser.parsePropertyTriples(ifcApi, modelID, this.argv["verbose"]);
-        if(subset == "tso") triples = await lbdParser.parseTSOTriples(ifcApi, modelID, this.argv["verbose"]);
+    private async serialize(triples: JSONLD|string, outputFilePath: string, settings: ParserSettings): Promise<void>{
 
-        return triples;
-    }
-
-    private async serialize(triples: JSONLD): Promise<void>{
-
-        if(this.argv.format == "jsonld"){
-            this.argv["verbose"] && console.time("Serialized JSON-LD");
-            await writeFileP(this.argv.outputFile, JSON.stringify(triples, null, "\t"), 'utf8');
-            this.argv["verbose"] && console.timeEnd("Serialized JSON-LD");
+        if(settings.outputFormat == SerializationFormat.JSONLD){
+            settings.verbose && console.time("Serialized JSON-LD");
+            await writeFileP(outputFilePath, JSON.stringify(triples, null, "\t"), 'utf8');
+            settings.verbose && console.timeEnd("Serialized JSON-LD");
         }
-        if(this.argv.format == "nquads"){
-            this.argv["verbose"] && console.time("Serialized NQuads");
-            const fp = this.argv.outputFile.replace(".json", ".nq.gz");
+        if(settings.outputFormat == SerializationFormat.NQuads){
+            settings.verbose && console.time("Serialized NQuads");
+            const fp = outputFilePath.replace(".json", ".nq.gz");
             const nquads: string = typeof triples != "string" ? triples.toString() : triples;
             const zipped: Buffer = await gzip(nquads);
             await writeFileP(fp, zipped, 'utf8');
-            this.argv["verbose"] && console.timeEnd("Serialized NQuads");
+            settings.verbose && console.timeEnd("Serialized NQuads");
         }
 
     }

@@ -7,6 +7,10 @@ import { LBDParser } from "../src";     // For development
 // import { LBDParser } from "./dist/index.js";   // For testing the bundle
 import { toRDF } from 'jsonld';
 
+// Necessary for mocking jest
+import { enableFetchMocks } from 'jest-fetch-mock';
+enableFetchMocks();
+
 const mepModelPath = path.join(__dirname, './artifacts/MEP.ifc');
 let mepModelData;
 
