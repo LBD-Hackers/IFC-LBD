@@ -32,7 +32,6 @@ describe('Parse all', () => {
 
         // Init LBD Parser and parse BOT
         const settings = new ParserSettings();
-        settings.verbose = false;
         const lbdParser = new LBDParser(settings);
         
         const bot = await lbdParser.parse(ifcApi, modelID);
@@ -61,7 +60,6 @@ describe('Parse all', () => {
 
         // Init LBD Parser and parse BOT
         const settings = new ParserSettings();
-        settings.verbose = false;
         settings.outputFormat = SerializationFormat.NQuads;
         const lbdParser = new LBDParser(settings);
         
@@ -78,6 +76,29 @@ describe('Parse all', () => {
 
     });
 
+    test('namespace can be specified', async () => {
+
+        // Init API and load model
+        const ifcApi = new IfcAPI();
+        await ifcApi.Init();
+        const modelID = ifcApi.OpenModel(duplexModelData);
+
+        // Init LBD Parser and parse BOT
+        const settings = new ParserSettings();
+        settings.namespace = "https://my-awesome-namespace.com/resources/";
+        const lbdParser = new LBDParser(settings);
+        
+        const bot: any = await lbdParser.parse(ifcApi, modelID);
+
+        // Close the model, all memory is freed
+        ifcApi.CloseModel(modelID);
+
+        // Evaluate
+        expect(bot["@context"]["@base"]).toBe(settings.namespace);
+        expect(bot["@context"].inst).toBe(settings.namespace);
+
+    });
+
     test('can parse only BOT triples using the generic parser based on settings', async () => {
 
         // Init API and load model
@@ -87,7 +108,6 @@ describe('Parse all', () => {
 
         // Init LBD Parser and parse BOT
         const settings = new ParserSettings();
-        settings.verbose = false;
         settings.subsets = {
             BOT: true,
             FSO: false,

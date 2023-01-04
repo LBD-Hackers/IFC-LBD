@@ -28,7 +28,9 @@ describe('FSO', () => {
         const modelID = ifcApi.OpenModel(mepModelData);
 
         // Init LBD Parser and parse FSO
-        const lbdParser = new LBDParser();
+        const settings = new ParserSettings();
+        settings.namespace = "https://example.com/";
+        const lbdParser = new LBDParser(settings);
         const fso = await lbdParser.parseFSOTriples(ifcApi, modelID);
 
         // Close the model, all memory is freed

@@ -29,6 +29,7 @@ export class Parser{
         this.ifcAPI = ifcAPI;
         this.verbose = settings.verbose;
         this.format = settings.outputFormat;
+        this.setNamespace(settings.namespace);
     }
 
     public async getGlobalId(expressID: number){
@@ -132,6 +133,11 @@ export class Parser{
 
         })
         
+    }
+
+    private setNamespace(ns: string){
+        this.jsonLDObject["@context"]["@base"] = ns;
+        this.jsonLDObject["@context"].inst = ns;
     }
 
 }
