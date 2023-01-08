@@ -8,6 +8,7 @@ import { LBDParser } from "../src";
 
 // Necessary for mocking jest
 import { enableFetchMocks } from 'jest-fetch-mock';
+import { JsonLdDocument } from "jsonld";
 enableFetchMocks();
 
 const duplexModelPath = path.join(__dirname, './artifacts/Duplex.ifc');
@@ -31,14 +32,15 @@ describe('PRODUCTS', () => {
 
         // Init LBD Parser and parse Products
         const lbdParser = new LBDParser();
-        const products = await lbdParser.parseProductTriples(ifcApi, modelID);
+        const triples = await lbdParser.parse(ifcApi, modelID);
+        const doc: JsonLdDocument = JSON.parse(triples);
 
         // Close the model, all memory is freed
         ifcApi.CloseModel(modelID);
 
         // Evaluate
-        expect(Array.isArray(products["@graph"])).toBe(true);
-        expect(products["@graph"].length).toBe(354);
+        expect(Array.isArray(doc["@graph"])).toBe(true);
+        expect(doc["@graph"].length).toBe(354);
 
     });
 
@@ -51,14 +53,15 @@ describe('PRODUCTS', () => {
 
         // Init LBD Parser and parse BOT
         const lbdParser = new LBDParser();
-        const products = await lbdParser.parseBOTTriples(ifcApi, modelID);
+        const triples = await lbdParser.parse(ifcApi, modelID);
+        const doc: JsonLdDocument = JSON.parse(triples);
 
         // Close the model, all memory is freed
         ifcApi.CloseModel(modelID);
 
         // Evaluate
-        expect(Array.isArray(products["@graph"])).toBe(true);
-        expect(products["@graph"].length).toBe(91);
+        expect(Array.isArray(doc["@graph"])).toBe(true);
+        expect(doc["@graph"].length).toBe(91);
 
     });
 

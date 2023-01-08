@@ -48,6 +48,12 @@ export class CLITool{
                 choices: ["jsonld", "nquads"],
                 default: 'jsonld'
             })
+            .option('zip', {
+                alias: 'z',
+                type: 'boolean',
+                description: 'Gzip result',
+                default: false
+            })
             .option('verbose', {
                 alias: 'v',
                 type: 'boolean',
@@ -57,7 +63,7 @@ export class CLITool{
 
     }
 
-    public async parseFile(inputFilePath: string, outputFilePath: string, settings: ParserSettings){
+    public async parseFile(inputFilePath: string, outputFilePath: string, settings: ParserSettings, zip: boolean = false){
 
         const lbdParser = new LBDParser(settings);
 
@@ -85,7 +91,7 @@ export class CLITool{
 
     }
 
-    private async serialize(triples: string, outputFilePath: string, settings: ParserSettings): Promise<void>{
+    private async serialize(triples: string, outputFilePath: string, settings: ParserSettings, zip: boolean = false): Promise<void>{
 
         if(settings.outputFormat == SerializationFormat.JSONLD){
             settings.verbose && console.time("Serialized JSON-LD");
@@ -94,9 +100,14 @@ export class CLITool{
         }
         if(settings.outputFormat == SerializationFormat.NQuads){
             settings.verbose && console.time("Serialized NQuads");
-            const fp = outputFilePath.replace(".json", ".nq.gz");
-            const zipped: Buffer = await gzip(triples);
-            await writeFileP(fp, zipped, 'utf8');
+            if(zip){
+                const zipped: Buffer = await gzip(triples);
+                const fp = outputFilePath.replace(".json", ".nq.gz");
+                await writeFileP(fp, zipped, 'utf8');
+            }else{
+                const fp = outputFilePath.replace(".json", ".nq");
+                await writeFileP(fp, triples, 'utf8');
+            }
             settings.verbose && console.timeEnd("Serialized NQuads");
         }
 

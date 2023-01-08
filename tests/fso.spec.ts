@@ -31,13 +31,14 @@ describe('FSO', () => {
         const settings = new ParserSettings();
         settings.namespace = "https://example.com/";
         const lbdParser = new LBDParser(settings);
-        const fso = await lbdParser.parseFSOTriples(ifcApi, modelID);
+        const triples = await lbdParser.parse(ifcApi, modelID);
+        const doc: JsonLdDocument = JSON.parse(triples);
 
         // Close the model, all memory is freed
         ifcApi.CloseModel(modelID);
         
         // Get all RDF triples from returned JSON-LD object
-        const rdf: any = await toRDF(fso as JsonLdDocument);
+        const rdf: any = await toRDF(doc);
         const tripleCount = rdf.length;
 
         // Get length of specific pipe + aggregated length
@@ -107,8 +108,8 @@ describe('FSO', () => {
 
 
         // Evaluate
-        expect(Array.isArray(fso["@graph"])).toBe(true);
-        expect(fso["@graph"].length).toBe(1691);
+        expect(Array.isArray(doc["@graph"])).toBe(true);
+        expect(doc["@graph"].length).toBe(1691);
         expect(Array.isArray(rdf)).toBe(true);
         expect(tripleCount).toBe(2386);
 

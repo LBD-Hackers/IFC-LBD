@@ -39,7 +39,7 @@ async function main(){
     settings.verbose && console.log("#".repeat(21 + subset.length));
     
     // Parse file
-    await cliTool.parseFile(inputFilePath, outputFilePath, settings);
+    await cliTool.parseFile(inputFilePath, outputFilePath, settings, args["zip"]);
 
 }
 

@@ -32,18 +32,19 @@ describe('BOT', () => {
 
         // Init LBD Parser and parse BOT
         const lbdParser = new LBDParser();
-        const bot = await lbdParser.parseBOTTriples(ifcApi, modelID);
+        const triples = await lbdParser.parse(ifcApi, modelID);
+        const doc: JsonLdDocument = JSON.parse(triples);
 
         // Close the model, all memory is freed
         ifcApi.CloseModel(modelID);
         
         // Get all RDF triples from returned JSON-LD object
-        let rdf: any = await toRDF(bot as JsonLdDocument);
+        let rdf: any = await toRDF(doc);
         const tripleCount = rdf.length;
 
         // Evaluate
-        expect(Array.isArray(bot["@graph"])).toBe(true);
-        expect(bot["@graph"].length).toBe(839);
+        expect(Array.isArray(doc["@graph"])).toBe(true);
+        expect(doc["@graph"].length).toBe(839);
         expect(Array.isArray(rdf)).toBe(true);
         expect(tripleCount).toBe(1718);
 
@@ -58,18 +59,19 @@ describe('BOT', () => {
 
         // Init LBD Parser and parse BOT
         const lbdParser = new LBDParser();
-        const bot = await lbdParser.parseBOTTriples(ifcApi, modelID);
+        const triples = await lbdParser.parse(ifcApi, modelID);
+        const doc: JsonLdDocument = JSON.parse(triples);
 
         // Close the model, all memory is freed
         ifcApi.CloseModel(modelID);
         
         // Get all RDF triples from returned JSON-LD object
-        let rdf: any = await toRDF(bot as JsonLdDocument);
+        let rdf: any = await toRDF(doc);
         const tripleCount = rdf.length;
 
         // Evaluate
-        expect(Array.isArray(bot["@graph"])).toBe(true);
-        expect(bot["@graph"].length).toBe(839);
+        expect(Array.isArray(doc["@graph"])).toBe(true);
+        expect(doc["@graph"].length).toBe(839);
         expect(Array.isArray(rdf)).toBe(true);
         expect(tripleCount).toBe(1718);
 

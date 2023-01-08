@@ -29,18 +29,18 @@ describe('TSO', () => {
 
         // Init LBD Parser and parse BOT
         const lbdParser = new LBDParser();
-        const fso: any = await lbdParser.parseTSOTriples(ifcApi, modelID);
+        const tso: any = await lbdParser.parseTSOTriples(ifcApi, modelID);
 
         // Close the model, all memory is freed
         ifcApi.CloseModel(modelID);
         
         // Get all RDF triples from returned JSON-LD object
-        const rdf: any = await toRDF(fso);
+        const rdf: any = await toRDF(tso);
         const tripleCount = rdf.length;
 
         // Evaluate
-        expect(Array.isArray(fso["@graph"])).toBe(true);
-        expect(fso["@graph"].length).toBe(607);
+        expect(Array.isArray(tso["@graph"])).toBe(true);
+        expect(tso["@graph"].length).toBe(607);
         expect(Array.isArray(rdf)).toBe(true);
         expect(tripleCount).toBe(607);
 
