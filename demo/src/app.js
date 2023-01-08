@@ -9,7 +9,7 @@ import {
 } from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import { IFCLoader } from "web-ifc-three/IFCLoader";
-import { LBDParser } from "../../dist/index.js";
+import { LBDParser, ParserSettings } from "../../dist/index.js";
 import { IfcAPI } from "web-ifc";
 
 //Creates the Three.js scene
@@ -27,11 +27,8 @@ const input = document.getElementById("file-input");
       // Get file
       const file = changed.target.files[0];
 
-      // Unhide parsing options
-      document.getElementById("parsers").classList.remove("hidden");
-
       // Hide file uoload
-      document.getElementById("file-input").classList.add("hidden");
+      document.getElementById("get_file").style.display = "none";
 
       // Load in viewer
       document.getElementById("status").innerHTML = "Loading model in scene + building array buffer...";
@@ -42,78 +39,106 @@ const input = document.getElementById("file-input");
       arrayBuffer = ab;
       document.getElementById("status").innerHTML = "";
 
+      // Unhide parsing options
+      document.getElementById("parsers").style.display = "block";
+
     },
     false
 );
 
 // Event: Do parse
-document.getElementById("bot-parse").addEventListener("click", () => parseTriples("bot"));
-document.getElementById("products-parse").addEventListener("click", () => parseTriples("prod"));
-document.getElementById("props-parse").addEventListener("click", () => parseTriples("props"));
-document.getElementById("fso-parse").addEventListener("click", () => parseTriples("fso"));
+document.getElementById("run").addEventListener("click", () => parseTriples());
 
-async function parseTriples(subset){
+async function parseTriples(){
 
-    document.getElementById("status").innerHTML = "Loading model...";
+    document.getElementById("status").innerHTML = "Loading IFC API...";
+
     const ifcAPI = new IfcAPI();
     ifcAPI.SetWasmPath("./assets/");
     await ifcAPI.Init();
     const modelID = ifcAPI.OpenModel(new Uint8Array(arrayBuffer));
 
-    // CAN WE SOMEHOW GET ACCESS TO IFCAPI FROM web-ifc-three SO WE DON'T NEED TO LOAD THE MODEL TWICE?
-    
+    // Define parser settings
+    const settings = new ParserSettings();
+    settings.outputFormat = document.getElementById('serialization').value;
+    settings.namespace = document.getElementById('baseURI').value;
+    settings.subsets.BOT = document.getElementById('bot-subset').checked;
+    settings.subsets.PRODUCTS = document.getElementById('products-subset').checked;
+    settings.subsets.PROPERTIES = document.getElementById('properties-subset').checked;
+    settings.subsets.FSO = document.getElementById('fso-subset').checked;
+
     document.getElementById("status").innerHTML = "Parsing LBD triples...";
-    console.time("Parsing done");
-    const lbdParser = new LBDParser();
-    let triples = "";
-    switch(subset){
-        case "bot":
-            triples = await lbdParser.parseBOTTriples(ifcAPI, modelID);
-            break;
-        case "prod":
-            triples = await lbdParser.parseProductTriples(ifcAPI, modelID);
-            break;
-        case "props":
-            triples = await lbdParser.parsePropertyTriples(ifcAPI, modelID);
-            break;
-        case "fso":
-            triples = await lbdParser.parseFSOTriples(ifcAPI, modelID);
-            break;
-    }
-    console.timeEnd("Parsing done");
-    document.getElementById("status").innerHTML = "Open console to see results";
 
-    // Print to console
-    console.log(triples);
+    // Run parser
+    const lbdParser = new LBDParser(settings);
+    const triples = await lbdParser.parse(ifcAPI, modelID);
 
-    const rdf = await toRDF(triples);
-    document.getElementById("status").innerHTML = `Open console to see results (${rdf.length} triples)`;
+    document.getElementById("status").innerHTML = "Results ready!";
 
-    // Save memory
+    // Release memory
     ifcAPI.CloseModel(modelID);
+
+    // Hide parsing options
+    document.getElementById("parsers").style.display = "none";
+
+    // Show download button
+    document.getElementById("download-results").style.display = "block";
+
+    document.getElementById("download-results").addEventListener("click", () => downloadResults(triples, settings.outputFormat));
 
 }
 
 async function loadInViewer(file){
 
-    const ifcURL = URL.createObjectURL(file);
+    document.getElementById("status").innerHTML = "Loading model (user interface is blocked in the meantime)...";
 
-    // Sets up the IFC loading
-    const ifcLoader = new IFCLoader();
+    return new Promise(async (resolve) => {
 
-    await ifcLoader.ifcManager.setWasmPath("./assets/");
-    await ifcLoader.ifcManager.applyWebIfcConfig({
-        USE_FAST_BOOLS: true
+        const ifcURL = URL.createObjectURL(file);
+
+        // Sets up the IFC loading
+        const ifcLoader = new IFCLoader();
+
+        await ifcLoader.ifcManager.setWasmPath("./assets/");
+        await ifcLoader.ifcManager.applyWebIfcConfig({
+            USE_FAST_BOOLS: true,
+            COORDINATE_TO_ORIGIN: false
+        })
+
+        ifcLoader.ifcManager.setOnProgress = exampleCallback;
+
+        function exampleCallback(event) {
+            const progress = event.total / event.progress * 100;
+            console.log("Progress: ", progress, "%");
+        }
+
+        ifcLoader.load( ifcURL, (ifcModel) => {
+            scene.add(ifcModel.mesh);
+            document.getElementById("status").innerHTML = "";
+            resolve();
+        });
+
     })
 
-    ifcLoader.ifcManager.setOnProgress = exampleCallback;
+}
 
-    function exampleCallback(event) {
-        const progress = event.total / event.progress * 100;
-        console.log("Progress: ", progress, "%");
-    }
+async function downloadResults(triples, serialization){
 
-    ifcLoader.load( ifcURL, (ifcModel) => scene.add(ifcModel.mesh));
+    const text = serialization == "jsonld" ? JSON.stringify(triples, null, 2) : triples;
+    const fileType = serialization == "jsonld" ? "application/ld+json" : "application/n-quads"; 
+    const fileName = serialization == "jsonld" ? "lbd.json" : "lbd.nq"; 
+
+    var blob = new Blob([text], { type: fileType });
+
+    var a = document.createElement('a');
+    a.download = fileName;
+    a.href = URL.createObjectURL(blob);
+    a.dataset.downloadurl = [fileType, a.download, a.href].join(':');
+    a.style.display = "none";
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    setTimeout(function() { URL.revokeObjectURL(a.href); }, 1500);
 
 }
 
