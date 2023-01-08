@@ -46,7 +46,7 @@ export class Parser{
         this.globalIdMap[expressID] = globalId;
     }
 
-    public async getTriples(): Promise<JSONLD|string>{
+    public async getTriples(): Promise<string>{
         if(this.format == SerializationFormat.JSONLD) return this.getJSONLD();
         if(this.format == SerializationFormat.NQuads) return this.getNQuads();
         return "";
@@ -94,16 +94,17 @@ export class Parser{
         return Object.keys(this.globalIdMap).indexOf(expressID.toString()) != -1;
     }
 
-    private async getJSONLD(): Promise<JSONLD>{
+    // Stringified version of JSON-LD (to avoid memory issues)
+    private async getJSONLD(): Promise<string>{
         // If store is up, serialize the content of the store
         if(this.store.size > 0){
             const nquads = this.store.getQuads(null, null, null, null);
             const doc = await fromRDF(nquads);
             const compacted = await compact(doc, this.jsonLDObject["@context"]);
-            return compacted as JSONLD;
+            return JSON.stringify(compacted);
         }
         // If not, simply return the JSON-LD object
-        return this.jsonLDObject;
+        return JSON.stringify(this.jsonLDObject);
     }
 
     private async getNQuads(): Promise<any>{

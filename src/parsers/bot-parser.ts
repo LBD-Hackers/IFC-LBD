@@ -17,7 +17,7 @@ import { JSONLD } from "../helpers/BaseDefinitions";
 
 export class BOTParser extends Parser{
 
-    public async doParse(): Promise<JSONLD|string>{
+    public async doParse(): Promise<string>{
 
         this.verbose && console.log("Started BOT parsing");
         this.verbose && console.log("");

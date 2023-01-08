@@ -11,7 +11,7 @@ const typeMappings: {[key: number]: string[]}  = {
 
 export class TSOParser extends Parser{
 
-    public async doParse(): Promise<JSONLD|string>{
+    public async doParse(): Promise<string>{
 
         this.verbose && console.log("Started TSO parsing");
         this.verbose && console.log("");

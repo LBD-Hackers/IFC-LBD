@@ -22,7 +22,7 @@ const typeMappings: {[key: number]: string[]}  = {
 
 export class FSOParser extends Parser{
 
-    public async doParse(normalizeToSI: boolean = false): Promise<JSONLD|string>{
+    public async doParse(normalizeToSI: boolean = false): Promise<string>{
 
         this.verbose && console.log("Started FSO parsing");
         this.verbose && console.log("");

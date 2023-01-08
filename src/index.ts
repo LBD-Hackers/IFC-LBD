@@ -5,7 +5,7 @@ import { PropertyParser } from "./parsers/property-parser";
 import { JSONLD, ParserSettings, SerializationFormat } from "./helpers/BaseDefinitions";
 import { FSOParser } from "./parsers/fso-parser";
 import { TSOParser } from "./parsers/tso-parser";
-import { concatJSONLD } from "./helpers/json-ld-concat";
+import { concatJSONLD, concatJSONLDStr } from "./helpers/json-ld-concat";
 
 export * from "./helpers/BaseDefinitions";
 export class LBDParser{
@@ -24,7 +24,7 @@ export class LBDParser{
     }
 
     // Default method. Parses everything set in the settings
-    public async parse(ifcApi: IfcAPI, modelID: number): Promise<JSONLD|string>{
+    public async parse(ifcApi: IfcAPI, modelID: number): Promise<string>{
 
         let results: any = [];
 
@@ -54,32 +54,32 @@ export class LBDParser{
         if(this.settings.outputFormat == SerializationFormat.NQuads){
             return results.join("\n");
         }else{
-            return await concatJSONLD(results);
+            return await concatJSONLDStr(results);
         }
 
     }
 
-    public async parseBOTTriples(ifcApi: IfcAPI, modelID: number): Promise<JSONLD|string>{
+    public async parseBOTTriples(ifcApi: IfcAPI, modelID: number): Promise<string>{
         const botParser = new BOTParser(ifcApi, modelID, this.settings);
         return await botParser.doParse();
     }
 
-    public async parseProductTriples(ifcApi: IfcAPI, modelID: number): Promise<JSONLD|string>{
+    public async parseProductTriples(ifcApi: IfcAPI, modelID: number): Promise<string>{
         const productParser = new ProductParser(ifcApi, modelID, this.settings);
         return await productParser.doParse();
     }
 
-    public async parsePropertyTriples(ifcApi: IfcAPI, modelID: number): Promise<JSONLD|string>{
+    public async parsePropertyTriples(ifcApi: IfcAPI, modelID: number): Promise<string>{
         const productParser = new PropertyParser(ifcApi, modelID, this.settings);
         return await productParser.doParse();
     }
 
-    public async parseFSOTriples(ifcApi: IfcAPI, modelID: number): Promise<JSONLD|string>{
+    public async parseFSOTriples(ifcApi: IfcAPI, modelID: number): Promise<string>{
         const fsoParser = new FSOParser(ifcApi, modelID, this.settings);
         return await fsoParser.doParse();
     }
 
-    public async parseTSOTriples(ifcApi: IfcAPI, modelID: number): Promise<JSONLD|string>{
+    public async parseTSOTriples(ifcApi: IfcAPI, modelID: number): Promise<string>{
         const tsoParser = new TSOParser(ifcApi, modelID, this.settings);
         return await tsoParser.doParse();
     }

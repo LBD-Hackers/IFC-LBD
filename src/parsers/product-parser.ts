@@ -15,7 +15,7 @@ import { buildRelOneToMany, buildRelOneToOne, Input } from '../helpers/path-sear
 
 export class ProductParser extends Parser{
 
-    public async doParse(): Promise<JSONLD|string>{
+    public async doParse(): Promise<string>{
 
         this.verbose && console.log("Started PRODUCTS parsing");
         this.verbose && console.log("");

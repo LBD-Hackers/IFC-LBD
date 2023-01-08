@@ -52,12 +52,13 @@ export class PropertyAPI{
         this.modelUnits = d.modelUnits;
     }
 
-    public async getAllProperties(verbose: boolean = false): Promise<any>{
+    // Returns a stringified version of the graph content. Stringified because it is too large to handle as an array
+    public async getAllProperties(verbose: boolean = false): Promise<string>{
+
+        let graphStr = "";
 
         // Subscribe to progress in current event
         const progressTracker = new ProgressTracker();
-
-        let graph = [];
 
         const rels = await this.ifcAPI.properties.getAllItemsOfType(this.modelID, IFCRELDEFINESBYPROPERTIES, false);
 
@@ -84,7 +85,7 @@ export class PropertyAPI{
                 const {GlobalId} = await this.ifcAPI.properties.getItemProperties(this.modelID, objects[j].value);
                 const objectURI = defaultURIBuilder(GlobalId.value);
                 const itemObject = Object.assign({"@id": objectURI}, propertyObject);
-                graph.push(itemObject);
+                graphStr+= JSON.stringify(itemObject) + ",";
 
             }
 
@@ -92,14 +93,15 @@ export class PropertyAPI{
     
         }
 
-        return graph;
+        return graphStr;
     
     }
 
     // Returns JSON-LD that defines the property sets and their contained properties
-    public getPSets(){
+    // Returns a stringified version of the graph content. Stringified because it is too large to handle as an array
+    public getPSets(): string{
 
-        const graph = [];
+        let graphStr = "";
 
         for (let i = 0; i < this.psetNames.length; i++) {
 
@@ -133,16 +135,18 @@ export class PropertyAPI{
                 psetObject["ex:hasProperty"].push(propObject);
             }
 
-            graph.push(psetObject);
+            graphStr+= JSON.stringify(psetObject) + ",";
+
         }
 
-        return graph;
+        return graphStr;
         
     }
 
+    // Returns a stringified version of the graph content. Stringified because it is too large to handle as an array
     public getElementQuantities(){
 
-        const graph = [];
+        let graphStr = "";
 
         const names = Object.keys(this.quantityProperties);
 
@@ -178,10 +182,11 @@ export class PropertyAPI{
                 psetObject["ex:hasQuantity"].push(propObject);
             }
 
-            graph.push(psetObject);
+            graphStr+= JSON.stringify(psetObject) + ",";
+
         }
 
-        return graph;
+        return graphStr;
         
     }
 

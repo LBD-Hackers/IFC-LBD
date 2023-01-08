@@ -25,7 +25,7 @@ export class PropertyParser extends Parser{
 
     public progressTracker = new ProgressTracker()
 
-    public async doParse(normalizeToSI: boolean = true): Promise<JSONLD|string>{
+    public async doParse(normalizeToSI: boolean = true): Promise<string>{
 
         this.verbose && console.log("Started PROPERTIES parsing");
         this.verbose && console.log("");
@@ -39,9 +39,12 @@ export class PropertyParser extends Parser{
         this.modelUnits = await this.getUnits();
         this.verbose && console.timeEnd("Getting model units");
 
+        // Works on a stringified version of the full graph. Stringified because it is too large to handle as an array
+        let graphStr = "[";
+
         this.verbose && console.log("## STEP 1: DIRECT PROPERTIES ##");
         this.verbose && console.time("1/3: Found direct properties");
-        this.jsonLDObject["@graph"].push(...(await this.getElementProperties()));
+        graphStr+= await this.getElementProperties();
         this.verbose && console.timeEnd("1/3: Found direct properties");
         console.log("");
 
@@ -55,30 +58,33 @@ export class PropertyParser extends Parser{
 
         this.verbose && console.log("## STEP 2: PSET PROPERTIES ##");
         this.verbose && console.time("2/3: Found pset properties");
-        this.jsonLDObject["@graph"].push(...(await propertyAPI.getAllProperties(this.verbose)));
+        graphStr+= await propertyAPI.getAllProperties(this.verbose);
         this.verbose && console.timeEnd("2/3: Found pset properties");
         console.log("");
 
         this.verbose && console.log("## STEP 3: WRITE PROPERTY SETS ##");
         this.verbose && console.time("3/3: Writing the property sets themselves (TBox)");
-        this.jsonLDObject["@graph"].push(...(await propertyAPI.getPSets()));
-        this.jsonLDObject["@graph"].push(...(await propertyAPI.getElementQuantities()));
+        graphStr+= await propertyAPI.getPSets();
+        graphStr+= await propertyAPI.getElementQuantities();
         this.verbose && console.timeEnd("3/3: Writing the property sets themselves (TBox)");
         console.log("");
-
-        console.timeEnd("Finished PROPERTIES parsing");
 
         if(this.verbose){
             const tripleCount = await this.getTripleCount();
             console.log("Total triples: " + tripleCount);
         }
 
+        graphStr = graphStr.slice(0, -1) //Remove tailing comma
+        graphStr+= "]"; // Close list
+
+        this.jsonLDObject["@graph"] = JSON.parse(graphStr);
+
         return await this.getTriples();
 
     }
 
     async getAllRelevantItems(): Promise<number[]>{
-        let arr = [];
+        let arr: any[] = [];
         arr.push(...await getAllItemsOfTypeOrSubtype(this.ifcAPI, this.modelID, IFCPRODUCT));   // Elements, spaces etc.
         arr.push(...await getAllItemsOfTypeOrSubtype(this.ifcAPI, this.modelID, IFCGROUP));     // Systems etc.
         return arr;
@@ -86,8 +92,9 @@ export class PropertyParser extends Parser{
 
     /**
      * DIRECT
+     * Returns a stringified version of a list
      */
-    async getElementProperties(): Promise<any[]>{
+    async getElementProperties(): Promise<string>{
 
         // Subscribe to progress in current event
         if(this.verbose){
@@ -99,13 +106,19 @@ export class PropertyParser extends Parser{
         // Reset counter
         this.progressTracker.resetProcessedCount();
 
-        const propertyPromises = [];
+        const propertyPromises: any[] = [];
         for (let i = 0; i < this.itemIDs.length; i++) {
             const expressID = this.itemIDs[i];
             propertyPromises.push(this.buildDirectProperties(expressID, this.progressTracker));
         }
 
-        return await Promise.all(propertyPromises);
+        // Remove "[" and "]" and add "," so next item can be appended directly
+        let arrStr = JSON.stringify(await Promise.all(propertyPromises));
+        arrStr = arrStr.substring(1);
+        arrStr = arrStr.slice(0, -1);
+        arrStr+= ",";
+
+        return arrStr;
 
     }
 

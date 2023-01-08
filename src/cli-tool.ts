@@ -85,18 +85,17 @@ export class CLITool{
 
     }
 
-    private async serialize(triples: JSONLD|string, outputFilePath: string, settings: ParserSettings): Promise<void>{
+    private async serialize(triples: string, outputFilePath: string, settings: ParserSettings): Promise<void>{
 
         if(settings.outputFormat == SerializationFormat.JSONLD){
             settings.verbose && console.time("Serialized JSON-LD");
-            await writeFileP(outputFilePath, JSON.stringify(triples, null, "\t"), 'utf8');
+            await writeFileP(outputFilePath, triples, 'utf8');
             settings.verbose && console.timeEnd("Serialized JSON-LD");
         }
         if(settings.outputFormat == SerializationFormat.NQuads){
             settings.verbose && console.time("Serialized NQuads");
             const fp = outputFilePath.replace(".json", ".nq.gz");
-            const nquads: string = typeof triples != "string" ? triples.toString() : triples;
-            const zipped: Buffer = await gzip(nquads);
+            const zipped: Buffer = await gzip(triples);
             await writeFileP(fp, zipped, 'utf8');
             settings.verbose && console.timeEnd("Serialized NQuads");
         }

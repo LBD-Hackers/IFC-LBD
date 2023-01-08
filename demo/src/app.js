@@ -124,11 +124,10 @@ async function loadInViewer(file){
 
 async function downloadResults(triples, serialization){
 
-    const text = serialization == "jsonld" ? JSON.stringify(triples, null, 2) : triples;
     const fileType = serialization == "jsonld" ? "application/ld+json" : "application/n-quads"; 
     const fileName = serialization == "jsonld" ? "lbd.json" : "lbd.nq"; 
 
-    var blob = new Blob([text], { type: fileType });
+    var blob = new Blob([triples], { type: fileType });
 
     var a = document.createElement('a');
     a.download = fileName;
