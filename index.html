@@ -10,14 +10,52 @@
 </head>
 <body>
     <div id="btn-container" class="column">
-        <input type="file" id="file-input" accept=".ifc, .ifcXML, .ifcZIP">
-        <div id="parsers" class="column hidden">
-            <button type="button" id="bot-parse">Parse BOT</button>
-            <button type="button" id="products-parse">Parse Products</button>
-            <button type="button" id="props-parse">Parse Properties</button>
-            <button type="button" id="fso-parse">Parse FSO</button>
-            <p id="status"></p>
+        
+        <p id="status"></p>
+
+        <input type="button" class="button-6" role="button" id="get_file" value="Load IFC"
+            onclick="document.getElementById('file-input').click()">
+        <input type="file" accept=".ifc" id="file-input" style="display: none;">
+
+        <div id="parsers" class="column" style="display: none;">
+
+            <!-- Settings -->
+            <div>
+                <label for="serialization">RDF serialization</label>
+                <select id="serialization">
+                    <option value="jsonld">JSON-LD</option>
+                    <option value="nquads">NQuads</option>
+                </select>
+            </div>
+
+            <div>
+                <label for="baseURI">Base URI</label>
+                <input type="text" id="baseURI" value="https://example.com/resources/">
+            </div>
+
+            <div>
+                <label for="bot-subset">BOT</label>
+                <input type="checkbox" id="bot-subset" name="bot-subset" checked>
+            </div>
+            <div>
+                <label for="products-subset">Products</label>
+                <input type="checkbox" id="products-subset" name="products-subset" checked>
+            </div>
+            <div>
+                <label for="properties-subset">Properties</label>
+                <input type="checkbox" id="properties-subset" name="properties-subset" checked>
+            </div>
+            <div>
+                <label for="fso-subset">FSO</label>
+                <input type="checkbox" id="fso-subset" name="fso-subset">
+            </div>
+
+            <button type="button" class="button-6" id="run">Run</button>
+
         </div>
+
+        <button type="button" class="button-6" id="download-results" style="display: none;">Download</button>
+        
     </div>
     <canvas id="three-canvas"></canvas>
     <script type="module" src="bundle.js"></script>
