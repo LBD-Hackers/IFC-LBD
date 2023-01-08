@@ -51,7 +51,7 @@ document.getElementById("run").addEventListener("click", () => parseTriples());
 
 async function parseTriples(){
 
-    document.getElementById("status").innerHTML = "Loading IFC API...";
+    document.getElementById("status").innerHTML = "Parsing LBD triples...";
 
     const ifcAPI = new IfcAPI();
     ifcAPI.SetWasmPath("./assets/");
@@ -60,14 +60,13 @@ async function parseTriples(){
 
     // Define parser settings
     const settings = new ParserSettings();
+    settings.verbose = true;
     settings.outputFormat = document.getElementById('serialization').value;
     settings.namespace = document.getElementById('baseURI').value;
     settings.subsets.BOT = document.getElementById('bot-subset').checked;
     settings.subsets.PRODUCTS = document.getElementById('products-subset').checked;
     settings.subsets.PROPERTIES = document.getElementById('properties-subset').checked;
     settings.subsets.FSO = document.getElementById('fso-subset').checked;
-
-    document.getElementById("status").innerHTML = "Parsing LBD triples...";
 
     // Run parser
     const lbdParser = new LBDParser(settings);
