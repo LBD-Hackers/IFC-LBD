@@ -1,6 +1,6 @@
 import { JSONLD, SerializationFormat } from "../helpers/BaseDefinitions";
 import { IfcAPI } from 'web-ifc';
-import * as N3 from 'n3';
+
 export interface ModelUnits {
     LENGTHUNIT: number;
     AREAUNIT: number;
@@ -12,7 +12,7 @@ export declare class Parser {
     ifcAPI: IfcAPI;
     verbose: boolean;
     format: SerializationFormat;
-    store: N3.Store;
+    store: any;
     modelUnits: ModelUnits;
     private globalIdMap;
     constructor(ifcAPI: IfcAPI, modelID: number, format?: SerializationFormat, verbose?: boolean);

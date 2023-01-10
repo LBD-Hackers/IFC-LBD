@@ -40,13 +40,6 @@ export enum Mimetype{
     DLOG="application/x.datalog"
 }
 
-export enum N3Format{
-    NTriples="N-Triples",
-    Trig="application/trig",
-    NQuads="N-Quads",
-    Turtle="Turtle"
-}
-
 export interface Triple{
     subject: TripleItem,
     predicate: TripleItem,

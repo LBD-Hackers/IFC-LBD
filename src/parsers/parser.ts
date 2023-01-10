@@ -1,8 +1,7 @@
-import { JSONLD, N3Format, ParserSettings, SerializationFormat } from "../helpers/BaseDefinitions";
+import { JSONLD, ParserSettings, SerializationFormat } from "../helpers/BaseDefinitions";
 import { IfcAPI } from 'web-ifc';
 import { prefixes } from '../helpers/prefixes';
-import { toRDF, fromRDF, compact } from "jsonld";
-import * as N3 from 'n3';
+import { toRDF } from "jsonld";
 import { IfcUnits } from '../helpers/unit-tools';
 
 export interface ModelUnits{
@@ -18,7 +17,6 @@ export class Parser{
     public ifcAPI: IfcAPI;
     public verbose: boolean;
     public format: SerializationFormat;
-    public store: N3.Store = new N3.Store();
 
     public modelUnits: ModelUnits; // Model units
 
@@ -53,25 +51,9 @@ export class Parser{
     }
 
     public async getTripleCount(): Promise<number>{
-        if(this.store.size > 0){
-            return this.getStoreSize();
-        }
         const rdf: any = await toRDF(this.jsonLDObject);
         const tripleCount = rdf.length;
         return tripleCount;
-    }
-
-    public async loadInStore(): Promise<void>{
-        const quads: any = await toRDF(this.jsonLDObject);
-        await this.store.addQuads(quads);
-    }
-
-    public async executeUpdateQuery(query: string): Promise<void>{
-        console.error("NOT SUPPORTED");
-    }
-
-    public getStoreSize(): number{
-        return this.store.size;
     }
 
     public async getUnits(): Promise<ModelUnits>{
@@ -95,44 +77,11 @@ export class Parser{
     }
 
     private async getJSONLD(): Promise<JSONLD>{
-        // If store is up, serialize the content of the store
-        if(this.store.size > 0){
-            const nquads = this.store.getQuads(null, null, null, null);
-            const doc = await fromRDF(nquads);
-            const compacted = await compact(doc, this.jsonLDObject["@context"]);
-            return compacted as JSONLD;
-        }
-        // If not, simply return the JSON-LD object
         return this.jsonLDObject;
     }
 
     private async getNQuads(): Promise<any>{
-        // If store is up, serialize the content of the store
-        if(this.store.size > 0){
-            return await this.serializeStoreContent(N3Format.NQuads);
-        }
-        // If not, simply convert the JSON-LD object
         return await toRDF(this.jsonLDObject, {format: 'application/n-quads'});
-    }
-
-    private async serializeStoreContent(format: N3Format = N3Format.Turtle): Promise<string>{
-
-        return new Promise((resolve, reject) => {
-
-            const writer = new N3.Writer({ prefixes: prefixes, format });
-            const quads = this.store.getQuads(null, null, null, null);
-
-            for (let i = 0; i < quads.length; i++) {
-                writer.addQuad(quads[i]);
-            }
-
-            writer.end((error, result) => {
-                if(error) reject(error);
-                resolve(result);
-            });
-
-        })
-        
     }
 
     private setNamespace(ns: string){
