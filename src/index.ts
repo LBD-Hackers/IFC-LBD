@@ -7,7 +7,8 @@ import { FSOParser } from "./parsers/fso-parser";
 import { TSOParser } from "./parsers/tso-parser";
 import { concatJSONLD } from "./helpers/json-ld-concat";
 
-export * from "./helpers/BaseDefinitions";
+export * from "./helpers";
+
 export class LBDParser{
 
     // initialize the API
