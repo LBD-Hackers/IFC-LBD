@@ -28,35 +28,36 @@ export class LBDParser{
     // Default method. Parses everything set in the settings
     public async parse(ifcApi: IfcAPI, modelID: number): Promise<JSONLD|string>{
 
-        let results: any = [];
-
+        const promises = Array<Promise<JSONLD|string>>();
         const subsetIds = Object.keys(this.settings.subsets);
 
         for(let subsetId of subsetIds){
             const toBeProcessed = this.settings.subsets[subsetId];
-            if(toBeProcessed){
-                switch(subsetId) {
-                    case "BOT":
-                        console.log("Parse BOT");
-                        results.push(await this.parseBOTTriples(ifcApi, modelID));
-                        break;
-                    case "PROPERTIES":
-                        results.push(await this.parsePropertyTriples(ifcApi, modelID));
-                        break;
-                    case "PRODUCTS":
-                        results.push(await this.parseProductTriples(ifcApi, modelID));
-                        break;
-                    case "FSO":
-                        results.push(await this.parseFSOTriples(ifcApi, modelID));
-                        break;
-                    }
+            if (!toBeProcessed){
+                continue;
             }
+            switch(subsetId) {
+                case "BOT":
+                    promises.push(this.parseBOTTriples(ifcApi, modelID));
+                    break;
+                case "PROPERTIES":
+                    promises.push(this.parsePropertyTriples(ifcApi, modelID));
+                    break;
+                case "PRODUCTS":
+                    promises.push(this.parseProductTriples(ifcApi, modelID));
+                    break;
+                case "FSO":
+                    promises.push(this.parseFSOTriples(ifcApi, modelID));
+                    break;
+                }
         };
+
+        const results = await Promise.all(promises).then(e => e)
 
         if(this.settings.outputFormat == SerializationFormat.NQuads){
             return results.join("\n");
         }else{
-            return await concatJSONLD(results);
+            return await concatJSONLD(results as JSONLD[]);
         }
 
     }
