@@ -1,7 +1,7 @@
 import { JSONLD, ParserSettings, SerializationFormat } from "../helpers/BaseDefinitions";
 import { IfcAPI } from 'web-ifc';
 import { prefixes } from '../helpers/prefixes';
-import jsonld from "jsonld";
+import {canonize, toRDF} from "jsonld";
 import { IfcUnits } from '../helpers/unit-tools';
 
 export interface ModelUnits{
@@ -51,7 +51,7 @@ export class Parser{
     }
 
     public async getTripleCount(): Promise<number>{
-        const rdf: any = await jsonld.toRDF(this.jsonLDObject);
+        const rdf: any = await toRDF(this.jsonLDObject);
         const tripleCount = rdf.length;
         return tripleCount;
     }
@@ -81,7 +81,7 @@ export class Parser{
     }
 
     private async getNQuads(): Promise<any>{
-        return await jsonld.canonize(this.jsonLDObject);
+        return await canonize(this.jsonLDObject);
     }
 
     private setNamespace(ns: string){
