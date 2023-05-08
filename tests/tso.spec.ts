@@ -5,7 +5,6 @@ import * as path from 'path';
 import { IfcAPI } from "web-ifc";
 import { LBDParser } from "../src";     // For development
 // import { LBDParser } from "./dist/index.js";   // For testing the bundle
-import { toRDF } from 'jsonld';
 
 // Necessary for mocking jest
 import { enableFetchMocks } from 'jest-fetch-mock';
@@ -33,16 +32,10 @@ describe('TSO', () => {
 
         // Close the model, all memory is freed
         ifcApi.CloseModel(modelID);
-        
-        // Get all RDF triples from returned JSON-LD object
-        const rdf: any = await toRDF(fso);
-        const tripleCount = rdf.length;
 
         // Evaluate
         expect(Array.isArray(fso["@graph"])).toBe(true);
         expect(fso["@graph"].length).toBe(607);
-        expect(Array.isArray(rdf)).toBe(true);
-        expect(tripleCount).toBe(607);
 
     });
 

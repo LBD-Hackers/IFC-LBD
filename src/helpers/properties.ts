@@ -2,10 +2,7 @@ import { IfcAPI } from 'web-ifc';
 import { defaultURIBuilder } from "./uri-builder";
 
 import {
-    IfcElementQuantity,
     IFCELEMENTQUANTITY,
-    IfcElements,
-    IfcPropertySet,
     IFCPROPERTYSET,
     IFCQUANTITYAREA,
     IFCQUANTITYCOUNT,
@@ -18,6 +15,7 @@ import { IfcDatatypes, IfcLabels } from "./IfcDatatypesMap";
 import { ModelUnits } from "../parsers/parser";
 import { decodeString } from "./character-decode";
 import { ProgressTracker } from "./progress-tracker";
+import { getAllItemsOfType } from './item-search';
 
 interface PSetProperty{
     URI: string;
@@ -59,7 +57,7 @@ export class PropertyAPI{
 
         let graph = [];
 
-        const rels = await this.ifcAPI.properties.getAllItemsOfType(this.modelID, IFCRELDEFINESBYPROPERTIES, false);
+        const rels = await getAllItemsOfType(this.ifcAPI, this.modelID, IFCRELDEFINESBYPROPERTIES, false);
 
         if(verbose){
             progressTracker.getProgress(rels.length).subscribe(progress => {
@@ -199,12 +197,11 @@ export class PropertyAPI{
 
         else{
             console.log("Unhandled property type");
-            console.log(IfcElements[propDef.type]);
         }
     
     }
 
-    private async processQuantityProperty(qProp: IfcElementQuantity){
+    private async processQuantityProperty(qProp: any){
 
         let propObject = {};
 
@@ -269,7 +266,7 @@ export class PropertyAPI{
 
     }
 
-    private async processPSetProperty(pset: IfcPropertySet){
+    private async processPSetProperty(pset: any){
 
         let propObject = {};
 
@@ -351,7 +348,7 @@ export class PropertyAPI{
 
         if(dataType == undefined) dataType = IfcDatatypes[val.valueType];
 
-        if(dataType == undefined) console.log(val);
+        // if(dataType == undefined) console.log(val);
 
         let value = dataType == "xsd:string" ? decodeString(val.value) : val.value.toString();
 

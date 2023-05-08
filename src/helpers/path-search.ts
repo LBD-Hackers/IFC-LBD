@@ -1,5 +1,6 @@
 import { IfcAPI } from "web-ifc";
 import { defaultURIBuilder } from "./uri-builder";
+import { getAllItemsOfType } from "./item-search";
 
 export class Input{
     ifcAPI: IfcAPI;
@@ -31,7 +32,7 @@ export async function buildRelOneToOne(d: Input): Promise<any>{
 
     const graph = [];
 
-    const rels = await d.ifcAPI.properties.getAllItemsOfType(d.modelID, d.ifcRelationship, false);
+    const rels = await getAllItemsOfType(d.ifcAPI, d.modelID, d.ifcRelationship, false);
 
     for (let i = 0; i < rels.length; i++) {
 
@@ -103,7 +104,7 @@ export async function buildRelOneToMany(d: Input): Promise<any>{
 
     const graph = [];
 
-    const rels = await d.ifcAPI.properties.getAllItemsOfType(d.modelID, d.ifcRelationship, false);
+    const rels = await getAllItemsOfType(d.ifcAPI, d.modelID, d.ifcRelationship, false);
 
     for (let i = 0; i < rels.length; i++) {
 

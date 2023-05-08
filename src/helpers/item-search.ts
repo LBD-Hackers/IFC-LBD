@@ -6,9 +6,21 @@ export async function getAllItemsOfTypeOrSubtype(ifcAPI: IfcAPI, modelID: number
     const subTypes: number[] = getItemSubtypes(ifcType);
     let items: any[] = [];
     for (let i = 0; i < subTypes.length; i++) {
-        items.push(...await ifcAPI.properties.getAllItemsOfType(modelID, subTypes[i], false));
+        items.push(...await getAllItemsOfType(ifcAPI, modelID, subTypes[i], false));
     }
     return items;
+}
+
+export async function getAllItemsOfType(ifcAPI: IfcAPI, modelID: number, ifcType: number, verbose = false): Promise<number[]>{
+    let items: number[] = [];
+    const lines = await ifcAPI.GetLineIDsWithType(modelID, ifcType);
+    for (let i = 0; i < lines.size(); i++) items.push(lines.get(i));
+    if (!verbose) return items;
+    const result: any[] = [];
+    for (let i = 0; i < items.length; i++) {
+        result.push(await this.api.GetLine(modelID, items[i]));
+    }
+    return result;
 }
 
 export function getItemSubtypes(type: number): number[]{
