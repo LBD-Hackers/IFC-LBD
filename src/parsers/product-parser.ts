@@ -10,7 +10,7 @@ import { Parser } from "./parser";
 import { JSONLD } from "../helpers/BaseDefinitions";
 import { defaultURIBuilder } from "../helpers/uri-builder";
 import { IfcElements } from "../helpers/IfcElementsMap";
-import { getItemSubtypes } from '../helpers/item-search';
+import { getAllItemsOfType, getItemSubtypes } from '../helpers/item-search';
 import { buildRelOneToMany, buildRelOneToOne, Input } from '../helpers/path-search';
 
 export class ProductParser extends Parser{
@@ -61,7 +61,7 @@ export class ProductParser extends Parser{
         // Get all items in model that belong to any of these types
         let expressIDArray: number[] = [];
         for(let typeId of subTypes){
-            expressIDArray.push(...await this.ifcAPI.properties.getAllItemsOfType(this.modelID, typeId, false));
+            expressIDArray.push(...await getAllItemsOfType(this.ifcAPI, this.modelID, typeId, false));
         }
 
         // Build triples
@@ -93,7 +93,7 @@ export class ProductParser extends Parser{
         // Get all items in model that belong to any of these types
         let expressIDArray: number[] = [];
         for(let typeId of subTypes){
-            expressIDArray.push(...await this.ifcAPI.properties.getAllItemsOfType(this.modelID, typeId, false));
+            expressIDArray.push(...await getAllItemsOfType(this.ifcAPI, this.modelID, typeId, false));
         }
 
         // Build triples

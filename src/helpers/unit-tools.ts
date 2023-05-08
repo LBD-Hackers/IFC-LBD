@@ -1,4 +1,5 @@
 import { IFCUNITASSIGNMENT, IfcAPI } from 'web-ifc';
+import { getAllItemsOfType } from './item-search';
 
 // Known types that are currently unsupported
 // TIMEUNIT = 'TIMEUNIT',
@@ -54,7 +55,7 @@ export class IfcUnits {
   async getUnitsOfModel(modelID: number) {
     this.allUnits[modelID] = {};
 
-    const foundUnitsID = await this.ifcAPI.properties.getAllItemsOfType(modelID, IFCUNITASSIGNMENT, false);
+    const foundUnitsID = await getAllItemsOfType(this.ifcAPI, modelID, IFCUNITASSIGNMENT, false);
     const unitsID = foundUnitsID[0];
     const unitReference = await this.ifcAPI.properties.getItemProperties(modelID, unitsID, true);
     const units = unitReference.Units;

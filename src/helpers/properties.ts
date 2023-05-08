@@ -18,6 +18,7 @@ import { IfcDatatypes, IfcLabels } from "./IfcDatatypesMap";
 import { ModelUnits } from "../parsers/parser";
 import { decodeString } from "./character-decode";
 import { ProgressTracker } from "./progress-tracker";
+import { getAllItemsOfType } from './item-search';
 
 interface PSetProperty{
     URI: string;
@@ -59,7 +60,7 @@ export class PropertyAPI{
 
         let graph = [];
 
-        const rels = await this.ifcAPI.properties.getAllItemsOfType(this.modelID, IFCRELDEFINESBYPROPERTIES, false);
+        const rels = await getAllItemsOfType(this.ifcAPI, this.modelID, IFCRELDEFINESBYPROPERTIES, false);
 
         if(verbose){
             progressTracker.getProgress(rels.length).subscribe(progress => {
@@ -351,7 +352,7 @@ export class PropertyAPI{
 
         if(dataType == undefined) dataType = IfcDatatypes[val.valueType];
 
-        if(dataType == undefined) console.log(val);
+        // if(dataType == undefined) console.log(val);
 
         let value = dataType == "xsd:string" ? decodeString(val.value) : val.value.toString();
 

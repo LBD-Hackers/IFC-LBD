@@ -1,12 +1,12 @@
 import { IfcAPI } from "web-ifc";
-import { getAllItemsOfTypeOrSubtype } from "./item-search";
+import { getAllItemsOfType, getAllItemsOfTypeOrSubtype } from "./item-search";
 import { defaultURIBuilder } from "./uri-builder";
 
 export async function buildClassInstances(ifcAPI: IfcAPI, modelID: number, ifcType: number, rdfClasses: string[], includeSubTypes: boolean = false): Promise<any[]>{
 
     let items = includeSubTypes 
         ? await getAllItemsOfTypeOrSubtype(ifcAPI, modelID, ifcType) 
-        : await ifcAPI.properties.getAllItemsOfType(modelID, ifcType, false);
+        : await getAllItemsOfType(ifcAPI, modelID, ifcType, false);
 
     return buildClassInstancesFromExpressIDs(ifcAPI, modelID, items, rdfClasses);
     

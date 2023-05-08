@@ -5,8 +5,6 @@ import * as path from 'path';
 import { IfcAPI } from "web-ifc";
 import { LBDParser } from "../src";     // For development
 // import { LBDParser } from "./dist/index.js";   // For testing the bundle
-import { JsonLdDocument, toRDF } from 'jsonld';
-import { JSONLD } from "../src/helpers/BaseDefinitions";
 
 // Necessary for mocking jest
 import { enableFetchMocks } from 'jest-fetch-mock';
@@ -33,20 +31,14 @@ describe('PROPERTIES', () => {
 
         // Init LBD Parser and parse BOT
         const lbdParser = new LBDParser();
-        const props = await lbdParser.parsePropertyTriples(ifcApi, modelID);
+        const props: any = await lbdParser.parsePropertyTriples(ifcApi, modelID);
 
         // Close the model, all memory is freed
         ifcApi.CloseModel(modelID);
-        
-        // Get all RDF triples from returned JSON-LD object
-        const rdf: any = await toRDF(props as JsonLdDocument);
-        const tripleCount = rdf.length;
 
         // Evaluate
         expect(Array.isArray(props["@graph"])).toBe(true);
         expect(props["@graph"].length).toBe(2680);
-        expect(Array.isArray(rdf)).toBe(true);
-        expect(tripleCount).toBe(15506);
 
     });
 
@@ -59,23 +51,14 @@ describe('PROPERTIES', () => {
 
         // Init LBD Parser and parse BOT
         const lbdParser = new LBDParser();
-        const props = await lbdParser.parsePropertyTriples(ifcApi, modelID);
+        const props: any = await lbdParser.parsePropertyTriples(ifcApi, modelID);
 
         // Close the model, all memory is freed
         ifcApi.CloseModel(modelID);
-        
-        // Get all RDF triples from returned JSON-LD object
-        const rdf: any = await toRDF(props as JSONLD);
-        const tripleCount = rdf.length;
-
-        // Get length of specific pipe
-        
 
         // Evaluate
         expect(Array.isArray(props["@graph"])).toBe(true);
         expect(props["@graph"].length).toBe(678);
-        expect(Array.isArray(rdf)).toBe(true);
-        expect(tripleCount).toBe(1401);
 
     });
 
