@@ -1,6 +1,4 @@
-import { IfcAxis2Placement3D, IfcLocalPlacement } from "web-ifc";
-
-export function getGlobalRotation(objectPlacement: IfcLocalPlacement){
+export function getGlobalRotation(objectPlacement: any){
 
     // Get relative placement
     console.log("Relative placement");

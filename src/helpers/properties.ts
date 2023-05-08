@@ -2,10 +2,7 @@ import { IfcAPI } from 'web-ifc';
 import { defaultURIBuilder } from "./uri-builder";
 
 import {
-    IfcElementQuantity,
     IFCELEMENTQUANTITY,
-    IfcElements,
-    IfcPropertySet,
     IFCPROPERTYSET,
     IFCQUANTITYAREA,
     IFCQUANTITYCOUNT,
@@ -200,12 +197,11 @@ export class PropertyAPI{
 
         else{
             console.log("Unhandled property type");
-            console.log(IfcElements[propDef.type]);
         }
     
     }
 
-    private async processQuantityProperty(qProp: IfcElementQuantity){
+    private async processQuantityProperty(qProp: any){
 
         let propObject = {};
 
@@ -270,7 +266,7 @@ export class PropertyAPI{
 
     }
 
-    private async processPSetProperty(pset: IfcPropertySet){
+    private async processPSetProperty(pset: any){
 
         let propObject = {};
 
