@@ -1,7 +1,7 @@
 import { JSONLD, ParserSettings, SerializationFormat } from "../helpers/BaseDefinitions";
 import { IfcAPI } from 'web-ifc';
 import { prefixes } from '../helpers/prefixes';
-import {canonize, toRDF} from "jsonld";
+import { normalize, toRDF} from "jsonld";
 import { IfcUnits } from '../helpers/unit-tools';
 
 export interface ModelUnits{
@@ -81,7 +81,7 @@ export class Parser{
     }
 
     private async getNQuads(): Promise<any>{
-        return await canonize(this.jsonLDObject);
+        return await normalize(this.jsonLDObject);
     }
 
     private setNamespace(ns: string){

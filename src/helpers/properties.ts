@@ -324,15 +324,21 @@ export class PropertyAPI{
 
     private nominalValueToJSONLD(val: any, normalizeToSI: boolean){
 
-        let dataType;
+        // Get datatype from label first
+        let dataType = IfcLabels[val.label];
+
+        // Then try from type
+        if(dataType === undefined){
+            dataType = IfcDatatypes[val.type];
+        }
+
+        // Default to string
+        else dataType = "xsd:string";
 
         if(IfcLabels[val.label] == "xsd:boolean"){
             if(val.value == "F") val.value = false;
             if(val.value == "T") val.value = true;
-            dataType == "xsd:boolean";
         }
-
-        if(IfcLabels[val.label] == "xsd:integer") dataType == "xsd:integer";
 
         if(normalizeToSI){
             if(val.label == "IFCLENGTHMEASURE"){
@@ -348,11 +354,10 @@ export class PropertyAPI{
 
         if(dataType == undefined) dataType = IfcDatatypes[val.valueType];
 
-        // if(dataType == undefined) console.log(val);
+        let value = dataType === "xsd:string" ? decodeString(val.value) : val.value.toString();
 
-        let value = dataType == "xsd:string" ? decodeString(val.value) : val.value.toString();
+        return {'@value': value, '@type': dataType};
 
-        return {'@value': value, '@type': dataType}
     }
 
     private camelize(str: string): string{

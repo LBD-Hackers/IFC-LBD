@@ -4,8 +4,8 @@ const readFileP = util.promisify(readFile);
 import * as path from 'path';
 import { IfcAPI } from "web-ifc";
 // import { LBDParser } from "../dist/index.cjs";
-import { JSONLD, LBDParser, ParserSettings, SerializationFormat } from "../src";
-import jsonld from "jsonld";
+import { LBDParser, ParserSettings, SerializationFormat } from "../src";
+import {normalize, toRDF} from "jsonld";
 
 // Necessary for mocking jest
 import { enableFetchMocks } from 'jest-fetch-mock'
@@ -39,15 +39,14 @@ describe('Parse all', () => {
         // Close the model, all memory is freed
         ifcApi.CloseModel(modelID);
         
-        // Get all RDF triples from returned JSON-LD object
-        let rdf: any = await jsonld.toRDF(bot);
+        let rdf: any = await toRDF(bot);
         const tripleCount = rdf.length;
 
         // Evaluate
         expect(Array.isArray(bot["@graph"])).toBe(true);
         expect(bot["@graph"].length).toBe(3873);
         expect(Array.isArray(rdf)).toBe(true);
-        expect(tripleCount).toBe(17578);
+        expect(tripleCount).toBe(17493);
 
     });
 
@@ -72,7 +71,7 @@ describe('Parse all', () => {
 
         // Evaluate
         expect(typeof bot).toBe("string");
-        expect(tripleCount).toBe(17578);
+        expect(tripleCount).toBe(17493);
 
     });
 
@@ -122,7 +121,7 @@ describe('Parse all', () => {
         ifcApi.CloseModel(modelID);
         
         // Get all RDF triples from returned JSON-LD object
-        let rdf: any = await jsonld.toRDF(bot);
+        let rdf: any = await toRDF(bot);
         const tripleCount = rdf.length;
 
         // Evaluate
