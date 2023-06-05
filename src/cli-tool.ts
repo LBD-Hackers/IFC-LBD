@@ -17,7 +17,7 @@ export class CLITool{
     public async getArgs(): Promise<any>{
 
         return await yargs(hideBin(process.argv))
-            .version("0.3.6")
+            .version("0.3.7")
             .command('[subset]', 'parse ifc', (yargs) => {
                 return yargs
                 .positional('subset', {

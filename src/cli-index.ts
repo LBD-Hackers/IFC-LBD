@@ -1,5 +1,4 @@
 #!/usr/bin/env node
-import { LBDParser } from ".";
 import { CLITool } from "./cli-tool";
 import { ParserSettings } from "./helpers/BaseDefinitions";
 
