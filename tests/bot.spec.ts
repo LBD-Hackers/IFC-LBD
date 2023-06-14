@@ -67,7 +67,7 @@ describe('BOT', () => {
         let rdf: any = await toRDF(bot as JsonLdDocument);
         const tripleCount = rdf.length;
 
-        writeFileSync("./xx.json", JSON.stringify(bot));
+        // writeFileSync("./xx.json", JSON.stringify(bot));
 
         // Evaluate
         expect(Array.isArray(bot["@graph"])).toBe(true);
