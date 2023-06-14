@@ -101,6 +101,18 @@ This library is intended to be expanded, so please go and add your parser or ext
 
 Remember to write tests! That's also the preferred approach to developing new functionalities. Run specific test: `npm run test -i <path>` (eg `jest -i tests/fso.spec.ts`)
 
+**NB!** Due to a bug in web-ifc I had to do a hardcoded fix by changing doing a find/replace in `node_modules/web-ifc/web-ifc-api-node.js` and `node_modules/web-ifc/web-ifc-api-browser.js`:
+
+Find:
+```javascript
+].map((p) => p.value)
+```
+
+Replace:
+```javascript
+]?.map((p) => p.value)
+```
+
 ## Stats
 Execute like `node ./lib/cli-tool/index.js bot -i ./tests/artifacts/Duplex.ifc` 
 

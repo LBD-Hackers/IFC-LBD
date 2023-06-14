@@ -35,9 +35,9 @@ async function main(model){
     const rdf = await toRDF(bot);
     const tripleCount = rdf.length;
 
-    console.log("BOT Graph length should be 839");
+    console.log("BOT Graph length should be 1003");
     console.log("Is: " + bot["@graph"].length);
-    console.log("BOT triple count should be 1718");
+    console.log("BOT triple count should be 2124");
     console.log("Is: " + tripleCount);
 
 }

@@ -1,4 +1,4 @@
-import { readFile } from "fs";
+import { readFile, writeFileSync } from "fs";
 import * as util from "util";
 const readFileP = util.promisify(readFile);
 import * as path from 'path';
@@ -43,9 +43,9 @@ describe('BOT', () => {
 
         // Evaluate
         expect(Array.isArray(bot["@graph"])).toBe(true);
-        expect(bot["@graph"].length).toBe(839);
+        expect(bot["@graph"].length).toBe(1003);
         expect(Array.isArray(rdf)).toBe(true);
-        expect(tripleCount).toBe(1718);
+        expect(tripleCount).toBe(2124);
 
     });
 
@@ -67,11 +67,13 @@ describe('BOT', () => {
         let rdf: any = await toRDF(bot as JsonLdDocument);
         const tripleCount = rdf.length;
 
+        writeFileSync("./xx.json", JSON.stringify(bot));
+
         // Evaluate
         expect(Array.isArray(bot["@graph"])).toBe(true);
-        expect(bot["@graph"].length).toBe(839);
+        expect(bot["@graph"].length).toBe(1003);
         expect(Array.isArray(rdf)).toBe(true);
-        expect(tripleCount).toBe(1718);
+        expect(tripleCount).toBe(2124);
 
     });
 

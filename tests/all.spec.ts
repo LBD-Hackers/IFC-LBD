@@ -44,9 +44,9 @@ describe('Parse all', () => {
 
         // Evaluate
         expect(Array.isArray(bot["@graph"])).toBe(true);
-        expect(bot["@graph"].length).toBe(3873);
+        expect(bot["@graph"].length).toBe(4037);
         expect(Array.isArray(rdf)).toBe(true);
-        expect(tripleCount).toBe(17493);
+        expect(tripleCount).toBe(17899);
 
     });
 
@@ -71,7 +71,7 @@ describe('Parse all', () => {
 
         // Evaluate
         expect(typeof bot).toBe("string");
-        expect(tripleCount).toBe(17493);
+        expect(tripleCount).toBe(17899);
 
     });
 
@@ -126,9 +126,9 @@ describe('Parse all', () => {
 
         // Evaluate
         expect(Array.isArray(bot["@graph"])).toBe(true);
-        expect(bot["@graph"].length).toBe(839);
+        expect(bot["@graph"].length).toBe(1003);
         expect(Array.isArray(rdf)).toBe(true);
-        expect(tripleCount).toBe(1718);
+        expect(tripleCount).toBe(2124);
 
     });
 

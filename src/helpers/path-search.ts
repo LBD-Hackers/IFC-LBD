@@ -1,6 +1,6 @@
 import { IfcAPI } from "web-ifc";
 import { defaultURIBuilder } from "./uri-builder";
-import { getAllItemsOfType } from "./item-search";
+import { getAllItemsOfType, getAllItemsOfTypeOrSubtype } from "./item-search";
 
 export class Input{
     ifcAPI: IfcAPI;
@@ -13,12 +13,14 @@ export class Input{
     ifcSubjectClassIn?: number[];   // Optional - used to limit bindings to cases where the subject is included in this list
     ifcTargetClassIn?: number[];    // Optional - used to limit bindings to cases where the target is included in this list
     includeInterface?: boolean;     // Used to also include the ifcRelationship as a bot:Interface
+    includeSubRels?: boolean;       // Whether or not to include sub relationships (fx IFCRELCONNECTSPATHELEMENTS as sub rel of IFCRELCONNECTSELEMENTS)
 }
 
 // ifcAPI: WebIFC.IfcAPI, modelID: number = 0, relationshipType: number, subjectRef: string, targetRef: string, rdfRelationship: string, includeInterface: boolean = false, biderectional: boolean = false
 export async function buildRelOneToOne(d: Input): Promise<any>{
 
     if(d.includeInterface == undefined) d.includeInterface = false;
+    if(d.includeSubRels == undefined) d.includeSubRels = false;
     if(d.ifcSubjectClassIn == undefined) d.ifcSubjectClassIn = [];
     if(d.ifcTargetClassIn == undefined) d.ifcTargetClassIn = [];
 
@@ -32,7 +34,9 @@ export async function buildRelOneToOne(d: Input): Promise<any>{
 
     const graph = [];
 
-    const rels = await getAllItemsOfType(d.ifcAPI, d.modelID, d.ifcRelationship, false);
+    let rels: number[] = d.includeSubRels
+        ? await getAllItemsOfTypeOrSubtype(d.ifcAPI, d.modelID, d.ifcRelationship)
+        : await getAllItemsOfType(d.ifcAPI, d.modelID, d.ifcRelationship, false);
 
     for (let i = 0; i < rels.length; i++) {
 
